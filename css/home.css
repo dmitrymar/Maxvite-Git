@@ -93,41 +93,56 @@ width:718px;
 #homeWaysContent a.men {background: url(/img/home-ways-btns.png) 0 -204px;}
 #homeWaysContent a.women {background: url(/img/home-ways-btns.png) 0 -510px;}
 
-.brand-special-wrpr {overflow:hidden;width:718px;display:block;height:83px;}
+.brand-special-wrpr {overflow:hidden;width:718px;display:block;height:83px;margin-top:10px;}
 .brand-special-wrpr li{float:left; position:relative; margin-left:20px; margin-bottom:10px}
 .brand-special-wrpr li:first-child{margin:0}
 
 #homeSpecialsContent .headline {
 	width:718px;
-   margin:20px 0 10px 0;
+   margin:20px 0 0 0;
+   height:40px;
    display:block; 
    overflow:hidden;
 border:1px solid #D5D5D5;
 background-color: #fff;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#fbfbfb'); /* for IE */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f7f7f7'); /* for IE */
 	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f7f7f7)); /* for webkit browsers */
-	background: -moz-linear-gradient(top,  #fff,  #fbfbfb); /* for firefox 3.6+ */ 	
+	background: -moz-linear-gradient(top,  #fff,  #f7f7f7); /* for firefox 3.6+ */ 	
 }
 #homeSpecialsContent .headline .left{
 	font-size:30px; font-family:pt-sans,Arial,sans-serif; font-weight:400;
 	line-height:40px;
 	color:#bf000b;
-	}
-#homeSpecialsContent .brand{
-    background: url(/img/home-specials-icons.png) no-repeat scroll 0 0 transparent;
-    height:30px;
 	padding-left:40px;
 	}
+#homeSpecialsContent .brand{
+    background: url(/img/home-specials-icons.png) no-repeat scroll 6px 6px transparent;
+    height:36px;
+	}
+#homeSpecialsContent .deal{
+    background: url(/img/home-specials-icons.png) no-repeat scroll 6px -25px transparent;
+    height:30px;
+	margin-top:10px;
+	display:block;
+	float:left;
+	}
 #homeSpecialsContent .headline .right{
-	margin-top:17px;
+	margin-right:10px;
 	}
 #homeSpecialsContent .headline .right a{
 	font-size:18px;
+	line-height:42px;
 	}
 #homeSpecialsContent .product-row {
+	padding-top:10px;
 	width:718px;
 	height:100px;
 	display:block;
+background-color: #fff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#fbfbfb'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f7f7f7)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #fff,  #fbfbfb); /* for firefox 3.6+ */ 	
+border:1px solid #D5D5D5;
 }
 
 #homeSpecialsContent .product-row li {
