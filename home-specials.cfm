@@ -22,7 +22,7 @@
 
         
 <div class="headline">
-  <div class="left">Super Deals</div>
+  <div class="left"><span class="deal"></span><span class="head">Deal of the Day</span></div>
   <div class="right"><a class="decolink" href="/54/865/S/Super-Deals/items.html">View All Super Deals</a></div>
 </div>
 <cfinclude template="/specials-row.cfm">
