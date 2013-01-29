@@ -101,7 +101,6 @@ $(function(){
 var Leftnav = {
 	
 	init: function(test) {
-	console.log("hello");
 <cfoutput query="GetDataSdbr">
 	// create variables
 	var cat#CategoryID#Box=document.getElementById("cat#CategoryID#Box");
