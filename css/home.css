@@ -104,9 +104,11 @@ overflow: hidden;
    overflow:hidden;
 border:1px solid #D5D5D5;
 background-color: #fff;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f7f7f7'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f7f7f7)); /* for webkit browsers */
-	background: -moz-linear-gradient(top,  #fff,  #f7f7f7); /* for firefox 3.6+ */ 	
+background: -moz-linear-gradient(#fff,  #fbfbfb);
+background: -webkit-linear-gradient(#fff,  #fbfbfb);
+background: -o-linear-gradient(#fff,  #fbfbfb);
+background: -ms-linear-gradient(#fff,  #fbfbfb);/*For IE10*/
+background: linear-gradient(#fff,  #fbfbfb);
 }
 #homeSpecialsContent .headline .icon, #homeSpecialsContent .headline .title{
 	float:left;
@@ -164,7 +166,6 @@ background: -webkit-linear-gradient(#fff,  #fbfbfb);
 background: -o-linear-gradient(#fff,  #fbfbfb);
 background: -ms-linear-gradient(#fff,  #fbfbfb);/*For IE10*/
 background: linear-gradient(#fff,  #fbfbfb);
-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffffff', endColorstr='#fbfbfb');/*For IE7-8-9*/ 
 height: 1%;/*For IE7*/ 
 
 border:1px solid #D5D5D5;
