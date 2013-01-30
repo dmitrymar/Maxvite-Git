@@ -5,8 +5,8 @@
 <cfquery name="GetHomeText" datasource="#Application.ds#">
 	SELECT HomeText FROM AboutUs 
 </cfquery>
-<cf_doctype>
-<cf_html>
+<cfinclude template="/doctype.cfm">
+<cfinclude template="/html.cfm">
 <head>
 <title>Skin Vitamins & Supplements, Best Vitamins for Hair, Eyes, Muscles &ndash; Maxvite.com</title>
 <meta charset="UTF-8">
@@ -20,14 +20,11 @@
 <meta name="Keywords" content="Skin Vitamins, Best Vitamins For Hair">
 <meta name="msvalidate.01" content="5781438C69C354528E4218C2C8FFD0B5">
 <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
-<link href="/css/hometabs.css" rel="stylesheet" media="screen" />
 <cf_styles>
-<script src="/js/home.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.cycle/2.99/jquery.cycle.all.min.js"></script>
-
+<link rel="stylesheet" href="/css/home.min.css?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>" media="screen">
 </head>
 <body>
-<cf_header>
+<cfinclude template="/header.cfm">
 <section id="middleArea"> 
 <section id="primary">
 <a href="/shipping.html" id="freeShipBnr"><img src="/img/free-ship-bnr.gif" alt=""></a>
@@ -39,50 +36,47 @@
             <div id="#iCounter#"> <a href="#LinkURL#"><img title="#ImageName#" src="/img/featured-ads/#FileName#" width="716" height="318" /> </a> </div>
           </cfoutput> </div>
       </div>
-      <div class="clear"></div>
-      <div id="promoLevel2"> <img src="/img/featured-brands-bnr.gif" alt="featured brands" usemap="#brandsmap"> <a href="/deal_of_the_day.cfm"><img src="/img/deal-homepage-bnr.gif" alt="deal of the day"></a> </div>
-      <div class="clear"></div>
+
+<img src="/img/home-featured-bnr.png" alt="featured brands" usemap="#brandsmap">
+
       <map name="brandsmap">
-        <area shape="rect" coords="0,17,126,54" href="/1/BR/MaxiHealth/itemsbrands.html" alt="Maxihealth">
-        <area shape="rect" coords="134,20,206,43" href="/3/BR/TwinLab/itemsbrands.html" alt="Twinlab">
-        <area shape="rect" coords="215,16,265,55" href="/6/BR/Solgar/itemsbrands.html" alt="Solgar">
-        <area shape="rect" coords="280,23,349,50" href="/5/BR/NaturesAnswer/itemsbrands.html" alt="Nature's Answer">
-        <area shape="rect" coords="0,60,82,82" href="/23/BR/Natrol/itemsbrands.html" alt="Natrol">
-        <area shape="rect" coords="90,55,150,90" href="/4/BR/NaturesWay/itemsbrands.html" alt="Vitamins for skin">
-        <area shape="rect" coords="154,63,289,82" href="/119/BR/AmericanHealth/itemsbrands.html" alt="American Health">
-        <area shape="rect" coords="290,48,349,83" href="/181/BR/Bach/itemsbrands.html" alt="Bach">
-        <area shape="rect" coords="0,87,85,118" href="/134/BR/DynamicHealth/itemsbrands.html" alt="Dynamic Health">
-        <area shape="rect" coords="102,93,168,118" href="/72/BR/Kyolic/itemsbrands.html" alt="Kyolic">
-        <area shape="rect" coords="178,84,271,124" href="/83/BR/BobsRedMill/itemsbrands.html" alt="Bob's Red Mill">
-        <area shape="rect" coords="288,86,349,122" href="/91/BR/Schiff/itemsbrands.html" alt="Schiff">
-        <area shape="rect" coords="0,126,112,162" href="/114/BR/RainbowLight/itemsbrands.html" alt="Rainbow Light">
-        <area shape="rect" coords="112,132,184,162" href="/116/BR/SourceNaturals/itemsbrands.html" alt="Source Naturals">
-        <area shape="rect" coords="184,131,284,162" href="/28/BR/Spectrum/itemsbrands.html" alt="Spectrum">
-        <area shape="rect" coords="291,126,349,162" href="/8/BR/Alvita/itemsbrands.html" alt="Alvita">
+        <area shape="rect" coords="0,0,130,63" href="/1/Maxi-Health/Brand.html" alt="Maxi Health">
+        <area shape="rect" coords="130,0,211,63" href="/3/TwinLab/Brand.html" alt="Twinlab">
+        <area shape="rect" coords="211,0,273,63" href="/6/Solgar/Brand.html" alt="Solgar">
+        <area shape="rect" coords="273,0,355,63" href="/5/Natures-Answer/Brand.html" alt="Nature's Answer">
+        <area shape="rect" coords="355,0,441,63" href="/23/Natrol/Brand.html" alt="Natrol">
+        <area shape="rect" coords="441,0,513,63" href="/4/Natures-Way/Brand.html" alt="Nature's Way">
+        <area shape="rect" coords="513,0,653,63" href="/119/American-Health/Brand.html" alt="American Health">
+        <area shape="rect" coords="653,0,718,63" href="/181/Bach/Brand.html" alt="Bach">
       </map>
-      <!-- tabs -->
-      <ul class="tabs">
-        <li id="brandSpecialsTab"><a href="#brandSpecials">Brand Specials</a></li>
-        <li id="weeklySpecialsTab"><a href="#weeklySpecials">Weekly Specials</a></li>
-        <li id="superDealsTab"><a href="#superDeals">Super Deals</a></li>
-        <li id="buy1get1freeTab"><a href="#buy1get1free">Buy 1 Get 1 Free</a></li>
+      <!-- hometabs -->
+      <ul class="hometabs">
+        <li id="homeWaysTab"><a href="#homeWaysContent">Ways To Shop</a></li>
+        <li id="homeSpecialsTab"><a href="#homeSpecialsContent">Specials</a></li>
       </ul>
       <div class="tab_container">
-        <div id="brandSpecials" class="tab_content"></div>
-        <div id="weeklySpecials" class="tab_content"></div>
-        <div id="superDeals" class="tab_content"></div>
-        <div id="buy1get1free" class="tab_content"></div>
+        <div id="homeWaysContent" class="tab_content">
+    <div class="left-col"><a href="/healthconcerns.html" title="">&nbsp;</a></div>
+    <div class="right-col"><a href="/thumbpics2.cfm?SearchType=K&searchkeywords=chewable&as_values_MYKEYWORD" class="age" title="">&nbsp;</a></div>
+    <div class="left-col"><a href="/ingredients.html" class="ingredients" title="">&nbsp;</a></div>
+    <div class="right-col"><a href="/brands.html" class="brand" title="">&nbsp;</a></div>
+    <div class="left-col"><a href="/14/FT/Mens-Health/items.html" class="men" title="">&nbsp;</a></div>
+    <div class="right-col"><a href="/23/FT/Womens-Health/items.html" class="women" title="">&nbsp;</a></div>
+        </div>
+<!---        <div id="homeSpecialsContent" class="tab_content"><cfinclude template="/home-specials.cfm"></div>--->
+        <div id="homeSpecialsContent" class="tab_content"></div>
       </div>
       <!--end tab menu-->
 
 
  
-   <cfoutput query="GetHomeText">#HomeText#</cfoutput>
+   <cfoutput query="GetHomeText"><div class="clear">#HomeText#</div></cfoutput>
 
 
 
-</section><cf_secondary></section> <!--end middleArea-->
- 
-<cf_footer>
+</section><cfinclude template="/secondary.cfm"></section> <!--end middleArea-->
+<cfinclude template="/footer.cfm">
+<script src="//ajax.aspnetcdn.com/ajax/jquery.cycle/2.99/jquery.cycle.all.min.js"></script>
+<script src="/js/home.min.js"></script> 
 </body>
 </html>

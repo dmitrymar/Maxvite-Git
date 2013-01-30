@@ -11,8 +11,6 @@
 <script src="/js/columnizer.js"></script> 
 <script src="/js/jquery.maskedinput.js"></script>
 <script src="/js/jquery.hoverIntent.minified.js"></script>
-<script src="/js/autocomplete.js"></script>
 <script src="/js/jquery.watermark.min.js"></script>
-<script src="/js/common.js"></script>
+<script src="/js/common.min.js"></script>
 <script src="/js/maxvite.min.js?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>"></script>
-<script src="/js/header.min.js?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>"></script>
