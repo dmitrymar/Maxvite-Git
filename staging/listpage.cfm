@@ -254,30 +254,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 </script>
 <script type="text/javascript" src="http://cdn.powerreviews.com/repos/14165/pr/pwr/engine/js/full.js"></script>
 <script src="/js/jquery.cookie.js"></script>
-<style>
-#filterWrpr {
-	border: 1px solid #cbcbcb;
-	width:224px;
-	margin-top: 5px;
-}
-#filterWrpr .filter-title {
-	width: 216px;
-	border-bottom: 1px solid #cbcbcb;
-	background:#f1f1f1;
-	height:19px;
-	font-weight:bold;
-	padding:4px;
-}
-
-#filterWrpr .filter-title li:first-child {display:block; height:14px; padding-left:10px; background:url("/img/next-arrow.gif") no-repeat scroll 0 3px transparent;}
-
-#filterWrpr .checkbox-list {
-	padding:4px;
-	max-height:180px;
-	overflow:scroll;
-}
-checkbox-list
-</style>
+<link rel="stylesheet" href="css/listpage-test.css" media="screen">
 </head>
 
 <body>
@@ -470,39 +447,5 @@ checkbox-list
 {{/products}}*/
 </script>
 <script src="js/listpage-test.js"></script>
-<script>
-$.mockjax({
-  url: 'listpage-query.cfm',
-  responseTime: 750,
-  responseText: {
-    status: 'success',
-    total: 87,
-	current_page: 1,
-	products: [
-	{
-		name: 'product a'
-	},
-	{
-		name: 'product b'
-	}	
-	]
-  }
-});
-
-$.getJSON('listpage-query.cfm', function(response) {
-    if (response.status == 'success') {
-
-    var template = $('#listTpl').html();
-    var html = Mustache.to_html(template, response);
-    $('#listProductsGrid').html(html);
-
-} else {
-        $('#listProductsGrid').html('No products found');
-    }
-});
-
-
-</script>
-
 </body>
 </html>
