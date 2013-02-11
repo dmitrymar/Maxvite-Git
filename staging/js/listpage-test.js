@@ -5,38 +5,8 @@ $.mockjax({
     status: 'success',
     total_products: 87,
 	current_page: 1,
-	per_page: {
-		thirty_per_page: [
-	{
-		start: 1,
-		end: 30
-	},
-	{
-		start: '31',
-		end: '60'
-	},
-	{
-		start: '61',
-		end: '87'
-	}	
-	],
-		sixty_per_page: [
-	{
-		start: '1',
-		end: '60'
-	},
-	{
-		start: '61',
-		end: '87'
-	}	
-	],
-		ninty_per_page: [
-	{
-		start: '1',
-		end: '87'
-	}	
-	]
-	},
+	product_start: 1,
+	product_end: 30,
 	products: [
 	{
 		name: 'product a'
