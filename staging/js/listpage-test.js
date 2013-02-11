@@ -7,6 +7,8 @@ $.mockjax({
 	current_page: 1,
 	product_start: 1,
 	product_end: 30,
+	page_list: [1, 2, 3, 4],
+	products_per_page: [30, 60, 90],
 	products: [
 	{
 		name: 'product a'

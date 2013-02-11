@@ -19,4 +19,20 @@
 	max-height:180px;
 	overflow:scroll;
 }
-/*checkbox-list?*/
+ol.pagination .next-arrow, ol.pagination .prev-arrow{
+	background: url(/img/lispage-sprite.png) no-repeat;
+	padding:0;
+	border:0;
+}
+
+ol.pagination .next-arrow{
+	background-position: 0 0;
+	width: 6px;
+	height: 11px;
+}
+
+ol.pagination .prev-arrow{
+	background-position: 0 -11px ;
+	width: 6px;
+	height: 11px;
+}
