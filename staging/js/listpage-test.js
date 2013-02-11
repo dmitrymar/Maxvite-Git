@@ -8,8 +8,8 @@ $.mockjax({
 	per_page: {
 		thirty_per_page: [
 	{
-		start: '1',
-		end: '30'
+		start: 1,
+		end: 30
 	},
 	{
 		start: '31',
