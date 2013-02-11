@@ -1,0 +1,22 @@
+#filterWrpr {
+	border: 1px solid #cbcbcb;
+	width:224px;
+	margin-top: 5px;
+}
+#filterWrpr .filter-title {
+	width: 216px;
+	border-bottom: 1px solid #cbcbcb;
+	background:#f1f1f1;
+	height:19px;
+	font-weight:bold;
+	padding:4px;
+}
+
+#filterWrpr .filter-title li:first-child {display:block; height:14px; padding-left:10px; background:url("/img/next-arrow.gif") no-repeat scroll 0 3px transparent;}
+
+#filterWrpr .checkbox-list {
+	padding:4px;
+	max-height:180px;
+	overflow:scroll;
+}
+/*checkbox-list?*/
