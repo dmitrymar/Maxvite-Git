@@ -259,7 +259,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 <body>
 <div class="wrapper">
-<cfinclude template="/header.cfm">
+<!---<cfinclude template="/header.cfm">--->
 
 
 <div class="content">
@@ -394,57 +394,22 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.5.1/jquery.mockjax.js"></script>
 
 <script id="listTpl" type="text/template">
-<div class="pagesort-bar"> <span class="displaying">Items <strong>{{current_page}}</strong>&nbsp;-&nbsp;<strong>30</strong> of <strong>{{total}}</strong></span>
+
+<div class="pagesort-bar"> <span class="displaying">Items <strong>{{per_page.thirty_per_page.start}}</strong>&nbsp;-&nbsp;<strong></strong> of <strong>{{total_products}}</strong></span>
     
     
-      <span class="pagination-wrap"><span>Page&nbsp;</span>
-      <ol class="pagination">
-        
-              <li class="selected">1</li>
-              
-              <li><a href="#">2</a></li>
-            
-              <li><a href="#">3</a></li>
-            
-            <li><a href="#" rel="next"><img src="/img/next-arrow.gif" width="6" height="11" alt="next page"></a></li>
-          
-      </ol>
-      </span>
+ <span class="pagination-wrap"><span>Page </span><ol class="pagination"><li class="selected">1</li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#" rel="next"><img src="/img/next-arrow.gif" width="6" height="11" alt="next page"></a></li></ol></span>
     
-        <ul class="pageSortSize">
-          <li>Items per page:</li>
-          <li>
-            
-              <strong>30</strong>
-              
-          </li>
-          <li>
-            
-              <a href="#">60</a>
-            
-          </li>
-          
-            <li>
-              
-                <a href="#0">90</a>
-              
-            </li>
-          
-        </ul>
+ <ul class="pageSortSize"><li>Items per page:</li><li class="selected">30</li><li><a href="#">60</a></li><li><a href="#">90</a></li></ul>
       
-    <ul class="viewBoxGrid" style="display: none;">
-      <li class="gridIcon">Grid View</li>
-      <li class="listIconOff">List View</li>
-    </ul>
-    <ul class="viewBoxList" style="display: block;">
-      <li class="gridIconOff">Grid View</li>
-      <li class="listIcon">List View</li>
-    </ul>
+ <ul class="viewBoxGrid" style="display: none;"><li class="gridIcon">Grid View</li><li class="listIconOff">List View</li></ul><ul class="viewBoxList" style="display: block;"><li class="gridIconOff">Grid View</li><li class="listIcon">List View</li></ul>
   </div>
 
-/*{{#products}}
+
+<!---{{#products}}
 <li>{{name}}</li>
-{{/products}}*/
+{{/products}}--->
+
 </script>
 <script src="js/listpage-test.js"></script>
 </body>
