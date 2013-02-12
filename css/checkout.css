@@ -1,0 +1,681 @@
+/*-----------------------------------------------------------------------------
+This stylesheet is for secure pages
+
+/* =Typography
+-----------------------------------------------------------------------------*/
+
+body {
+  background-color:#d5e2c6;
+}
+
+h1, .inlineh1 {
+	font-size: 18px;
+	line-height:25px;
+	font-weight:700;
+	color:#bf000b;
+	margin:5px 0;
+}
+ 
+h2, .inlineh2 {
+  font-size: 15px;
+  line-height:21px;
+  font-weight:bold;
+  color:#004922;
+}
+ 
+h3, .inlineh3 {
+  font-size: 12px;
+  line-height:18px;
+  font-weight:bold;
+  color:#bf000b;
+}
+
+
+p {
+margin-bottom:8px;
+}
+
+strong {
+	font-weight:bold;
+}
+
+.small {
+font-size:11px;
+color:#666;
+}
+.regular {
+font-size:11px;	
+}
+.required, .red {
+	color:#bf000b;
+}
+
+.bullet {
+	color:#d5e2c6;
+	margin-right:2px;
+}
+label.error {
+    color: red;
+    margin-left: 5px;
+	display:block;
+}
+input.error, select.error { border: 1px solid red; }
+/* =Links
+-----------------------------------------------------------------------------*/
+a:active, a:focus {
+outline: 0; /*removes dotted lines in firefox */
+}
+
+a {
+	color:#004922;
+}
+
+a img {
+    border:none;
+        
+}
+a:hover img {
+    text-decoration: none;
+}
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+	color:#F90;
+}
+
+a.underline {
+    text-decoration: underline;
+}
+
+a h2:hover {
+	color:#F90;
+}
+
+/* =Header
+-----------------------------------------------------------------------------*/
+#header {
+  height: 154px;
+}
+
+#header-checkout, #headerThankyou {
+  height: 74px;
+}
+
+
+#header, #header-checkout, #headerThankyou {
+  background-color:#d5e2c6;
+  border:0;
+}
+
+#header-checkout, #headerThankyou {
+	position:relative;
+	border-bottom:#abbd9a solid 1px;
+}
+
+#branding {
+	height:74px;
+	position:relative;
+}
+
+#branding h1 a, #header-checkout h1, #headerThankyou h1 a { 
+	background: url(https://www.maxvite.com/logo.png) 0 0 no-repeat; 
+	display: block; 
+	height: 71px; 
+	text-indent: -9999px; 
+	width: 423px; 
+	position:absolute; 
+	left:10px;
+	top:11px;
+	z-index:4;
+}
+
+
+#branding h2 {
+	position:absolute;
+	margin-left:535px;
+	margin-top:19px;
+}
+
+#header-checkout h2, #headerThankyou h2 {
+	background: url(https://www.maxvite.com/checkout-title.png) 0 0 no-repeat;
+	display: block; 
+	height:27px;
+	width:142px;
+	text-indent: -9999px; 
+	position:absolute;
+	margin-left:460px;
+	margin-top:34px;
+	z-index:4;
+}
+#header-checkout img, #headerThankyou img {
+	display: block; 
+	position:absolute;
+	margin-left:640px;
+	margin-top:1px;
+	z-index:4;
+}
+ul#header-login {
+height:62px;
+overflow:hidden;
+float:right;
+}
+ul#headercheckout-login {
+overflow:hidden;
+margin:26px 10px 0 0;
+float:right;
+}
+
+ul#header-nologin {
+overflow:hidden;
+/*border:#F00 solid 1px;*/
+margin:20px 10px 0 0;
+float:right;
+}
+
+#branding ul li, #header-checkout ul li {
+	font-size:11px;
+	color:#abbd9a;
+}
+#branding ul li.pipe-list, #header-checkout ul li.pipe-list {
+	padding-bottom:3px
+}
+#branding ul li a, #header-checkout ul li a {
+	color:#004922;
+		vertical-align:top;
+}
+#branding ul li a:hover, #header-checkout ul li a:hover{
+	color:#FDA94E;
+		vertical-align:top;
+}
+#branding ul li a strong, #header-checkout ul li a strong {
+	font-size:14px;
+	color:#004922;
+}
+#branding ul li a strong:hover, #header-checkout ul li a strong:hover {
+	font-size:14px;
+	color:#FDA94E;
+}
+
+#topnav-bar {
+	height:33px;
+	background-color:#e9e7e6;
+	border:#abbd9a solid 1px; border-bottom:0;
+	position:relative;
+	z-index:3;
+}
+
+
+
+.promo-banner {
+	float:left;
+	margin:9px 0 0 37px;
+}
+
+.chat {
+	float:right;
+	margin:2px 10px 0 0;
+}
+
+#search-bar {
+	height:44px;
+	background-color:#bf000b;
+	border:#870f11 solid 1px;
+	position:relative;
+	width:984px;
+	z-index:2;
+}
+
+#search-fieldset {
+	margin: 4px 0 0 18px;
+}
+
+#pulldown-fieldset {
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+
+#pulldown-fieldset select {
+border:d0d0d0 solid 1px;
+}
+
+#pulldown-fieldset select {
+	padding:1px;
+	margin-left:8px;
+}
+
+hr {
+background-color:#d5e2c6;
+border:0 none;
+clear:both;
+height:1px;
+}
+
+/* =Footer
+-----------------------------------------------------------------------------*/
+#trustPay { 
+	width:auto;
+	margin:0 auto;
+	text-align:center;
+	border-left:#abbd9a solid 1px;
+	border-right:#abbd9a solid 1px;
+	padding:0;
+	background-color:#fff;
+	height:auto;
+}
+#trustPay>ul { list-style: none; position: relative; display: block; margin:0 auto; width:964px; border-top:#abbd9a solid 2px;height:144px;  }
+#trustPay>ul>li { position: relative; float: left; display: block; padding:15px; }
+#trustPay>ul>li>img {vertical-align:middle;}
+#miniftrNav ul { list-style: none; position:relative; display: block; width:100%; padding-top:10px; }
+#miniftrNav ul li { position: relative; float: left; display: block;padding:0 9px;border-left: 1px solid #d5e2c6;font-size:12px; }
+#miniftrNav ul li:first-child { border:0; padding-left:0; }
+#miniftrNav p {
+	margin-top:30px;
+	display:block;
+	font-size:11px;
+	text-align:left;
+	height:20px;
+}
+
+/* =Forms
+-----------------------------------------------------------------------------*/
+
+/* Removes fieldset borders. even on Opea 7 */
+fieldset {
+  border: 1px solid transparent;
+}
+
+
+/* =Tables
+-----------------------------------------------------------------------------*/
+
+table { 
+  border-spacing: 0;
+	border-collapse: collapse;
+}
+
+td {
+  text-align: left;
+	font-weight: normal;
+}
+
+
+
+/* =The Core Technique
+-----------------------------------------------------------------------------*/
+body {
+  text-align: center; 
+  min-width: 984px;
+}
+ 
+.wrapper {
+  width: 986px; 
+  margin: 0 auto; 
+  text-align: left;
+  background-color: #fff;
+  border:0;
+  position:relative;
+    /*border:#abbd9a solid 1px;*/
+
+
+}
+ 
+.content {
+	overflow: hidden;
+  border:#abbd9a solid 1px; border-bottom:0;border-top:0;
+  padding:10px;
+min-height: 500px;
+}
+ 
+.content .primary { 
+  width: 718px;
+	padding-right: 0;
+  float: right;
+}
+
+table.checkout-table {
+	border:#c6bea2 solid 2px;
+	padding:5px;
+	margin:5px;
+	background-color:#f1eee7;
+}
+
+table.checkout-table td {
+	padding:5px;
+	line-height:18px;
+	font-size:12px;
+}
+.content .secondary { 
+  width: 226px;
+  float: left;
+} 
+#checkoutWrpr {
+	width: 952px;
+	margin:0 auto;
+	margin-top:20px;
+	position:relative;
+} 
+
+#crux {
+	width: 600px; 
+	margin:0 auto; 
+}
+
+#crux h1 {
+	margin: 20px 0 5px 0;
+}
+
+#crux input {
+	margin:2px 0;
+}
+
+div.cart-btns {
+width:600px; 
+height:24px; 
+margin-top:20px;
+}
+
+div.cart-btns span {
+	display:inline;
+	position:relative;
+	float:right;
+	margin-left:20px;
+}
+
+table#cart-items {
+	margin-top:10px;
+	width:600px;
+}
+
+table#cart-items thead {
+	background-color:#e9e7e6;
+	color:#004922;
+	font-size:11px;
+}
+
+table#cart-items td {
+	padding:5px;
+}
+
+table.cart-contents-table {
+		border:#c6bea2 solid 1px;
+		width:100%;
+}
+
+table.cart-contents-table td {
+padding:5px;	
+}
+
+span.checkout-cols {
+	color:#FFF;
+}
+
+dl.checkout0box {
+	width:308px;
+	border:#abbd9a solid 1px;
+	position:relative;
+}
+dl.checkout0box > dt {
+padding:2px 6px;
+font-weight:bold;
+background-color:#e9e7e6;
+border-bottom:#abbd9a solid 1px;
+}
+dl.checkout0box > dd {
+padding:8px 6px;
+height:170px;
+background-color:#fff;
+}
+div.row2 dl.checkout0box > dd {
+padding:8px 6px;
+height:206px;
+background-color:#fff;
+}
+.checkout0-wrapper {
+width:640px;
+margin:0 auto;
+margin-bottom:17px;
+}
+
+h1#checkout0-header {
+margin:35px 0 10px 162px;	
+}
+
+dl.checkout0box dl dt, dl.checkout0box dl dd {
+	float:left;
+}
+dl.checkout0box dl dt {
+	font-weight:normal;
+	width:65px;
+}
+dl.checkout0box div.paypalform dl dt {
+	width:146px;
+}
+dl.checkout0box dl {
+	clear:both;
+	margin:11px 0;
+	height:20px;
+}
+div.row2 dl.checkout0box li{
+	float:left;
+}
+div.row2 dl.checkout0box li:first-child {
+margin-right:10px;	
+}
+div.accountbox dl  {
+ width:600px;
+ overflow:hidden;
+ font-size:12px;
+ margin:5px 0;
+}
+div.accountbox dl dt {
+ float:left;
+ width:150px;
+ font-weight:normal;
+}
+div.accountbox dl dd {
+ float:left;
+ width:450px; 
+}
+#couponbox li {
+	display:inline;
+}
+
+.formLayout td {
+padding:0 8px 8px 0;
+}
+.formList {
+position:relative;	
+}
+.formList li {
+position:relative;
+float:left;
+margin-right:5px;
+}
+.formList li img {
+	vertical-align:middle;
+}
+.line {
+	border-bottom: 1px solid #D5D5D5;
+	height: 1px;
+	width: 100%;
+}
+/* =Typography
+-----------------------------------------------------------------------------*/
+#orderTotalTitle, #orderTotal {
+color:#bf000b;
+font-size:18px;
+}
+/* =1page checkout
+-----------------------------------------------------------------------------*/
+#checkoutWrprLeft {
+float:left;	
+width:566px;
+}
+#checkoutWrprRt {
+float:right;
+width:379px;	
+}
+.checkoutStepWrpr, .checkoutCartWrpr {
+	border:#e9e7e6 solid 4px;
+	margin-top:6px;
+}
+.checkoutStepWrpr {
+	width:558px;
+}
+.checkoutCartWrpr {
+	width:371px;
+}
+.checkoutStepTitle, .checkoutStepTitleGray {
+	background:#e9e7e6;
+	font-size:18px;
+	padding:0 0 3px 5px;
+	position:relative;
+	overflow:hidden;
+	height:22px;
+}
+.checkoutStepTitle {
+	color:#bf000b;
+}
+.checkoutStepTitleGray {
+	color:#737373;
+}
+.checkoutStepTitle .btn, .checkoutStepTitleGray .btn {
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+.checkoutStepContent, .checkoutStepContentGray {
+	padding:9px;
+}
+.checkoutStepContentGray {
+	background:#f4f4f4;
+	color:#898989;
+}
+.checkoutStepCoupon {
+	height:27px;
+	background:#f4f4f4;
+	padding:3px 9px;
+}
+.discountSummary {
+   width:250px;
+}
+.discountSummary .line {
+   margin:5px 0;
+}
+.discountSummaryRow {
+    overflow:hidden;
+}
+.discountSummaryPrice {
+ float:right;
+  font-weight:bold; 
+}
+.discountSummaryTitle {
+ float:left;  
+}
+#checkoutConfirmTable {
+    widht:100%;
+	overflow:hidden;
+}
+#checkoutConfirmTable li {
+ float:left;  
+ width:50%;
+}
+.continueCheckoutBtns {
+text-align: right;	
+}
+/* =minicart
+-----------------------------------------------------------------------------*/
+.cartPreviewItems {
+    font-size: 12px;
+    height: 57px;
+    margin: 4px 8px;
+    overflow: hidden;
+    width: 355px;
+	border-bottom: 1px solid #D5D5D5;
+}
+.cartPreviewItems li:first-child {
+    text-align: center;
+	width:62px;
+}
+.cartPreviewItems img {
+    
+    max-width:40px;max-height:40px;border:0;
+}
+.cartPreviewItems li.cartPreviewItems-title {
+    width: 244px;
+}
+.cartPreviewItems li.cartPreviewItems-price {
+    width: 49px;
+}
+.cartPreviewItems li {
+    float: left;
+}
+.cartPreviewItems:last-child {
+border:0;
+}
+.cart-table {
+	width:100%;
+	border-collapse: collapse;
+	margin-bottom:18px;
+}
+.cart-table thead {
+	background-color:#f1f1f1;
+	border:#c0c0c0 solid 1px;
+	color:#004922;
+	font-size:11px;
+	margin-bottom:10px;
+}
+.cart-table td {
+padding:10px 10px 10px 20px;
+}
+.cart-table th {
+padding:0 10px 0 20px;
+}
+.cart-table td {
+  vertical-align: top;
+  border-bottom: 1px solid #ddd;
+}
+.cart-table th:first-child, .cart-table td:first-child {
+    text-align: center;
+}
+#accountSummaryCharges {
+	position:relative;
+	overflow:hidden;
+	display:table-cell;	
+	float:right;
+}
+#accountSummaryCharges div {
+display:block;
+position:relative;
+overflow:hidden;
+}
+#accountSummaryCharges span.left {
+width:188px;
+margin-right:16px;	
+}
+#accountSummaryCharges .line {
+   margin:5px 0;
+}
+#paypalGoButton {
+background: url(/img/paypal-btn.png) 0 0 no-repeat;
+width: 143px; 
+height: 24px;
+/*position: absolute;*/
+border: 0;
+}
+#paypalForm button span {
+left: -9999999px;
+}
+#signinMsg {
+	color:#F00;
+}
