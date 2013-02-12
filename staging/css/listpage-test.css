@@ -19,20 +19,48 @@
 	max-height:180px;
 	overflow:scroll;
 }
-ol.pagination .next-arrow, ol.pagination .prev-arrow{
-	background: url(/img/lispage-sprite.png) no-repeat;
-	padding:0;
-	border:0;
-}
 
-ol.pagination .next-arrow{
+/*pagination bar*/
+.pagesort-bar .view{
+	width:144px; overflow:hidden; float:right;
+	height:11px;
+	margin-top:4px;
+	}
+.pagesort-bar .view li{
+	float:left;
+outline: none;
+text-indent: -9999px;	
+	}
+
+.pagination .next-arrow, .pagination .prev-arrow, .pagesort-bar .list-view, .pagesort-bar .grid-view{
+	background: url(/img/listpage-sprite.gif) no-repeat;
+}
+.pagination .prev-arrow, .pagination .next-arrow{
+	width: 6px;
+	height: 11px;
+}
+.pagination .next-arrow{
 	background-position: 0 0;
-	width: 6px;
+	margin:3px 0 0 3px;
+}
+
+.pagination .prev-arrow{
+	background-position: 0 -11px ;
+	margin:3px 6px 0 0;
+}
+
+.pagesort-bar .view .list-view{
+	background-position: 0 -33px ;
+	width: 66px;
 	height: 11px;
 }
 
-ol.pagination .prev-arrow{
-	background-position: 0 -11px ;
-	width: 6px;
+.pagesort-bar .view .grid-view{
+	background-position: 0 -55px ;
+	width: 68px;
 	height: 11px;
+	padding-right:10px;
+}
+.pagesort-bar .view .grid-view.active{
+	background-position: 0 -44px ;
 }

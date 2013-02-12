@@ -126,18 +126,23 @@ a h2:hover {
 	position:relative;
 }
 
+#headerThankyou h1 {
+	margin:0;
+}
+
 #branding h1 a, #header-checkout h1, #headerThankyou h1 a { 
-	background: url(https://www.maxvite.com/logo.png) 0 0 no-repeat; 
+	background: url(/img/header-newlogo.png) 0 0 no-repeat;
 	display: block; 
 	height: 71px; 
 	text-indent: -9999px; 
 	width: 423px; 
 	position:absolute; 
 	left:10px;
-	top:11px;
 	z-index:4;
 }
-
+#headerThankyou h1 a { 
+	top:11px;
+}
 
 #branding h2 {
 	position:absolute;
@@ -146,13 +151,13 @@ a h2:hover {
 }
 
 #header-checkout h2, #headerThankyou h2 {
-	background: url(https://www.maxvite.com/checkout-title.png) 0 0 no-repeat;
+	background: url(/img/checkout-title.png) 0 0 no-repeat;
 	display: block; 
 	height:27px;
 	width:142px;
 	text-indent: -9999px; 
 	position:absolute;
-	margin-left:460px;
+	margin-left:360px;
 	margin-top:34px;
 	z-index:4;
 }
