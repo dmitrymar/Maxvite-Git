@@ -49,7 +49,7 @@
 
 
 
-<div id="filterWrpr"><ul class="filter-title"><li>Brand</li><li class="clear"></li></ul><ul class="checkbox-list"><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="American BioSciences" class="styleName" for="92113">American BioSciences</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Buried Treasure" class="styleName" for="92113">Buried Treasure</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Dynamic Health" class="styleName" for="92113">Dynamic Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Futurebiotics" class="styleName" for="92113">Futurebiotics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Greens Today" class="styleName" for="92113">Greens Today</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Health Plus" class="styleName" for="92113">Health Plus</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Hylands" class="styleName" for="92113">Hylands</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="King Bio" class="styleName" for="92113">King Bio</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Kyolic" class="styleName" for="92113">Kyolic</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Maxi Health" class="styleName" for="92113">Maxi Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Metagenics" class="styleName" for="92113">Metagenics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Natrol" class="styleName" for="92113">Natrol</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Nature's Plus" class="styleName" for="92113">Nature's Plus</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Nature's Way" class="styleName" for="92113">Nature's Way</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Natures Answer" class="styleName" for="92113">Natures Answer</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Natures Herbs" class="styleName" for="92113">Natures Herbs</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Nutri Supreme" class="styleName" for="92113">Nutri Supreme</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="NutriCology" class="styleName" for="92113">NutriCology</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Olympian Labs" class="styleName" for="92113">Olympian Labs</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Rainbow Light" class="styleName" for="92113">Rainbow Light</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Solgar" class="styleName" for="92113">Solgar</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="TwinLab" class="styleName" for="92113">TwinLab</label></li></ul></div>
+<div id="filterWrpr"><ul class="filter-title"><li>Brand</li><li class="clear"></li></ul><ul class="checkbox-list"><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="American BioSciences" class="styleName" for="92113">American BioSciences</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Buried Treasure" class="styleName" for="92113">Buried Treasure</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Dynamic Health" class="styleName" for="92113">Dynamic Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Futurebiotics" class="styleName" for="92113">Futurebiotics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Greens Today" class="styleName" for="92113">Greens Today</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Health Plus" class="styleName" for="92113">Health Plus</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Hylands" class="styleName" for="92113">Hylands</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="King Bio" class="styleName" for="92113">King Bio</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Kyolic" class="styleName" for="92113">Kyolic</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Maxi Health" class="styleName" for="92113">Maxi Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Metagenics" class="styleName" for="92113">Metagenics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Natrol" class="styleName" for="92113">Natrol</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Nature's Plus" class="styleName" for="92113">Nature's Plus</label></li></ul></div>
 
 
 </div> 
@@ -93,22 +93,22 @@
 {{/products}}--->
 <!---product-grid start--->
 <ol class="products" style="display: block;">
-  
+{{#products}}  
       <li>
         <dl class="grid_view" style="display: block;">
-          <dd class="pro-thumb"><a href="#"><span></span><img alt="#" src="/images/Bitter%20Orange%20Standardized%2D2%2Ejpg"></a></dd>
-          <dt class="pro-title"><a href="#">Nature's Way Bitter Orange Standardized</a></dt>
-          <dd class="form">60 Tablets</dd>
+          <dd class="pro-thumb"><a href="{{product_url}}"><span></span><img alt="{{name}}" src="/images/{{image_url}}"></a></dd>
+          <dt class="pro-title"><a href="{{product_url}}">{{name}}</a></dt>
+          <dd class="form">{{form}}</dd>
           
-              <dd><span class="listprice">List Price: <span class="strike">$10.99</span></span></dd>
+              <dd><span class="listprice">List Price: <span class="strike">${{list_price}}</span></span></dd>
               
-                <dd><span class="bigprice"><span class="green">Our Price:</span> $8.24</span></dd>
-                <dd><span class="red regular">You Save:&nbsp;$2.75 (25)%</span></dd>
+                <dd><span class="bigprice"><span class="green">Our Price:</span> ${{our_price}}</span></dd>
+                <dd><span class="red regular">You Save:&nbsp;${{dollars_saved}} ({{percent_saved}})%</span></dd>
               
           <dd class="addToCartBox">
             
               <form class="additemform">
-                <input type="hidden" value="8068" name="ProductID">
+                <input type="hidden" value="{{product_id}}" name="ProductID">
                 <p>
                   
                     Qty.
@@ -121,13 +121,16 @@
                   
                 </p>
               </form>
-            </div>
+            <p>
+{{#rated}}product rating{{/rated}}
+            </p>	
           </dd>
         </dl>
         
         <div class="clear"></div>
       </li>
-      
+{{/products}}
+
 </ol>
 <!---product-grid end--->
 
