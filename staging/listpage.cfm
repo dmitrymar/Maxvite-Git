@@ -70,17 +70,17 @@
     
  <span class="pagination-wrap"><span>Page </span>
  <ol class="pagination">
-<li class="prev-arrow"></li>
+{{^first_page}}<li class="prev-arrow"></li>{{/first_page}}
 {{#page_list}}
-<li><a href="">{{.}}</a></li>
+<li><a href="#" {{#current_page}}class="selected"{{/current_page}}>{{page_number}}</a></li>
 {{/page_list}}
- <li class="next-arrow"></li>
+{{^last_page}}<li class="next-arrow"></li>{{/last_page}}
  </ol></span>
     
  <ul class="pageSortSize">
  <li>Items per page:</li>
 {{#products_per_page}}
-<li><a href="">{{.}}</a></li>
+<li><a href="#" {{#selected}}class="selected"{{/selected}}>{{products}}</a></li>
 {{/products_per_page}}
  </ul>
       

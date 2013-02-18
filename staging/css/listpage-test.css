@@ -39,6 +39,11 @@ text-indent: -9999px;
 	width: 6px;
 	height: 11px;
 }
+.pagination .selected {
+background-color: #004922;
+color: white;	
+}
+
 .pagination .next-arrow{
 	background-position: 0 0;
 	margin:3px 0 0 3px;
@@ -63,4 +68,8 @@ text-indent: -9999px;
 }
 .pagesort-bar .view .grid-view.active{
 	background-position: 0 -44px ;
+}
+.pageSortSize li .selected {
+	font-weight:bold;
+	color:#004922
 }

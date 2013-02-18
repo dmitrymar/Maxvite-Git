@@ -4,11 +4,12 @@ $.mockjax({
   responseText: {
     status: 'success',
     total_products: 4,
-	current_page: 1,
+	first_page: true,
+	last_page: false,
 	product_start: 1,
 	product_end: 3,
-	page_list: [1, 2],
-	products_per_page: [3, 6],
+	page_list: [{page_number: 1, current_page:true}, {page_number: 2, current_page:false}],
+	products_per_page: [{products: 3, selected:true}, {products: 6, selected:false}],
 	products: [
 	{
 		product_id: 40946,
@@ -45,7 +46,7 @@ $.mockjax({
 		dollars_saved: 12.49,
 		percent_saved: 25,
 		rated: false
-	},
+	}/*,
 	{
 		product_id: 4202,
 		name: 'Buried Treasure Mens Prostate Complete',
@@ -57,10 +58,20 @@ $.mockjax({
 		dollars_saved: 6.50,
 		percent_saved: 25,
 		rated: false
-	}	
+	}	*/
 	]
   }
 });
+
+//Get json for page 2
+/*$("button").click(function(){
+  $.getJSON("demo_ajax_json.js",function(result){
+    $.each(result, function(i, field){
+      $("div").append(field + " ");
+    });
+  });
+});
+*/
 
 $.getJSON('listpage-query.cfm', function(response) {
     if (response.status == 'success') {
