@@ -61,7 +61,7 @@
 
 <script src="/js/mustache.js"></script>  
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.5.1/jquery.mockjax.js"></script>
+<script src="/js/libs/jquery.mockjax.js"></script>
 
 <script id="listTpl" type="text/template">
 
@@ -72,7 +72,7 @@
  <ol class="pagination">
 {{^first_page}}<li class="prev-arrow"></li>{{/first_page}}
 {{#page_list}}
-<li><a href="#" {{#current_page}}class="selected"{{/current_page}}>{{page_number}}</a></li>
+<li><a href="#" id="page{{page_number}}" {{#current_page}}class="selected"{{/current_page}}>{{page_number}}</a></li>
 {{/page_list}}
 {{^last_page}}<li class="next-arrow"></li>{{/last_page}}
  </ol></span>

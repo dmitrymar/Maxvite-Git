@@ -1,3 +1,5 @@
+//****** jQuery - Execute scripts after DOM is loaded
+
 $.mockjax({
   url: 'listpage-query.cfm',
   responseTime: 750,
@@ -63,15 +65,49 @@ $.mockjax({
   }
 });
 
+
+$.mockjax({
+  url: 'listpage-query.cfm?page=2',
+  responseTime: 750,
+  responseText: {
+    status: 'success',
+    total_products: 4,
+	first_page: true,
+	last_page: false,
+	product_start: 1,
+	product_end: 3,
+	page_list: [{page_number: 1, current_page:true}, {page_number: 2, current_page:false}],
+	products_per_page: [{products: 3, selected:true}, {products: 6, selected:false}],
+	products: [
+	{
+		product_id: 4202,
+		name: 'Buried Treasure Mens Prostate Complete',
+		form: '16 Oz',
+		image_url: 'bt%20mens%5Fprostate%2Ejpg%2D2%2Ejpg',
+		product_url: '/4202/Buried-Treasure-Mens-Prostate-Complete/product.html',
+		list_price: 25.99,
+		our_price: 19.49,
+		dollars_saved: 6.50,
+		percent_saved: 25,
+		rated: false
+	}	
+	]
+  }
+});
+
+
+
 //Get json for page 2
-/*$("button").click(function(){
+$('#page2').click(function(e){
+	e.preventDefault();					   
   $.getJSON("demo_ajax_json.js",function(result){
     $.each(result, function(i, field){
       $("div").append(field + " ");
     });
   });
+  alert('test');
 });
-*/
+
 
 $.getJSON('listpage-query.cfm', function(response) {
     if (response.status == 'success') {
@@ -79,8 +115,23 @@ $.getJSON('listpage-query.cfm', function(response) {
     var template = $('#listTpl').html();
     var html = Mustache.to_html(template, response);
     $('#listProductsGrid').html(html);
+	
+
+
+$('#page2').click(function(e){
+	e.preventDefault();					   
+  $.getJSON("listpage-query.cfm?page=2", function(response){
+
+    var template = $('#listTpl').html();
+    var html = Mustache.to_html(template, response);
+    $('#listProductsGrid').html(html);
+
+  });
+});
+
 
 } else {
         $('#listProductsGrid').html('No products found');
     }
 });
+
