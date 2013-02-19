@@ -88,14 +88,15 @@ $(function(){
 //Autocomplete end 
 
 //Customer feedback
-if (localStorage.getItem("feedback") === null) {
+//Disabled feedback code until further notice from Berish
+/*if (localStorage.getItem("feedback") === null) {
   $('#feedbackLink').show();
 }
   $('#feedbackLink').click(function(ev){
 	popUp(this.href, 600, 400);
 
 	return false;
-  });
+  });*/
 
 
 //header tab flyout function
