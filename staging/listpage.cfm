@@ -2,19 +2,38 @@
 <cfinclude template="/html.cfm">
 <head>
 	<title>Lispage Test</title>
-<cfinclude template="/metacustom.cfm">
+
+<!---Change to metacustom.cfm when done working on list page--->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/css/common.css?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>" media="screen">
+<link rel="stylesheet" href="/css/default.min.css?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>" media="screen">
+<!--[if lt IE 9]>
+<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="//use.edgefonts.net/pt-sans.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
+<script src="/js/columnizer.js"></script> 
+<script src="/js/jquery.maskedinput.js"></script>
+<script src="/js/jquery.hoverIntent.minified.js"></script>
+<script src="/js/jquery.watermark.min.js"></script>
+<script src="/js/common.min.js"></script>
+<script src="/js/maxvite.min.js"></script>
+<!------>
 <link rel="stylesheet" href="css/listpage-test.css" media="screen">
 </head>
 
 
 <body>
 <div class="wrapper">
-
-
+<cfinclude template="/header.cfm">
 
 <div class="content">
  
 <div class="primary">
+
+
 <a href="/shipping.html" id="freeShipBnr"><img src="/img/free-ship-bnr.gif" alt=""></a>
 
 <a name="topOfPage"></a>
@@ -33,31 +52,16 @@
     <p></p>
 
 
-<div id="listProductsGrid"><img src="http://imgb.nxjimg.com/emp_image/offerdetail/restaurant/loading.gif" /></div>   
+<div id="listProductsGrid"><img src="http://imgb.nxjimg.com/emp_image/offerdetail/restaurant/loading.gif" /></div>
 
 
 
-
-
-
-
-
-<br><p class="small">*These statements have not been evaluated by the Food and Drug Administration. These products is not intended to diagnose, treat, cure, or prevent any diseases.</p>
 </div> <!--end primary-->
-
-
-
-
-
 <div id="filterWrpr"><ul class="filter-title"><li>Brand</li><li class="clear"></li></ul><ul class="checkbox-list"><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="American BioSciences" class="styleName" for="92113">American BioSciences</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Buried Treasure" class="styleName" for="92113">Buried Treasure</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Dynamic Health" class="styleName" for="92113">Dynamic Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Futurebiotics" class="styleName" for="92113">Futurebiotics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Greens Today" class="styleName" for="92113">Greens Today</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Health Plus" class="styleName" for="92113">Health Plus</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Hylands" class="styleName" for="92113">Hylands</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="King Bio" class="styleName" for="92113">King Bio</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Kyolic" class="styleName" for="92113">Kyolic</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Maxi Health" class="styleName" for="92113">Maxi Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Metagenics" class="styleName" for="92113">Metagenics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Natrol" class="styleName" for="92113">Natrol</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Nature's Plus" class="styleName" for="92113">Nature's Plus</label></li></ul></div>
 
-
+ 
 </div> 
 <!--end content-->
- 
-
- 
-</div><!--end wrapper-->
 
 <script src="/js/mustache.js"></script>  
 
@@ -72,7 +76,7 @@
  <ol class="pagination">
 {{^first_page}}<li class="prev-arrow"></li>{{/first_page}}
 {{#page_list}}
-<li><a href="#" id="page{{page_number}}" {{#current_page}}class="selected"{{/current_page}}>{{page_number}}</a></li>
+<li><a href="{{page_number}}" {{#current_page}}class="selected"{{/current_page}}>{{page_number}}</a></li>
 {{/page_list}}
 {{^last_page}}<li class="next-arrow"></li>{{/last_page}}
  </ol></span>
@@ -136,6 +140,11 @@
 
 </script>
 <script src="js/listpage-test.js"></script>
+ 
+<cfinclude template="/footer.cfm">
+ 
+</div><!--end wrapper-->
+
 
 </body>
 </html>
