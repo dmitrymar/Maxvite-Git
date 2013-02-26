@@ -9,8 +9,29 @@ $(document).ready(function(){
 $.mockjax({
   url: 'listpage-query.cfm?page=1',
   responseTime: 750,
+/*  response: function(settings) {
+    this.responseText = { say: 'random ' + Math.random() };
+  },*/
   responseText: {
     status: 'success',
+    filters: [
+        {
+          filter_name: "Brand",
+          filter_list: [
+              {
+                "fiter_option_id": 4,
+                "fiter_option_name": "Natures Way"
+              },
+              {
+                "fiter_option_id": 1,
+                "fiter_option_name": "Maxi Health"
+              },
+              {
+                "fiter_option_id": 97,
+                "fiter_option_name": "American BioSciences"
+              }
+            ]
+    }],
     total_products: 4,
 	first_page: true,
 	last_page: false,
@@ -22,6 +43,7 @@ $.mockjax({
 	{
 		product_id: 40946,
 		name: 'Alive Mens Max Potency',
+		brand_id: 4,
 		form: '90 Tablets',
 		image_url: 'Alive%20Mens%2D2%2Ejpg',
 		product_url: '/40946/Alive-Men-s-Max-Potency/product.html',
@@ -29,7 +51,7 @@ $.mockjax({
 		our_price: 21.74,
 		dollars_saved: 7.25,
 		percent_saved: 25,
-		rated: false
+		rating: false
 	},
 	{
 		product_id: 3833,
@@ -41,7 +63,7 @@ $.mockjax({
 		our_price: 29.22,
 		dollars_saved: 15.73,
 		percent_saved: 35,
-		rated: true
+		rating: 'test'
 	},
 	{
 		product_id: 4119,
@@ -52,6 +74,54 @@ $.mockjax({
 		list_price: 49.95,
 		our_price: 37.46,
 		dollars_saved: 12.49,
+		percent_saved: 25,
+		rating: false
+	}
+	]
+  }
+});
+
+$.mockjax({
+  url: 'listpage-query.cfm?brandid=4',
+  responseTime: 750,
+  responseText: {
+    status: 'success',
+    filters: [
+        {
+          filter_name: "Brand",
+          filter_list: [
+              {
+                "fiter_option_id": 4,
+                "fiter_option_name": "Natures Way"
+              },
+              {
+                "fiter_option_id": 1,
+                "fiter_option_name": "Maxi Health"
+              },
+              {
+                "fiter_option_id": 97,
+                "fiter_option_name": "American BioSciences"
+              }
+            ]
+    }],
+    total_products: 1,
+	first_page: true,
+	last_page: true,
+	product_start: 1,
+	product_end: 1,
+	page_list: [{page_number: 1, current_page:true}],
+	products_per_page: [{products: 3, selected:true}, {products: 6, selected:false}],
+	products: [
+	{
+		product_id: 40946,
+		name: 'Alive Mens Max Potency',
+		brand_id: 4,
+		form: '90 Tablets',
+		image_url: 'Alive%20Mens%2D2%2Ejpg',
+		product_url: '/40946/Alive-Men-s-Max-Potency/product.html',
+		list_price: 28.99,
+		our_price: 21.74,
+		dollars_saved: 7.25,
 		percent_saved: 25,
 		rated: false
 	}
@@ -165,6 +235,18 @@ $.mockjax({
   }
 });
 
+/*$('#test').click(function(){
+
+	var jsonurl = "listpage-query.cfm?brandid=" + $(this).attr('value');
+alert(jsonurl);
+
+});*/
+
+var Listpage = {
+default_json: "listpage-query.cfm?page=1",
+showRating: 5
+}
+
 var goToPage = function() {
 $('.pagination li a').click(function(e){
 	e.preventDefault();
@@ -174,11 +256,22 @@ $('.pagination li a').click(function(e){
 
   $.getJSON(jsonurl, function(response){
 
-renderTemplates(response);
+renderProductTpl(response);
 
   });
 		//alert($(this).attr('class'));
 });
+
+function filterPage() {
+
+$('.filter-option').click(function () {
+    	var jsonurl = "listpage-query.cfm?brandid=" + $(this).attr('value');
+alert(jsonurl);
+});
+
+}
+
+
 $('.pagination li a').click(function(e){
 	e.preventDefault();
 
@@ -187,19 +280,53 @@ $('.pagination li a').click(function(e){
 
   $.getJSON(jsonurl, function(response){
 
-renderTemplates(response);
+renderProductTpl(response);
 
   });
 		//alert($(this).attr('class'));
 });
 }
 
-var renderTemplates = function(response) {
 
+
+var renderProductTpl = function(response) {
+var testjson = {
+   rating: function () {
+                            POWERREVIEWS.display.snippet(document.getElementById('test'), {
+                                pr_page_id: '3833',
+                                pr_snippet_min_reviews: 1
+                            });
+  }
+ }
     var template = $('#listTpl').html();
-    var html = Mustache.to_html(template, response);
+	var partials = {rating: "5"};
+    var html = Mustache.to_html(template, testjson);
     $('#listProductsGrid').html(html);
 goToPage();
+
+}
+
+var renderFilterTpl = function(response) {
+
+	var filterTpl = $('#filterTpl').html();
+    var filterHtml = Mustache.to_html(filterTpl, response);
+    $('#filterWrpr').html(filterHtml);
+
+$('.filter-option').change(function(){
+
+if ($(this).is(':checked')) {
+  var jsonurl = "listpage-query.cfm?brandid=" + $(this).attr('value');
+} else {
+  var jsonurl = Listpage.default_json;
+}    
+
+  $.getJSON(jsonurl, function(response){
+renderProductTpl(response);
+  });
+
+});
+
+
 }
 
 var getData = function(jsonurl) {
@@ -207,8 +334,8 @@ var getData = function(jsonurl) {
 $.getJSON(jsonurl, function(response) {
     if (response.status == 'success') {
 
-renderTemplates(response);
-
+renderProductTpl(response);
+renderFilterTpl(response);
 
 } else {
         $('#listProductsGrid').html('No products found');
@@ -218,7 +345,7 @@ renderTemplates(response);
 }
 
 var initListpage = function() {
-getData('listpage-query.cfm?page=1');
+getData(Listpage.default_json);
 	
 };
 
