@@ -5,20 +5,42 @@
 var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css";
 </script>
 <script type="text/javascript" src="http://cdn.powerreviews.com/repos/14165/pr/pwr/engine/js/full.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
 </head>
 <body>
 
-<h1>My First Heading</h1>
+<div id="sampleArea"></div>
 
-<p>My first paragraph.</p>
-
-            <div class="pr_snippet_category">
-              <script type="text/javascript">var pr_snippet_min_reviews=1;POWERREVIEWS.display.snippet(document, { pr_page_id : "3833" });</script>
-            </div>
+<script src="/js/mustache.js"></script>  
+<script id="listTpl" type="text/template">
+<h1>{{firstName}} {{lastName}}</h1>Blog: {{blogURL}}
 
             <div class="pr_snippet_category">
-              <script type="text/javascript">var pr_snippet_min_reviews=1;POWERREVIEWS.display.snippet(document, { pr_page_id : "4622" });</script>
+              {{rating}}
             </div>
 
+
+
+</script>
+
+<script>
+//****** jQuery - Execute scripts after DOM is loaded
+$(document).ready(function(){
+						   
+var person = {
+    firstName: "Dmitry",
+    blogURL: "http://maxvite.com",
+	rating: function() {
+		var pr_snippet_min_reviews=1;POWERREVIEWS.display.snippet(document, { pr_page_id : "3833" });
+	}
+};
+
+    var template = $('#listTpl').html();
+var html = Mustache.to_html(template, person);
+$('#sampleArea').html(html);
+
+});//end jQuery execute after DOM loaded
+</script>
 </body>
 </html>
