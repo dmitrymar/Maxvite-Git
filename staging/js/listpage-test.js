@@ -51,7 +51,7 @@ $.mockjax({
 		our_price: 21.74,
 		dollars_saved: 7.25,
 		percent_saved: 25,
-		rating: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	},
 	{
 		product_id: 3833,
@@ -63,7 +63,7 @@ $.mockjax({
 		our_price: 29.22,
 		dollars_saved: 15.73,
 		percent_saved: 35,
-		rating: 'test'
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	},
 	{
 		product_id: 4119,
@@ -75,7 +75,7 @@ $.mockjax({
 		our_price: 37.46,
 		dollars_saved: 12.49,
 		percent_saved: 25,
-		rating: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	}
 	]
   }
@@ -123,7 +123,7 @@ $.mockjax({
 		our_price: 21.74,
 		dollars_saved: 7.25,
 		percent_saved: 25,
-		rated: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	}
 	]
   }
@@ -152,7 +152,7 @@ $.mockjax({
 		our_price: 19.49,
 		dollars_saved: 6.50,
 		percent_saved: 25,
-		rated: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	},
 	{
 		product_id: 4268,
@@ -164,7 +164,7 @@ $.mockjax({
 		our_price: 20.24,
 		dollars_saved: 6.75,
 		percent_saved: 25,
-		rated: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	},
 	{
 		product_id: 4119,
@@ -176,7 +176,7 @@ $.mockjax({
 		our_price: 8.99,
 		dollars_saved: 3.00,
 		percent_saved: 25,
-		rated: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	}
 	]
   }
@@ -205,7 +205,7 @@ $.mockjax({
 		our_price: 19.49,
 		dollars_saved: 6.50,
 		percent_saved: 25,
-		rated: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	},
 	{
 		product_id: 4268,
@@ -217,7 +217,7 @@ $.mockjax({
 		our_price: 20.24,
 		dollars_saved: 6.75,
 		percent_saved: 25,
-		rated: false
+		rating: "<script>POWERREVIEWS.display.snippet({write : function(content){$('div.pr_snippet_category').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
 	},
 	{
 		product_id: 4119,
@@ -291,8 +291,7 @@ renderProductTpl(response);
 
 var renderProductTpl = function(response) {
     var template = $('#listTpl').html();
-	var partials = {rating: "need to fix rating"};
-    var html = Mustache.to_html(template, response, partials);
+    var html = Mustache.to_html(template, response);
     $('#listProductsGrid').html(html);
 	
 	// this forces rating to display on its own. need to figure out how to stick it into pr_snippet_min_reviews

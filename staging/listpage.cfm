@@ -150,7 +150,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
                 </p>
               </form>
             <p class="pr_snippet_category">
-              {{>rating}}
+              {{rating}}
             </p>	
           </dd>
         </dl>
