@@ -17,7 +17,7 @@
 #filterWrpr .checkbox-list {
 	padding:4px;
 	max-height:180px;
-	overflow:scroll;
+	overflow:auto;
 }
 
 /*pagination bar*/

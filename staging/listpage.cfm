@@ -20,6 +20,10 @@
 <script src="/js/jquery.watermark.min.js"></script>
 <script src="/js/common.min.js"></script>
 <script src="/js/maxvite.min.js"></script>
+<script type="text/javascript">
+var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css";
+</script>
+<script type="text/javascript" src="http://cdn.powerreviews.com/repos/14165/pr/pwr/engine/js/full.js"></script>
 <!------>
 <link rel="stylesheet" href="css/listpage-test.css" media="screen">
 </head>
@@ -52,12 +56,12 @@
     <p></p>
 
 
-<div id="listProductsGrid"><img src="http://imgb.nxjimg.com/emp_image/offerdetail/restaurant/loading.gif" /></div>
+<div id="listProductsGrid"><img src="/img/spinner.gif" alt="Loading.."></div>
 
 
 
 </div> <!--end primary-->
-<div id="filterWrpr"><ul class="filter-title"><li>Brand</li><li class="clear"></li></ul><ul class="checkbox-list"><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="American BioSciences" class="styleName" for="92113">American BioSciences</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Buried Treasure" class="styleName" for="92113">Buried Treasure</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Dynamic Health" class="styleName" for="92113">Dynamic Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Futurebiotics" class="styleName" for="92113">Futurebiotics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Greens Today" class="styleName" for="92113">Greens Today</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Health Plus" class="styleName" for="92113">Health Plus</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Hylands" class="styleName" for="92113">Hylands</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="King Bio" class="styleName" for="92113">King Bio</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Kyolic" class="styleName" for="92113">Kyolic</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Maxi Health" class="styleName" for="92113">Maxi Health</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Metagenics" class="styleName" for="92113">Metagenics</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Natrol" class="styleName" for="92113">Natrol</label></li><li styleoptionid="92113" id="facet_option_92113" class="style-option"><input onClick="" type="checkbox" class="facet-option" id="92113" value="92113"><label alt="Nature's Plus" class="styleName" for="92113">Nature's Plus</label></li></ul></div>
+<div id="filterWrpr"><img src="/img/spinner.gif" alt="Loading.."></div>
 
  
 </div> 
@@ -66,9 +70,27 @@
 <script src="/js/mustache.js"></script>  
 
 <script src="/js/libs/jquery.mockjax.js"></script>
+<script id="filterTpl" type="text/template">
+{{#filters}}
+<ul class="filter-title">
+  <li>{{filter_name}}</li>
+  <li class="clear"></li>
+</ul>
 
+<ul class="checkbox-list">
+{{#filter_list}}
+  <li styleoptionid="{{fiter_option_id}}" id="facet_option_{{fiter_option_id}}" class="style-option">
+    <input type="checkbox" class="filter-option" value="{{fiter_option_id}}">
+    <label alt="{{fiter_option_name}}" class="styleName" for="{{fiter_option_id}}">{{fiter_option_name}}</label>
+  </li>
+{{/filter_list}}
+</ul>
+
+{{/filters}}
+
+</script>
 <script id="listTpl" type="text/template">
-
+			
 <div class="pagesort-bar"> <span class="displaying">Items <strong>{{product_start}}</strong>&nbsp;-&nbsp;<strong>{{product_end}}</strong> of <strong>{{total_products}}</strong></span>
     
     
@@ -97,6 +119,8 @@
 {{/products}}--->
 <!---product-grid start--->
 <ol class="products" style="display: block;">
+
+
 {{#products}}  
       <li>
         <dl class="grid_view" style="display: block;">
@@ -125,8 +149,8 @@
                   
                 </p>
               </form>
-            <p>
-{{#rated}}product rating{{/rated}}
+            <p class="pr_snippet_category">
+              {{>rating}}
             </p>	
           </dd>
         </dl>
@@ -139,6 +163,15 @@
 <!---product-grid end--->
 
 </script>
+
+<!---            <div class="pr_snippet_category">
+                        <script type="text/javascript">
+                            POWERREVIEWS.display.snippet(document, {
+                                pr_page_id: '3833',
+                                pr_snippet_min_reviews: 1
+                            });
+                        </script>
+            </div>--->
 <script src="js/listpage-test.js"></script>
  
 <cfinclude template="/footer.cfm">

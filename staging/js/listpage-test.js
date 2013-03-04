@@ -290,18 +290,14 @@ renderProductTpl(response);
 
 
 var renderProductTpl = function(response) {
-var testjson = {
-   rating: function () {
-                            POWERREVIEWS.display.snippet(document.getElementById('test'), {
-                                pr_page_id: '3833',
-                                pr_snippet_min_reviews: 1
-                            });
-  }
- }
     var template = $('#listTpl').html();
-	var partials = {rating: "5"};
-    var html = Mustache.to_html(template, testjson);
+	var partials = {rating: "need to fix rating"};
+    var html = Mustache.to_html(template, response, partials);
     $('#listProductsGrid').html(html);
+	
+	// this forces rating to display on its own. need to figure out how to stick it into pr_snippet_min_reviews
+	/*var str="<script>POWERREVIEWS.display.snippet(document, {pr_page_id: '3833',pr_snippet_min_reviews: 1});</script>";$('.pr_snippet_category').append(str);*/
+	
 goToPage();
 
 }

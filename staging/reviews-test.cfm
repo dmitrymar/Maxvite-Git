@@ -14,7 +14,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 <script src="/js/mustache.js"></script>  
 <script id="listTpl" type="text/template">
-<h1>{{firstName}} {{lastName}}</h1>Blog: {{blogURL}}
+<h1>{{product_name}}</h1>ID: {{product_id}}
 
             <div class="pr_snippet_category">
               {{rating}}
@@ -28,16 +28,14 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 //****** jQuery - Execute scripts after DOM is loaded
 $(document).ready(function(){
 						   
-var person = {
-    firstName: "Dmitry",
-    blogURL: "http://maxvite.com",
-	rating: function() {
-		var pr_snippet_min_reviews=1;POWERREVIEWS.display.snippet(document, { pr_page_id : "3833" });
-	}
+var product = {
+    product_id: 3833,
+	product_name: "ABC",
+	rating: function() {		var pr_snippet_min_reviews=1;POWERREVIEWS.display.snippet(document, { pr_page_id : "3833" });	}
 };
 
     var template = $('#listTpl').html();
-var html = Mustache.to_html(template, person);
+var html = Mustache.to_html(template, product);
 $('#sampleArea').html(html);
 
 });//end jQuery execute after DOM loaded

@@ -24,7 +24,7 @@
 <cfset application.dso = "1048423_ordersmysql">
 <cfset application.ds = "1048423_maxvite">
 <cfset application.username = "u1048423_alex">
-<cfset application.password = "jkcmeh-2oo">
+<cfset application.password = ";;;;V1tViTe;;;;">
 
 
 <CFPARAM NAME="session.logon" DEFAULT="FALSE">
