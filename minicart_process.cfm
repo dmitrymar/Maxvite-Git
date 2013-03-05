@@ -26,7 +26,8 @@
     <!--- Now display the data for the current item --->
     <CFOUTPUT QUERY="GetData">
       <cfset v_subid = GetData1.subcategoryid>
-      <cfset itemURL = "/" & #v_subid# & "/" & #productid# & "/" & #replace(replace(replace(replace(replace(replace(replace(replace(replace(Title," ","_","all"),"'","","all"),"&","","all"),".","","all"),"+","_","all"),":","","all"),"%","","all"),"##","","all"),"-","","all")# & "/product.html">
+      <cfset itemURL = "/#productid#/#ReReplace(title,"[^0-9a-zA-Z]+","-","ALL")#/product.html">
+
       <cfquery name="GetDataSubc" datasource="#Application.ds#" maxrows=1>
 	Select DISTINCT Category.categoryID, Category, SubCategory.subcategoryid, subcategory
 	From Category , SubCategory, Product_SUBCategory_Map

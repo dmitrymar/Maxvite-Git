@@ -17,7 +17,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <h1>{{product_name}}</h1>ID: {{product_id}}
 
             <div class="pr_snippet_category">
-              {{rating}}
+              {{{rating}}}
             </div>
 
 
@@ -34,9 +34,16 @@ var product = {
 	rating: function() {		var pr_snippet_min_reviews=1;POWERREVIEWS.display.snippet(document, { pr_page_id : "3833" });	}
 };
 
-    var template = $('#listTpl').html();
-var html = Mustache.to_html(template, product);
+
+$.getJSON("testjson.cfm", function(data) {
+
+var template = $('#listTpl').html();
+var html = Mustache.to_html(template, data);
 $('#sampleArea').html(html);
+
+
+});
+
 
 });//end jQuery execute after DOM loaded
 </script>

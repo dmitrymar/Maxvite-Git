@@ -5,7 +5,8 @@
 
 //****** jQuery - Execute scripts after DOM is loaded
 $(document).ready(function(){
-		   
+
+
 $.mockjax({
   url: 'listpage-query.cfm?page=1',
   responseTime: 750,
@@ -243,7 +244,7 @@ alert(jsonurl);
 });*/
 
 var Listpage = {
-default_json: "listpage-query.cfm?page=1",
+default_json: "/staging/listpage-test-query.cfm",
 showRating: 5
 }
 
@@ -327,6 +328,9 @@ renderProductTpl(response);
 var getData = function(jsonurl) {
 
 $.getJSON(jsonurl, function(response) {
+							
+
+
     if (response.status == 'success') {
 
 renderProductTpl(response);
