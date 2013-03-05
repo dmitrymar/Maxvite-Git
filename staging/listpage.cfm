@@ -61,7 +61,29 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 
 </div> <!--end primary-->
-<div id="filterWrpr"><img src="/img/spinner.gif" alt="Loading.."></div>
+<div id="filterWrpr">
+<ul class="filter-title">
+  <li>Brand</li>
+  <li class="clear"></li>
+</ul>
+
+<ul class="checkbox-list">
+  <li styleoptionid="4" id="facet_option_4" class="style-option">
+    <input type="checkbox" class="filter-option" value="4">
+    <label alt="Natures Way" class="styleName" for="4">Natures Way</label>
+  </li>
+  <li styleoptionid="1" id="facet_option_1" class="style-option">
+    <input type="checkbox" class="filter-option" value="1">
+    <label alt="Maxi Health" class="styleName" for="1">Maxi Health</label>
+  </li>
+  <li styleoptionid="97" id="facet_option_97" class="style-option">
+    <input type="checkbox" class="filter-option" value="97">
+    <label alt="American BioSciences" class="styleName" for="97">American BioSciences</label>
+  </li>
+</ul>
+
+
+</div>
 
  
 </div> 
