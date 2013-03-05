@@ -297,7 +297,12 @@ var renderProductTpl = function(response) {
 	
 	// this forces rating to display on its own. need to figure out how to stick it into pr_snippet_min_reviews
 	/*var str="<script>POWERREVIEWS.display.snippet(document, {pr_page_id: '3833',pr_snippet_min_reviews: 1});</script>";$('.pr_snippet_category').append(str);*/
-	
+
+$(".additemform").submit(function(event) {
+	event.preventDefault();																															 
+  $(this).sitePlugins('additem');
+});
+
 goToPage();
 
 }
@@ -349,6 +354,8 @@ getData(Listpage.default_json);
 };
 
 initListpage();
+
+
 
 
 
