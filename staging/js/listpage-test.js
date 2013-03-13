@@ -309,10 +309,6 @@ goToPage();
 
 var renderFilterTpl = function(response) {
 
-	var filterTpl = $('#filterTpl').html();
-    var filterHtml = Mustache.to_html(filterTpl, response);
-    $('#filterWrpr').html(filterHtml);
-
 $('.filter-option').change(function(){
 
 if ($(this).is(':checked')) {

@@ -11,65 +11,77 @@
 	font-weight:bold;
 	padding:4px;
 }
-
-#filterWrpr .filter-title li:first-child {display:block; height:14px; padding-left:10px; background:url("/img/next-arrow.gif") no-repeat scroll 0 3px transparent;}
-
+#filterWrpr .filter-title li:first-child {
+	display:block;
+	height:14px;
+	padding-left:10px;
+	background:url("/img/next-arrow.gif") no-repeat scroll 0 3px transparent;
+}
 #filterWrpr .checkbox-list {
 	padding:4px;
 	max-height:180px;
 	overflow:auto;
 }
+.paginator {
+	margin:4px 0 0 35px;
+	padding:0;
+	list-style-type:none;
+	font-size:12px;
+	font-weight:bold;
+	line-height:11px;
+	position:relative;
+	float:left;
+}
+.paginator li {
+	float:left;
+	margin-right:15px;
+}
+.paginator li a {
+	text-indent:-10000px;
+	height: 11px;
+	left:0;
+	display:block;
+	background: transparent url(/img/listpage-sprite.gif) no-repeat 0 0;
+}
+.paginator .begin-arrow a {
+	background-position: 0 -11px;
+	width:12px;
+}
+.paginator .prev-arrow a {
+	background-position: 0 -11px;
+	width:6px;
+}
+.paginator .begin-arrow .disabled, .paginator .prev-arrow .disabled {
+	background-position: -12px -11px;
+}
+.paginator .last-arrow a {
+	width:12px;
+}
+.paginator .next-arrow a {
+	width:6px;
+}
+.paginator .last-arrow .disabled, .paginator .next-arrow .disabled {
+	background-position: -12px 0;
+}
 
-/*pagination bar*/
-.pagesort-bar .view{
-	width:144px; overflow:hidden; float:right;
+.pagesort-bar .view {
+	overflow:hidden;
+	float:right;
 	height:11px;
 	margin-top:4px;
-	}
-.pagesort-bar .view li{
+}
+.pagesort-bar .view li {
 	float:left;
-outline: none;
-text-indent: -9999px;	
-	}
-
-.pagination .next-arrow, .pagination .prev-arrow, .pagesort-bar .list-view, .pagesort-bar .grid-view{
-	background: url(/img/listpage-sprite.gif) no-repeat;
+	margin-right:11px;
 }
-.pagination .prev-arrow, .pagination .next-arrow{
-	width: 6px;
+.pagesort-bar .view li a {
+	text-indent:-10000px;
 	height: 11px;
+	left:0;
+	display:block;
+	background: url(/img/listpage-sprite.gif) no-repeat 0 -33px;
+	width:68px;
 }
-.pagination .selected {
-background-color: #004922;
-color: white;	
-}
-
-.pagination .next-arrow{
-	background-position: 0 0;
-	margin:3px 0 0 3px;
-}
-
-.pagination .prev-arrow{
-	background-position: 0 -11px ;
-	margin:3px 6px 0 0;
-}
-
-.pagesort-bar .view .list-view{
-	background-position: 0 -33px ;
-	width: 66px;
-	height: 11px;
-}
-
-.pagesort-bar .view .grid-view{
-	background-position: 0 -55px ;
-	width: 68px;
-	height: 11px;
-	padding-right:10px;
-}
-.pagesort-bar .view .grid-view.active{
-	background-position: 0 -44px ;
-}
-.pageSortSize li .selected {
-	font-weight:bold;
-	color:#004922
+.pagesort-bar .view .grid-view a {
+	background-position: 0 -44px;
 }

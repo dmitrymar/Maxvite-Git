@@ -116,23 +116,35 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <div class="pagesort-bar"> <span class="displaying">Items <strong>{{product_start}}</strong>&nbsp;-&nbsp;<strong>{{product_end}}</strong> of <strong>{{total_products}}</strong></span>
     
     
- <span class="pagination-wrap"><span>Page </span>
- <ol class="pagination">
-{{^first_page}}<li class="prev-arrow"></li>{{/first_page}}
+ <ul class="paginator">
+
+ <li class="begin-arrow"><a href="listpage.cfm?page=1" {{#first_page}}class="disabled"{{/first_page}} title="First Page">First Page</a></li>
+ <li class="prev-arrow"><a href="listpage.cfm?page={{prev_page}}" {{#first_page}}class="disabled"{{/first_page}} title="Previous Page">Previous Page</a></li>
+
+ <li class="current-page">{{page_number}}</li>
+
+<li class="next-arrow"><a href="listpage.cfm?page={{next_page}}" {{#last_page}}class="disabled"{{/last_page}} title="Next Page">Next Page</a></li>
+ <li class="last-arrow"><a href="listpage.cfm?page={{total_pages}}" {{#last_page}}class="disabled"{{/last_page}} title="Last Page">Previous Page</a></li>
+
+<!---{{^first_page}}<li class="prev-arrow"></li>{{/first_page}}
 {{#page_list}}
 <li><a href="{{page_number}}" {{#current_page}}class="selected"{{/current_page}}>{{page_number}}</a></li>
 {{/page_list}}
-{{^last_page}}<li class="next-arrow"></li>{{/last_page}}
- </ol></span>
-    
+{{^last_page}}<li class="next-arrow"></li>{{/last_page}}--->
+ </ul>
+
+
+
  <ul class="pageSortSize">
  <li>Items per page:</li>
 {{#products_per_page}}
 <li><a href="#" {{#selected}}class="selected"{{/selected}}>{{products}}</a></li>
 {{/products_per_page}}
  </ul>
-      
- <ul class="view"><li class="grid-view active">Grid View</li><li class="list-view">List View</li></ul>
+
+ <ul class="view"><li class="grid-view"><a href="#" title="Grid View">Grid View</a></li><li class="list-view"><a href="#" title="List View">List View</a></li></ul>
+
+
   </div>
 
 
