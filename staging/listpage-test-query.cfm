@@ -1,64 +1,72 @@
+<cfset returnArray = ArrayNew(1) />
+<cfparam name="numberonpage" default="30">
+<cfparam name="formulatypeid" default="14">
+
+<cfquery name="GetData" datasource="#Application.ds#">
+    SELECT Products.ProductID, Title, strapline, instockflag, listprice, ourprice, featuredproductflag, featuredproductflag2, Products.imagesmall, Products.imagebig, description, Tablets, ServingSize, FormulaType, FormulaTypes.Metatitle, FormulaTypes.METADESC, FormulaTypes.BOTTOMDESC, FormulaTypes.METAKEYWORDS, (Select SubCategoryID From Product_SUBCategory_Map Where Product_SUBCategory_Map.ProductID = ProductID limit 1) AS Subcategoryid, Products.MetaTitle, Products.MetaKeywords, Products.MetaDesc
+    FROM Products, Product_Formula_Map, FormulaTypes
+    Where Products.ProductID = Product_Formula_Map.ProductID
+    AND Product_Formula_Map.FormulaTypeID = FormulaTypes.FormulaTypeID
+    AND FormulaTypes.FormulaTypeID = #formulatypeid#
+    AND Display = 1
+    Order by Title
+</CFQUERY>
+
+
+
+<cfloop query="GetData" startrow="1" endrow="#numberonpage#">
+
+
+<cfinclude template="/dealquery.cfm">
+<cfset youSave = val(listprice)-val(newprice)>   
+<cfset youSavePcnt = round(Evaluate(    ((val(listprice)-val(newprice))/val(listprice)) *100))>   
+
+<!---this code sets image url--->
+<cfhttp url="http://www.maxvite.com/images/#imagebig#" timeout="45" result="result" throwOnError="no"></cfhttp>
+<cfif listFind(result.statuscode, "200"," ") neq 0>
+  <cfset imageURL = "/images/#URLEncodedFormat(imagebig)#">
+<cfelse>
+  <cfset imageURL = "/images/coming_soon-2.jpg">
+</cfif>
+<!------>
+
+  <cfset keywordsStruct = StructNew() />
+  <cfset keywordsStruct["product_id"] = #ProductID# />
+  <cfset keywordsStruct["name"] = "#Title#" />
+  <cfset keywordsStruct["form"] = "#Tablets#" />
+  <cfset keywordsStruct["image_url"] = "#imageURL#" />
+  <cfset keywordsStruct["product_url"] = "/#ProductID#/#ReReplace(title,"[^0-9a-zA-Z]+","-","ALL")#/product.html" />  
+            <cfif #ListPrice# GT #newprice# AND #newprice# GT 0>
+  				<cfset keywordsStruct["list_price"] = #Dollarformat(ListPrice)# />
+              <cfelse>
+                <cfset keywordsStruct["just_price"] = #Dollarformat(ListPrice)# />
+            </cfif>
+            <cfif newprice neq 0>
+              <cfif #youSavePcnt# GT 0>
+				  <cfset keywordsStruct["our_price"] = #Dollarformat(newprice)# />
+				  <cfset keywordsStruct["dollars_saved"] = #Dollarformat(youSave)# />
+				  <cfset keywordsStruct["percent_saved"] = #youSavePcnt# />
+              </cfif>
+            </cfif>
+
+  <cfset keywordsStruct["rating"] = "<script>POWERREVIEWS.display.snippet({write : function(content){$('##pr_snippet_category_#ProductID#').append(content);}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />
+  
+  <cfset ArrayAppend(returnArray,keywordsStruct) />
+</cfloop>
+
+
+<!---Output json--->
+<cfif GetData.Recordcount EQ 0>
+{
+    "status": "no_products"
+}
+<cfelse>
+<cfoutput>
 {
     "status": "success",
-    "total_products": 5,
-    "first_page": true,
-    "last_page": false,
-    "product_start": 1,
-    "product_end": 3,
-    "page_number": 1,
-    "prev_page": 1,
-    "next_page": 2,
-    "total_pages": 3,
-    "current_page": true,
-    "products_per_page": [
-      {
-        "products": 3,
-        "selected": true
-      },
-      {
-        "products": 6,
-        "selected": false
-      }
-    ],
-    "products": [
-      {
-        "product_id": 3833,
-        "name": "Maxi Health Formula 605",
-        "brand_id": 1,
-        "form": "120 Capsules",
-        "image_url": "Formula%20605-2.jpg",
-        "product_url": "/40946/Alive-Men-s-Max-Potency/product.html",
-        "list_price": 28.99,
-        "our_price": 21.74,
-        "dollars_saved": 7.25,
-        "percent_saved": 25,
-        "rating": "<script>POWERREVIEWS.display.snippet({write : function(content){$('#pr_snippet_category_3833').append(content);}},{pr_page_id: '3833', pr_snippet_min_reviews : '1'})</script>"
-      },
-      {
-        "product_id": 4622,
-        "name": "Maxi Health Maxi Colloidal Sulfur",
-        "brand_id": 1,
-        "form": "90 Tablets",
-        "image_url": "colloidal%20sulfer.jpg-2.jpg",
-        "product_url": "/40946/Alive-Men-s-Max-Potency/product.html",
-        "list_price": 28.99,
-        "our_price": 21.74,
-        "dollars_saved": 7.25,
-        "percent_saved": 25,
-        "rating": "<script>POWERREVIEWS.display.snippet({write : function(content){$('#pr_snippet_category_4622').append(content);}},{pr_page_id: '4622', pr_snippet_min_reviews : '1'})</script>"
-      },
-      {
-        "product_id": 40946,
-        "name": "Alive Mens Max Potency",
-        "brand_id": 1,
-        "form": "90 Tablets",
-        "image_url": "Alive%20Mens%2D2%2Ejpg",
-        "product_url": "/40946/Alive-Men-s-Max-Potency/product.html",
-        "list_price": 28.99,
-        "our_price": 21.74,
-        "dollars_saved": 7.25,
-        "percent_saved": 25,
-        "rating": "<script>POWERREVIEWS.display.snippet({write : function(content){$('#pr_snippet_category_40946').append(content);}},{pr_page_id: '40946', pr_snippet_min_reviews : '1'})</script>"
-      }
-    ]
+    "total_products": #GetData.Recordcount#,
+    "product_end": #numberonpage#,
+    "products" : #serializeJSON(returnArray)#
 }
+</cfoutput>
+</cfif>

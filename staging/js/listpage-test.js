@@ -244,7 +244,7 @@ alert(jsonurl);
 });*/
 
 var Listpage = {
-default_json: "/staging/listpage-test-query.cfm",
+default_json: "/staging/listpage-test-query.cfm?numberonpage=60&formulatypeid=11",
 showRating: 5
 }
 

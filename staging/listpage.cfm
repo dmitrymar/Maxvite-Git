@@ -1,3 +1,14 @@
+					<cfquery name="GetData" datasource="#Application.ds#">
+						SELECT Distinct Brands.BrandID, Brands.Brand
+						From Products, Product_Formula_Map, FormulaTypes, Brands
+						Where Products.ProductID = Product_Formula_Map.ProductID
+						AND Product_Formula_Map.FormulaTypeID = FormulaTypes.FormulaTypeID
+						AND Products.BrandID = Brands.brandID
+						AND FormulaTypes.FormulaTypeID = 14
+						AND Products.Display = 1
+						Order By Brands.brand
+					</CFQUERY>
+
 <cfinclude template="/doctype.cfm">
 <cfinclude template="/html.cfm">
 <head>
@@ -57,6 +68,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 
 <div id="listProductsGrid"><img src="/img/spinner.gif" alt="Loading.."></div>
+<br><p class="small">*These statements have not been evaluated by the Food and Drug Administration. These products is not intended to diagnose, treat, cure, or prevent any diseases.</p>
 
 
 
@@ -68,20 +80,15 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 </ul>
 
 <ul class="checkbox-list">
-  <li styleoptionid="4" id="facet_option_4" class="style-option">
-    <input type="checkbox" class="filter-option" value="4">
-    <label alt="Natures Way" class="styleName" for="4">Natures Way</label>
+<cfloop query="GetData">
+<cfoutput>
+  <li styleoptionid="#BrandID#" id="facet_option_#BrandID#" class="style-option">
+    <input type="checkbox" class="filter-option" value="#BrandID#">
+    <label alt="Natures Way" class="styleName" for="#BrandID#">#Brand#</label>
   </li>
-  <li styleoptionid="1" id="facet_option_1" class="style-option">
-    <input type="checkbox" class="filter-option" value="1">
-    <label alt="Maxi Health" class="styleName" for="1">Maxi Health</label>
-  </li>
-  <li styleoptionid="97" id="facet_option_97" class="style-option">
-    <input type="checkbox" class="filter-option" value="97">
-    <label alt="American BioSciences" class="styleName" for="97">American BioSciences</label>
-  </li>
+</cfoutput>
+</cfloop>
 </ul>
-
 
 </div>
 
@@ -158,14 +165,19 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 {{#products}}  
       <li>
         <dl class="grid_view" style="display: block;">
-          <dd class="pro-thumb"><a href="{{product_url}}"><span></span><img alt="{{name}}" src="/images/{{image_url}}"></a></dd>
+          <dd class="pro-thumb"><a href="{{product_url}}"><span></span><img alt="{{name}}" src="{{image_url}}"></a></dd>
           <dt class="pro-title"><a href="{{product_url}}">{{name}}</a></dt>
           <dd class="form">{{form}}</dd>
           
-              <dd><span class="listprice">List Price: <span class="strike">${{list_price}}</span></span></dd>
+              {{#list_price}}
+			  	<dd><span class="listprice">List Price: <span class="strike">{{list_price}}</span></span></dd>
+                <dd><span class="bigprice"><span class="green">Our Price:</span> {{our_price}}</span></dd>
+                <dd><span class="red regular">You Save:&nbsp;{{dollars_saved}} ({{percent_saved}})%</span></dd>
+			  {{/list_price}}
               
-                <dd><span class="bigprice"><span class="green">Our Price:</span> ${{our_price}}</span></dd>
-                <dd><span class="red regular">You Save:&nbsp;${{dollars_saved}} ({{percent_saved}})%</span></dd>
+			  {{#just_price}}<dd><span class="bigprice">Price: {{just_price}}</span></dd>{{/just_price}}
+			  
+
               
           <dd class="addToCartBox">
             
