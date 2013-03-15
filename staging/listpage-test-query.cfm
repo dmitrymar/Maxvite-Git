@@ -1,21 +1,34 @@
 <cfset returnArray = ArrayNew(1) />
+<cfparam name="searchkeywords" default="calcium">
 <cfparam name="numberonpage" default="30">
-<cfparam name="formulatypeid" default="14">
+<cfparam name="FormulaFilter" type="integer" default=0>
+<cfparam name="BrandFilter" type="integer" default=0>
 
 <cfquery name="GetData" datasource="#Application.ds#">
-    SELECT Products.ProductID, Title, strapline, instockflag, listprice, ourprice, featuredproductflag, featuredproductflag2, Products.imagesmall, Products.imagebig, description, Tablets, ServingSize, FormulaType, FormulaTypes.Metatitle, FormulaTypes.METADESC, FormulaTypes.BOTTOMDESC, FormulaTypes.METAKEYWORDS, (Select SubCategoryID From Product_SUBCategory_Map Where Product_SUBCategory_Map.ProductID = ProductID limit 1) AS Subcategoryid, Products.MetaTitle, Products.MetaKeywords, Products.MetaDesc
-    FROM Products, Product_Formula_Map, FormulaTypes
-    Where Products.ProductID = Product_Formula_Map.ProductID
-    AND Product_Formula_Map.FormulaTypeID = FormulaTypes.FormulaTypeID
-    AND FormulaTypes.FormulaTypeID = #formulatypeid#
-    AND Display = 1
-    Order by Title
+						SELECT Products.ProductID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagesmall, imagebig, description, Tablets,  (Select Subcategoryid from Product_SUBCategory_Map where Product_SUBCategory_Map.ProductID = ProductID limit 1) as Subcategoryid, Products.MetaTitle, Products.MetaKeywords, Products.MetaDesc
+						FROM Products, Brands
+						Where Products.BrandID = Brands.BrandID
+						AND
+						(Products.Description like '%#SEARCHKEYWORDS#%'
+						 OR
+						 Title like '%#SEARCHKEYWORDS#%'
+						 OR
+						 IntProductID like '%#SEARCHKEYWORDS#%'
+						 OR
+						 Brand like '%#SEARCHKEYWORDS#%'
+						 OR
+						 Products.ProductID = #val(searchkeywords)#
+						 OR
+						Products.UPC like '%#SEARCHKEYWORDS#%'
+						 )
+						AND Products.Display = 1
+                        AND Brands.Display = 1
+						Order by Title
 </CFQUERY>
 
 
 
 <cfloop query="GetData" startrow="1" endrow="#numberonpage#">
-
 
 <cfinclude template="/dealquery.cfm">
 <cfset youSave = val(listprice)-val(newprice)>   

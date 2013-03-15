@@ -1,13 +1,25 @@
-					<cfquery name="GetData" datasource="#Application.ds#">
-						SELECT Distinct Brands.BrandID, Brands.Brand
-						From Products, Product_Formula_Map, FormulaTypes, Brands
-						Where Products.ProductID = Product_Formula_Map.ProductID
-						AND Product_Formula_Map.FormulaTypeID = FormulaTypes.FormulaTypeID
-						AND Products.BrandID = Brands.brandID
-						AND FormulaTypes.FormulaTypeID = 14
+<cfparam name="searchkeywords" default="calcium">
+<cfquery name="GetData" datasource="#Application.ds#">
+SELECT Distinct Brands.BrandID, Brands.Brand
+From Products, Brands
+						Where Products.BrandID = Brands.BrandID
+						AND
+						(Products.Description like '%#SEARCHKEYWORDS#%'
+						 OR
+						 Title like '%#SEARCHKEYWORDS#%'
+						 OR
+						 IntProductID like '%#SEARCHKEYWORDS#%'
+						 OR
+						 Brand like '%#SEARCHKEYWORDS#%'
+						 OR
+						 Products.ProductID = #val(searchkeywords)#
+						 OR
+						Products.UPC like '%#SEARCHKEYWORDS#%'
+						 )
 						AND Products.Display = 1
-						Order By Brands.brand
-					</CFQUERY>
+                        AND Brands.Display = 1
+Order By Brands.brand
+</CFQUERY>
 
 <cfinclude template="/doctype.cfm">
 <cfinclude template="/html.cfm">
@@ -55,9 +67,8 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 
 
-<p class="breadcrumbs"><a href="/">Vitamins</a><span class="bread-product">Mens' Health</span></p>
-
-<h1>Mens' Health</h1>
+<h1>Search Results for: "<cfoutput>#searchkeywords#</cfoutput>"</h1>
+<br />
 
 
 
