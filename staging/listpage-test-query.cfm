@@ -1,28 +1,25 @@
 <cfset returnArray = ArrayNew(1) />
-<cfparam name="searchkeywords" default="calcium">
+<cfparam name="searchkeywords" default="">
 <cfparam name="numberonpage" default="30">
-<cfparam name="FormulaFilter" type="integer" default=0>
-<cfparam name="BrandFilter" type="integer" default=0>
+<cfparam name="FormulaFilter" type="integer" default="0">
+<cfparam name="brandfilter" type="integer" default="0">
 
 <cfquery name="GetData" datasource="#Application.ds#">
-						SELECT Products.ProductID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagesmall, imagebig, description, Tablets,  (Select Subcategoryid from Product_SUBCategory_Map where Product_SUBCategory_Map.ProductID = ProductID limit 1) as Subcategoryid, Products.MetaTitle, Products.MetaKeywords, Products.MetaDesc
-						FROM Products, Brands
-						Where Products.BrandID = Brands.BrandID
+						SELECT ProductID, BrandID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagesmall, imagebig, description, Tablets,  (Select Subcategoryid from Product_SUBCategory_Map where Product_SUBCategory_Map.ProductID = ProductID limit 1) as Subcategoryid, MetaTitle, MetaKeywords, MetaDesc
+						FROM Products
+						Where Display = 1
+						<cfif brandfilter NEQ 0>
+						AND BrandID = #brandfilter#
+						</cfif>
 						AND
-						(Products.Description like '%#SEARCHKEYWORDS#%'
+						(Description like '%#SEARCHKEYWORDS#%'
 						 OR
 						 Title like '%#SEARCHKEYWORDS#%'
 						 OR
-						 IntProductID like '%#SEARCHKEYWORDS#%'
+						 ProductID = #val(searchkeywords)#
 						 OR
-						 Brand like '%#SEARCHKEYWORDS#%'
-						 OR
-						 Products.ProductID = #val(searchkeywords)#
-						 OR
-						Products.UPC like '%#SEARCHKEYWORDS#%'
+						UPC like '%#SEARCHKEYWORDS#%'
 						 )
-						AND Products.Display = 1
-                        AND Brands.Display = 1
 						Order by Title
 </CFQUERY>
 

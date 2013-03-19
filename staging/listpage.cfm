@@ -1,8 +1,12 @@
 <cfparam name="searchkeywords" default="calcium">
+<cfparam name="brandfilter" type="integer" default="0">
 <cfquery name="GetData" datasource="#Application.ds#">
 SELECT Distinct Brands.BrandID, Brands.Brand
 From Products, Brands
 						Where Products.BrandID = Brands.BrandID
+						<cfif brandfilter NEQ 0>
+						AND Brands.BrandID = #brandfilter#
+						</cfif>
 						AND
 						(Products.Description like '%#SEARCHKEYWORDS#%'
 						 OR
@@ -229,6 +233,13 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
                             });
                         </script>
             </div>--->
+<script>
+<cfoutput>
+	var Listpage = {
+		default_json: "/staging/listpage-test-query.cfm?searchkeywords=#searchkeywords#<cfif brandfilter NEQ 0>&brandfilter=#brandfilter#</cfif>"
+	}
+</cfoutput>
+</script>
 <script src="js/listpage-test.js"></script>
  
 <cfinclude template="/footer.cfm">

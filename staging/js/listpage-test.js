@@ -7,10 +7,6 @@
 $(document).ready(function() {
 
 
-	var Listpage = {
-		default_json: "/staging/listpage-test-query.cfm"
-	}
-
 /*	var goToPage = function() {
 		$('.pagination li a').click(function(e) {
 			e.preventDefault();

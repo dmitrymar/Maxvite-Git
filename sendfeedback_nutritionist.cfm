@@ -28,7 +28,7 @@ SELECT Products.ProductID, Products.FeaturedProductFLAG, FeaturedProductFLAG2, T
 <p class="topmargin">We will get in touch with you within 1 or 2 business days.</p>
 
 
-<cfmail TO="nutritionist@maxvite.com" FROM="nutritionist@maxvite.com" subject="Nutritionist Request from Web Site">
+<cfmail TO="nutritionist@maxvite.com" FROM="nutritionist@maxvite.com" subject="Nutritionist Request from Web Site" server="win-mail01.hostmanagement.net" username="nutritionist@maxvite.com" password="Maxi1305">
 
 First Name: #fname#
 
