@@ -29,7 +29,7 @@
                   <input type="password" id="menuPassword" name="password" size="20" title="Invalid Password">
                 </li>
               </ol>
-              <div><a href="https://www.maxvite.com/forgot.cfm" id="forgotPassword">Forgot password?</a></div>
+     <a href="https://www.maxvite.com/forgot.cfm" class="forgot-password">Forgot password?</a>
               <button class="btn bigButton" type="submit">SIGN IN</button>
             </form>
             <h3>Create maxvite.com Account</h3>
@@ -100,6 +100,8 @@
         </fieldset>
       </form>
     </div>
+    <img src="/img/holiday-schedule.png" id="holidaySchedule">
+    <div id="holidayDialog" title="MaxVite Holiday Schedule" style="display:none;"></div>
     <ul id="hdrTabs">
       <li><a href="/healthconcerns.html">Health Concerns</a>
         <div class="mega-menu">

@@ -189,7 +189,7 @@
 		<cfset v_ups = val(UPS_Charge)>
 
 		<cfif v_ups EQ 0>
-<cfmail to="moshe@bitochon.com" from="orders@maxvite.com" subject="UPS Returned 0" server="win-mail01.hostmanagement.net" password="Maxi1305" username="orders@maxvite.com" port=25 type="HTML">
+<cfmail to="info@maxvite.com" from="orders@maxvite.com" subject="UPS Returned 0" server="#Application.mailserver#" username="#Application.mailuser#" password="#Application.mailpassword#" type="HTML">
 UPS REturned 0
 </cfmail>
 		</cfif>

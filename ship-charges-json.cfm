@@ -4,8 +4,27 @@
 	<cfset storedisc = #Session.Storediscount#>
 </cfif>
 
+<cfset v_creditamount = 0>
+<cfset v_couponcode = "">
+<cfset v_coupondesc = "">
+
+<cfset CouponCode = #Session.StoreCoupon#>
+<cfquery name="GetCoupon" datasource="#Application.ds#" maxrows="1">
+			SELECT Credits,Description as CDESC FROM Coupons
+			Where Ucase(Code) = '#Ucase(CouponCode)#'
+</CFQUERY>
+<cfoutput>
 
 
+<cfif GetCoupon.recordcount EQ 0>
+	<!---<cfset v_creditamount = 0>---><cfset v_creditamount = #storedisc#>
+
+<cfelse>
+	<!---<cfset v_creditamount = GetCoupon.Credits>---><cfset v_creditamount = #storedisc#>
+	<cfset v_couponcode = "#couponcode#">
+	<cfset v_coupondesc = "#GetCoupon.cdesc#">
+</cfif>
+</cfoutput>
 	<cfset v_taxamount = 0>
 	<cfset v_heavyitem = 0>
 	<cfset v_freeitem = 0>
@@ -123,6 +142,7 @@
 
 			</cfif>
 
+
 			<cfif taxflag EQ 1>
 				<cfset v_taxamount = v_taxamount + (Price * Quantity)>
 			</cfif>
@@ -166,7 +186,47 @@
 	<cfset v_service = "RDA">
 	<cfset v_shipmethod = "Free UPS Ground">
 </cfif>
+<!--- <cfif shipmethod EQ "G">
 
+	<cfif v_amount_viatmin GT 75>
+		<cfset v_ship = 0>
+		<cfif v_weight_food GT 32> <!--- ounces was 2 --->
+
+			<cfset v_tttt2 = #evaluate(v_weight_food-32)# * .0625> <!--- 32 ounces was 2 --->
+			<CF_UPSP SERVICE="#v_service#" FROM="11229" TO="#ship_zipcode#" WEIGHT="#v_tttt2#" HANDLING="0">
+			<cfset v_ups = val(UPS_Charge)>
+			<cfset v_ship = v_ship + v_ups>
+		<cfelse>
+			<cfset v_ship = v_ship + 0>
+		</cfif>
+	<cfelse>
+		<cfif v_weight_food eq 0>
+			<cfset v_ship = 4.95>
+		<cfelse>
+
+					<cfset v_tttt2 = #evaluate(val(v_weight_food)+val(v_weight_viatmin))# * .0625>
+
+
+			<CF_UPSP SERVICE="#v_service#" FROM="11229" TO="#ship_zipcode#" WEIGHT="#v_tttt2#" HANDLING="0">
+			<cfset v_ups = val(UPS_Charge)>
+			<cfset v_ship = v_ups>
+		</cfif>
+	</cfif>
+<cfelseif shipmethod EQ "N">
+	<cfset v_tttt2 = #evaluate(val(v_weight_food)+val(v_weight_viatmin))# * .0625>
+	<CF_UPSP SERVICE="#v_service#" FROM="11229" TO="#ship_zipcode#" WEIGHT="#v_tttt2#" HANDLING="0">
+	<cfset v_ups = val(UPS_Charge)>
+	<cfset v_ship = v_ups>
+</cfif>
+ --->
+
+
+<!--- <cfoutput>
+v_amount_food-#v_amount_food#<br>
+v_amount_viatmin - #v_amount_viatmin#<br>
+v_amount_tot - #v_amount_tot#
+</cfoutput>
+ --->
 
 <cfif shipmethod EQ "G">
 	<!--- Food Only --->
@@ -245,7 +305,7 @@ UPS REturned 0
  --->
 
 	<cfoutput>
-	<cfset nTotalCost = TotalCost>
+	<cfset nTotalCost = TotalCost -	v_creditamount>
 
 
 	<cfset v_tax = 0>
@@ -254,7 +314,7 @@ UPS REturned 0
 
 <cfquery name="GetTax" datasource="#Application.ds#">
 	SELECT NYSalesTax
-	FROM systemoptions
+	FROM SystemOptions
 </CFQUERY>
 <cfif GetTax.NYSalesTax GT 0>
 		<cfset v_tax = (GetTax.NYSalesTax * v_taxamount)>
@@ -301,19 +361,27 @@ UPS REturned 0
 
 <!--- Daya Added on 20101116 against email "Sub: can someone look at this? Dt:Thu 11/11/2010 11:18 PM" --->
 <!--- Daya 20101116 Start --->
-<cfif isdefined("Session.storetotalamount")>
-	<cfif val(#Session.storetotalamount#) gt 0>
-		<cfset v_total = val(#Session.storetotalamount#) + v_tax + v_ship>
+<cfif isdefined("Session.subtotalamount")>
+	<cfif val(#Session.subtotalamount#) gt 0>
+		<cfset v_total = val(#Session.subtotalamount#) + v_tax + v_Ship>
 	<cfelse>
-		<cfset v_total = val(#Session.subtotalamount#) + v_tax + v_ship>
+		<cfset v_total = TotalCost + v_tax + v_Ship - v_creditamount>
 	</cfif>
 <cfelse>
-		<cfset v_total = val(#Session.subtotalamount#) + v_tax + v_ship>
+	<cfset v_total = TotalCost + v_tax + v_Ship - v_creditamount>
 </cfif>
 <!--- Daya 20101116 End --->
 
 
+<!--- Daya 20101116
+	<cfset v_total = TotalCost + v_tax + v_Ship - v_creditamount>
+--->
 
+
+<!---<div class="discountSummaryRow">
+        <span class="discountSummaryTitle">Coupon Discount:</span>
+        <span class="discountSummaryPrice"><cfoutput>#DollarFormat(v_creditamount)#</cfoutput></span>
+</div>--->
 <cfoutput>
 <div class="discountSummaryRow">
         <span class="discountSummaryTitle">Shipping:</span>
@@ -328,10 +396,39 @@ UPS REturned 0
         <span class="discountSummaryTitle" id="orderTotalTitle">Order Total:</span>
         <span class="discountSummaryPrice" id="orderTotal">#DollarFormat(v_total)#</span>
     </div>
+<cfprocessingdirective suppresswhitespace="yes">
+<cfsetting showdebugoutput="no">
+<!--- Generate the JSON feed as a JavaScript function. --->
+<cfcontent type="application/x-javascript">
 
-	<!-- checkout confirm entries starts -->
+<cfscript>
+    // Construct a weather query with information on cities.
+    // To simplify the code, we use the same weather for all cities and days.
+    // Normally this information would come from a data source.
+    weatherQuery = QueryNew("City, Temp, Forecasts");
+    QueryAddRow(weatherQuery, 2);
+    theWeather=StructNew();
+    theWeather.High=73;
+    theWeather.Low=53;
+    theWeather.Weather="Partly Cloudy";
+    weatherArray=ArrayNew(1);
+    for (i=1; i<=5; i++) weatherArray[i]=theWeather;
+    querySetCell(weatherQuery, "City", "Newton", 1);
+    querySetCell(weatherQuery, "Temp", "65", 1);
+    querySetCell(weatherQuery, "ForeCasts", weatherArray, 1);
+    querySetCell(weatherQuery, "City", "San Jose", 2);
+    querySetCell(weatherQuery, "Temp", 75, 2);
+    querySetCell(weatherQuery, "ForeCasts", weatherArray, 2);
 
-
-<img src="https://www.pricegrabber.com/conversion.php?retid=17744">
+    // Convert the query to JSON.
+    // The SerializeJSON function serializes a ColdFusion query into a JSON
+    // structure.
+    theJSON = SerializeJSON(weatherQuery);
+    
+    // Wrap the JSON object in a JavaScript function call.
+    // This makes it easy to use it directly in JavaScript.
+    writeOutput("onLoad( "&theJSON&" )");
+</cfscript>
+</cfprocessingdirective>
 
 </cfoutput>

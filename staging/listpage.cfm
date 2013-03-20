@@ -99,7 +99,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <cfoutput>
   <li styleoptionid="#BrandID#" id="facet_option_#BrandID#" class="style-option">
     <input type="checkbox" class="filter-option" value="#BrandID#">
-    <label alt="Natures Way" class="styleName" for="#BrandID#">#Brand#</label>
+    <label alt="#Brand#" class="styleName" for="#BrandID#">#Brand#</label>
   </li>
 </cfoutput>
 </cfloop>

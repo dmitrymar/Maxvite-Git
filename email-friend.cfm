@@ -94,7 +94,7 @@ display:block;
 <script>
 setTimeout('self.close();',1000);
 </script>
-<cfmail TO="#friendemail#" FROM="info@maxvite.com" subject="#friendname# wants you to check out this product" server="win-mail01.hostmanagement.net" username="info@maxvite.com" password="Maxi1305" query="GetData" type="HTML">
+<cfmail TO="#friendemail#" FROM="info@maxvite.com" subject="#friendname# wants you to check out this product" server="#Application.mailserver#" username="#Application.mailuser#" password="#Application.mailpassword#" query="GetData" type="HTML">
 <cf_email-template-top>
 <p style="font-size: 12px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5; color: ##004922; margin: 0; padding: 0;">Dear #friendname#,</p>
                   <br>

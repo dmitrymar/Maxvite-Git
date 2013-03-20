@@ -6,6 +6,18 @@
 //****** jQuery - Execute scripts after DOM is loaded
 $(document).ready(function() {
 
+		$('.filter-option').change(function() {
+
+			if ($(this).is(':checked')) {
+				var jsonurl = Listpage.default_json + "&brandfilter=" + $(this).attr('value');
+			} else {
+				var jsonurl = Listpage.default_json;
+			}
+
+			getData(jsonurl);
+
+		});
+
 
 /*	var goToPage = function() {
 		$('.pagination li a').click(function(e) {
@@ -67,19 +79,7 @@ function filterPage() {
 
 /*	var renderFilterTpl = function(response) {
 
-		$('.filter-option').change(function() {
 
-			if ($(this).is(':checked')) {
-				var jsonurl = "listpage-query.cfm?brandid=" + $(this).attr('value');
-			} else {
-				var jsonurl = Listpage.default_json;
-			}
-
-			$.getJSON(jsonurl, function(response) {
-				renderProductTpl(response);
-			});
-
-		});
 
 
 	}*/

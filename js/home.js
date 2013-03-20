@@ -1,4 +1,5 @@
 $(function(){
+	$( "#holidayDialog" ).dialog({ autoOpen: true, modal: true, minWidth: 600}).html(globals.spinner).load("/holiday-schedule.cfm");
 
 $('#slides').after('<div id="dashboard">')
 			.cycle({
@@ -10,7 +11,6 @@ $('#slides').after('<div id="dashboard">')
 				pager:  '#dashboard'
 	});
 	$("a:contains('HIDDEN')").hide();
-	$( "#holidayDialog" ).load("http://www.maxvite.com/holiday-schedule.cfm").dialog( "open" );
 
 	//Default Action
 	$(".tab_content").hide(); //Hide all content

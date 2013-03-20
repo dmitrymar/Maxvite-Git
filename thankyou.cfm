@@ -553,77 +553,71 @@ Select Email From Users
 </cfloop>
 <cfset lineitems = lineitems & "</table>">
 
-<cfmail to="#EMAIL#" from="orders@maxvite.com" subject="Your Order at Maxvite.com" server="win-mail01.hostmanagement.net"  username="orders@maxvite.com" password="Maxi1305" type="HTML">
-<table background="http://www.maxvite.com/images/bg_drkgreen.gif" cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-    <td align="center">
-<table background="http://www.maxvite.com/images/white.gif" cellspacing="0" cellpadding="20" border="0" width="600">
-<tr>
-    <td>
+<cfmail to="#EMAIL#" from="orders@maxvite.com" subject="Your Order at Maxvite.com" server="#Application.mailserver#" username="#Application.mailuser#" password="#Application.mailpassword#" type="HTML">
+<cf_email-template-top>
 
-	<font face="Verdana,Geneva,Arial,Helvetica,sans-serif" size="1"><br>
-<blockquote>
-<img src="http://www.maxvite.com/images/printlogo.gif" width="428" height="89" alt="" border="0"><p>
-
-Dear Valued Maxvite customer,<p>
+<p style="font-size: 12px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5; color: ##004922; margin: 0; padding: 0;">
+Dear Valued MaxVite Customer,
+<br><br>
 
 
+Your Order is Confirmed:
+<br>
+<b>Order Number: #KEY#</b>
+<br>
+Order Date: #DateFormat(now())#
 
-Your Order is Confirmed:<br>
-<b>Order Number: #KEY#</b><br>
-Order Date: #DateFormat(now())#<p>
-
+<br><br>
 Company:#BILL_COMPANY#<br>
 Name: #BILL_FIRSTNAME# #BILL_LASTNAME#<br>
 Home Phone: #HOMEPHONE#<br>
 Work Phone: #WORKPHONE#<br>
-Email: #Email#<p>
+Email: #Email#
+
+<br><br>
+
+
 
 <table width="500" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td width="250" valign="top"><font face="Verdana,Geneva,Arial,Helvetica,sans-serif" size="1">Billing Address: <br>
+    <td width="250" valign="top">Billing Address: <br>
 #BILL_ADDRESS# #BILL_ROOMFLOOR#<br>
-#BILL_CITY# #BILL_STATE# #BILL_ZIPCODE#<p></td>
-    <td valign="top"><font face="Verdana,Geneva,Arial,Helvetica,sans-serif" size="1">Shipping Address: <br>
+#BILL_CITY# #BILL_STATE# #BILL_ZIPCODE#<br><br></td>
+    <td valign="top">Shipping Address: <br>
 #SHIP_FIRSTNAME# #SHIP_LASTNAME#
 #SHIP_ADDRESS# #SHIP_ROOMFLOOR#<br>
 #SHIP_CITY# #SHIP_STATE# #SHIP_ZIPCODE#<br>
-Ship Via: #SHIPMETHOD#<p></td>
+Ship Via: #SHIPMETHOD#<br><br></td>
 </tr>
 </table>
 
-Comments: #COMMENTS#<p>
+Comments: #COMMENTS#<br><br>
 
-Coupon (if used): #couponcode#<p>
+Coupon (if used): #couponcode#<br><br>
 
 Name on Card: #CREDITCARDFIRSTNAME# #CREDITCARDLASTNAME#<br>
 Method: #CREDITCARDTYPE#<br>
 Card Number: XXXXXXXXXXXXXXXX<br>
-Credit Card Exp: #CREDITCARDEXPMONTH# #CREDITCARDEXPYEAR#<p>
+Credit Card Exp: #CREDITCARDEXPMONTH# #CREDITCARDEXPYEAR#<br><br>
 
 <b>Ordered:</b><br>
-#lineitems#	<p>
+#lineitems#	<br><br>
 
 Subtotal: #Dollarformat(SUBTOTAL)#<br>
 Discount: #Dollarformat(coupondiscount)#<br>
 Shipping: #DollarFormat(SHIPPING)#<br>
 Tax: #DollarFormat(TAX)#<br>
-<b>Order Total:	#Dollarformat(TOTAL)#</b><p>
+<b>Order Total:	#Dollarformat(TOTAL)#</b><br><br>
 
 
-If you have any questions regarding your order, please email <a href="mailto:customerservice@maxvite.com">customerservice@maxvite.com</a> with the Order number above.<p>
+If you have any questions regarding your order, please email customerservice@maxvite.com with the Order number above.<br><br>
 
-Disclaimer: Prices are subject to change without notice and are confirmed upon shipment. Please note: if you ordered bulk or heavy items the shipping price was not included in the total and you will be notified of the shipping charge prior to order being sent out. Some items may also no longer be available.<p>
+Disclaimer: Prices are subject to change without notice and are confirmed upon shipment. Please note: if you ordered bulk or heavy items the shipping price was not included in the total and you will be notified of the shipping charge prior to order being sent out. Some items may also no longer be available.<br><br>
 </blockquote>
-	</td>
-</tr>
-</table>
 
-	</td>
-</tr>
-</table>
+</p>
 
-
+<cf_email-template-bottom>
 </cfmail>
 <!--- Email End --->
 
@@ -632,7 +626,7 @@ Disclaimer: Prices are subject to change without notice and are confirmed upon s
 
 
 <!--- Email Stuff --->
-<cfmail to="orders@maxvite.com" from="orders@maxvite.com" subject="Order from Maxvite.com" server="win-mail01.hostmanagement.net"  username="orders@maxvite.com" password="Maxi1305" type="HTML">
+<cfmail to="orders@maxvite.com" from="orders@maxvite.com" subject="Order from Maxvite.com" server="#Application.mailserver#" username="#Application.mailuser#" password="#Application.mailpassword#" type="HTML">
 Your Order is Confirmed:<br>
 Order Number: #KEY#<br>
 Order Date: #DateFormat(now())#<br><br>
@@ -805,7 +799,7 @@ Your zipcode and/or address does not match the billing information of your credi
 </cfif>
 
 
-</font><p>
+</font><br><br>
 
 </div>
 

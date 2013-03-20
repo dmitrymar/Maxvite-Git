@@ -79,7 +79,7 @@ Select EmailAddress from Emails Where EmailAddress = '#Ucase(Email)#'
 </cfif>
 </cfif>
 
-<cfmail TO="alex@maxihealth.com,bernard@maxihealth.com" FROM="info@maxvite.com" subject="MaxVite Feedback"  server="win-mail01.hostmanagement.net" port=587 username="info@maxvite.com" password="Maxi1305" type="HTML">
+<cfmail TO="alex@maxihealth.com,bernard@maxihealth.com" FROM="info@maxvite.com" subject="MaxVite Feedback"  server="#Application.mailserver#" username="#Application.mailuser#" password="#Application.mailpassword#" type="HTML">
 
 <b>Customer Email:</b> #email#
 <br><br>

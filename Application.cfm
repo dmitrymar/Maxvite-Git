@@ -24,8 +24,10 @@
 <cfset application.dso = "1048423_ordersmysql">
 <cfset application.ds = "1048423_maxvite">
 <cfset application.username = "u1048423_alex">
-<cfset application.password = ";;;;V1tViTe;;;;">
-
+<cfset application.password = ";;;;V1tViTe;;;">
+<cfset application.mailserver = "smtpout.secureserver.net">
+<cfset application.mailuser = "nutritionist@maxvite.com">
+<cfset application.mailpassword = "maxi1305">
 
 <CFPARAM NAME="session.logon" DEFAULT="FALSE">
 <CFPARAM NAME="session.levelid" DEFAULT="2">
