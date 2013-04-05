@@ -115,4 +115,4 @@ var google_conversion_value = 0;
 <img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/1063954859/?label=yzdSCJWtyQIQq9Oq-wM&amp;guid=ON&amp;script=0"/>
 </div>
 </noscript>
-<script src="/js/holiday.js"></script>
+<!---<script src="/js/holiday.js"></script>--->

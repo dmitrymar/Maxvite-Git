@@ -1,5 +1,5 @@
 $(function(){
-	$( "#holidayDialog" ).dialog({ autoOpen: true, modal: true, minWidth: 600}).html(globals.spinner).load("/holiday-schedule.cfm");
+	/*$( "#holidayDialog" ).dialog({ autoOpen: true, modal: true, minWidth: 600}).html(globals.spinner).load("/holiday-schedule.cfm");*/
 
 $('#slides').after('<div id="dashboard">')
 			.cycle({

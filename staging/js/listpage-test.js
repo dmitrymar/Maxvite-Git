@@ -19,6 +19,7 @@ $(document).ready(function() {
 		});
 
 
+		
 /*	var goToPage = function() {
 		$('.pagination li a').click(function(e) {
 			e.preventDefault();
@@ -67,10 +68,25 @@ function filterPage() {
 		/*var str="
 		<script>POWERREVIEWS.display.snippet(document, {pr_page_id: '3833',pr_snippet_min_reviews: 1});</script>
 		";$('.pr_snippet_category').append(str);*/
-
+		
+		//Add item
 		$(".additemform").submit(function(event) {
 			event.preventDefault();
 			$(this).sitePlugins('additem');
+		});
+
+		//Per Page toggle
+		$('.pageSortSize li a').click(function(event) {
+			event.preventDefault();
+			var jsonurl = Listpage.default_json + "&numberonpage=" + $(this).attr('href');
+			getData(jsonurl);
+		});
+
+		//Control Pagination
+		$('.paginator a').click(function(event) {event.preventDefault();});
+		$('.paginator .paginator-active a').click(function() {
+			var jsonurl = Listpage.default_json + "&startpage=" + $(this).attr('href');
+			getData(jsonurl);
 		});
 
 		goToPage();
@@ -85,7 +101,7 @@ function filterPage() {
 	}*/
 
 	var getData = function(jsonurl) {
-
+$('#listProductsGrid').html(globals.spinner);
 		$.getJSON(jsonurl, function(response) {
 
 

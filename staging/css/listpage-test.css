@@ -42,28 +42,31 @@
 	left:0;
 	display:block;
 	background: transparent url(/img/listpage-sprite.gif) no-repeat 0 0;
+	cursor:default;
 }
 .paginator .begin-arrow a {
-	background-position: 0 -11px;
+	background-position: -12px -11px;
 	width:12px;
 }
 .paginator .prev-arrow a {
-	background-position: 0 -11px;
+	background-position: -12px -11px;
 	width:6px;
 }
-.paginator .begin-arrow .disabled, .paginator .prev-arrow .disabled {
-	background-position: -12px -11px;
+.paginator .begin-arrow.paginator-active a, .paginator .prev-arrow.paginator-active a{
+		background-position: 0 -11px;
 }
 .paginator .last-arrow a {
+	background-position: -12px 0;
 	width:12px;
 }
 .paginator .next-arrow a {
+	background-position: -12px 0;
 	width:6px;
 }
-.paginator .last-arrow .disabled, .paginator .next-arrow .disabled {
-	background-position: -12px 0;
+.paginator .last-arrow.paginator-active a, .paginator .next-arrow.paginator-active a {
+	background-position: 0 0;
+	cursor:pointer;
 }
-
 .pagesort-bar .view {
 	overflow:hidden;
 	float:right;
@@ -84,4 +87,7 @@
 }
 .pagesort-bar .view .grid-view a {
 	background-position: 0 -44px;
+}
+.pageSortSize .per-page-selected {
+	font-weight:bold;
 }

@@ -85,9 +85,7 @@ Tracking Number: <cfif ucase(trim(ShippingMethod)) EQ "USPS"><a href="http://trk
     </CFQUERY> 
 
 <tr style="font-size: 13px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: ##C0C0C0;">
-<td align="center" style="vertical-align: top; padding:7px 3px 7px 3px;" valign="top">
-                  <a href="http://www.maxvite.com/itemdetail.cfm?ProductID=#ProductID#"><img src="http://www.maxvite.com/images/#GetProductImage.imagebig#" style="max-height: 40px; max-width: 40px;" alt="#Product#" border="0" /></a>
-</td>
+<td align="center" style="vertical-align: top; padding:7px 3px 7px 3px;" valign="top"><img src="http://dummyimage.com/40x40/d5e2c6/d5e2c6.gif" style="display: block;" /><!---<a href="http://www.maxvite.com/itemdetail.cfm?ProductID=#ProductID#"><img src="http://www.maxvite.com/images/#GetProductImage.imagebig#" style="max-height: 40px; max-width: 40px;" alt="#Product#" border="0" /></a>---></td>
     <td align="left" style="vertical-align: top; padding:7px 3px 7px 3px;" valign="top">
 <a href="http://www.maxvite.com/itemdetail.cfm?ProductID=#ProductID#" style="color: ##004922; text-decoration: none; font-weight: bold;">#GetProductImage.Title#</a><br><em>#GetProductImage.Tablets#</em>
 </td>
