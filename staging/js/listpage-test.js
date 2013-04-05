@@ -1,19 +1,20 @@
 //To Do
-//when you click on each page - display spinner before data displays
-//add brands to json like gap added style http://www.gap.com/browse/search.do?searchText=men#department=75
-
+//Fix Brand filter javascript to output more than one brand
 
 //****** jQuery - Execute scripts after DOM is loaded
 $(document).ready(function() {
 
-		$('.filter-option').change(function() {
+//create an array of checked brands and append it to jsonurl
+var checkedBrandsArray = new Array();
+
+		$('.filter-option').change(function(){
 
 			if ($(this).is(':checked')) {
-				var jsonurl = Listpage.default_json + "&brandfilter=" + $(this).attr('value');
-			} else {
-				var jsonurl = Listpage.default_json;
+				$attrValue = $(this).attr('value');				
+				checkedBrandsArray.push($attrValue)
 			}
-
+// create script to remove item from array
+			var jsonurl = Listpage.default_json + "&brandfilter=" + checkedBrandsArray.toString();
 			getData(jsonurl);
 
 		});

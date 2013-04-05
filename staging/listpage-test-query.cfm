@@ -10,7 +10,8 @@
 						FROM Products
 						Where Display = 1
 						<cfif brandfilter NEQ 0>
-						AND BrandID = #brandfilter#
+						AND BrandID IN (#URLDecode(brandfilter)#)
+                        <!---AND BrandID IN (1,6)--->
 						</cfif>
 						AND
 						(Description like '%#SEARCHKEYWORDS#%'

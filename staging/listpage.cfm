@@ -5,7 +5,7 @@ SELECT Distinct Brands.BrandID, Brands.Brand
 From Products, Brands
 						Where Products.BrandID = Brands.BrandID
 						<cfif brandfilter NEQ 0>
-						AND Brands.BrandID = #brandfilter#
+						AND Products.BrandID IN (#URLDecode(brandfilter)#)
 						</cfif>
 						AND
 						(Products.Description like '%#SEARCHKEYWORDS#%'
@@ -13,8 +13,6 @@ From Products, Brands
 						 Title like '%#SEARCHKEYWORDS#%'
 						 OR
 						 IntProductID like '%#SEARCHKEYWORDS#%'
-						 OR
-						 Brand like '%#SEARCHKEYWORDS#%'
 						 OR
 						 Products.ProductID = #val(searchkeywords)#
 						 OR
@@ -238,7 +236,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <script>
 <cfoutput>
 	var Listpage = {
-		default_json: "/staging/listpage-test-query.cfm?searchkeywords=#searchkeywords#<cfif brandfilter NEQ 0>&brandfilter=#brandfilter#</cfif>"
+		default_json: "/staging/listpage-test-query.cfm?searchkeywords=#searchkeywords#"<cfif brandfilter NEQ 0> + "&brandfilter=#URLEncodedFormat(brandfilter)#"</cfif>
 	}
 </cfoutput>
 </script>
