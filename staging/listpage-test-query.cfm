@@ -4,7 +4,7 @@
 <cfparam name="numberonpage" type="integer" default="30">
 <cfparam name="startpage" type="numeric" default="0">
 <cfparam name="FormulaFilter" type="integer" default="0">
-<cfparam name="brandfilter" type="integer" default="0">
+<cfparam name="brandfilter" type="string" default="0">
 <cfquery name="GetData" datasource="#Application.ds#">
 						SELECT ProductID, BrandID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagesmall, imagebig, description, Tablets,  (Select Subcategoryid from Product_SUBCategory_Map where Product_SUBCategory_Map.ProductID = ProductID limit 1) as Subcategoryid, MetaTitle, MetaKeywords, MetaDesc
 						FROM Products
