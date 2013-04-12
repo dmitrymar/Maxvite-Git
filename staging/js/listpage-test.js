@@ -1,5 +1,6 @@
 //To Do
-//Fix Brand filter javascript to output more than one brand
+//$input.prop doesn't work in IE8. Troubleshoot with checkbox.cfm in tests folder
+// When all checkboxes are unchecked after being checked an error is thrown
 
 //****** jQuery - Execute scripts after DOM is loaded
 $(document).ready(function() {
@@ -7,13 +8,17 @@ $(document).ready(function() {
 //create an array of checked brands and append it to jsonurl
 var checkedBrandsArray = new Array();
 
-		$('.filter-option').change(function(){
 
-			if ($(this).is(':checked')) {
-				$attrValue = $(this).attr('value');				
-				checkedBrandsArray.push($attrValue)
+		$('.filter-option').change(function(){
+			var $input = $(this);
+			$attrValue = $input.attr('value');	
+			
+			if ($input.prop('checked')) {
+				checkedBrandsArray.push($attrValue);
+			} else {
+				checkedBrandsArray.splice(checkedBrandsArray.indexOf($attrValue), 1);
 			}
-// create script to remove item from array
+			
 			var jsonurl = Listpage.default_json + "&brandfilter=" + checkedBrandsArray.toString();
 			getData(jsonurl);
 
