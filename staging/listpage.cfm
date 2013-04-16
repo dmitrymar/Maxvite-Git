@@ -19,7 +19,6 @@ From Products, Brands
 						Products.UPC like '%#SEARCHKEYWORDS#%'
 						 )
 						AND Products.Display = 1
-                        AND Brands.Display = 1
 Order By Brands.brand
 </CFQUERY>
 
@@ -83,13 +82,22 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <div id="listProductsGrid"><img src="/img/spinner.gif" alt="Loading.."></div>
 <br><p class="small">*These statements have not been evaluated by the Food and Drug Administration. These products is not intended to diagnose, treat, cure, or prevent any diseases.</p>
 
+<cfdump var="#GetData#">
 
 
 </div> <!--end primary-->
-<div id="filterWrpr">
-<ul class="filter-title">
+<section id="filterSection">
+
+<ul id="refineResults">
+  <li>Refine Results</li>
+  <li class="refine-results-clearall"><a href="#">Clear All</a></li>
+</ul>
+
+<div class="filter-module">
+<ul class="filter-module-title">
   <li>Brand</li>
-  <li class="clear"></li>
+  <li class="filter-module-toggler">Show/Hide</li>
+  <li class="filter-module-clear"><a href="#">Clear</a></li>
 </ul>
 
 <ul class="checkbox-list">
@@ -97,14 +105,14 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <cfoutput>
   <li styleoptionid="#BrandID#" id="facet_option_#BrandID#" class="style-option">
     <input type="checkbox" class="filter-option" value="#BrandID#">
-    <label alt="#Brand#" class="styleName" for="#BrandID#">#Brand#</label>
+    <label alt="#Brand#" class="styleName" for="#BrandID#">#Brand# (1)</label>
   </li>
 </cfoutput>
 </cfloop>
 </ul>
 
 </div>
-
+</secondary>
  
 </div> 
 <!--end content-->
@@ -155,7 +163,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 
 
-{{#show_per_page}}
+<!---{{#show_per_page}}
 <ul class="pageSortSize"><li>Items per page:</li>
 {{#products_per_page}}
 {{#selected}}<li class="per-page-selected">{{products}}</li>{{/selected}}
@@ -163,8 +171,28 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 {{/products_per_page}}
 </ul>
 {{/show_per_page}}
+--->
 
- <ul class="view"><li class="grid-view"><a href="#" title="Grid View">Grid View</a></li><li class="list-view"><a href="#" title="List View">List View</a></li></ul>
+<ul class="pageSortSize"><li>Items per page: </li><li>
+<form action="/search" id="sorting" class="sorting submittable">
+          <select id="sort-by" class="sort changeable" name="q.sort">
+            <option value="price-asc">30</option>
+            <option value="price-desc">60</option>
+            <option value="price-desc">90</option>
+          </select>
+        </form>
+</li></ul>
+
+ <ul class="pagesort-bar-view"><li>View: </li><li class="grid-view"><a href="#" title="Grid View">Grid View</a></li><li class="list-view"><a href="#" title="List View">List View</a></li></ul>
+
+<ul class="pagesort-bar-sortby"><li>Sort by: </li><li>
+<form action="/search" id="sorting" class="sorting submittable">
+          <select id="sort-by" class="sort changeable" name="q.sort">
+            <option value="price-asc">Price Low-High</option>
+            <option value="price-desc">Price High-Low</option>
+          </select>
+        </form>
+</li></ul>
 
 
   </div>
