@@ -3,10 +3,11 @@
 <cfparam name="searchkeywords" default="">
 <cfparam name="numberonpage" type="integer" default="30">
 <cfparam name="startpage" type="numeric" default="0">
-<cfparam name="FormulaFilter" type="integer" default="0">
+<cfparam name="productstart" type="integer" default="1">
+<cfparam name="productend" type="integer" default="30">
 <cfparam name="brandfilter" type="string" default="0">
 <cfquery name="GetData" datasource="#Application.ds#">
-						SELECT ProductID, BrandID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagesmall, imagebig, description, Tablets,  (Select Subcategoryid from Product_SUBCategory_Map where Product_SUBCategory_Map.ProductID = ProductID limit 1) as Subcategoryid, MetaTitle, MetaKeywords, MetaDesc
+						SELECT ProductID, BrandID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagebig, description, Tablets
 						FROM Products
 						Where Display = 1
 						<cfif brandfilter NEQ 0>
@@ -24,7 +25,12 @@
 						 )
 						Order by Title
 </CFQUERY>
-<cfloop query="GetData" startrow="1" endrow="#numberonpage#">
+
+<cfset productstart = Ceiling((startpage*numberonpage)+1)>
+
+<cfset productend = Ceiling(productstart + (numberonpage-1))>
+
+<cfloop query="GetData" startrow="#productstart#" endrow="#productend#">
   <cfinclude template="/dealquery.cfm">
   <cfset youSave = val(listprice)-val(newprice)>
   <cfset youSavePcnt = round(Evaluate(    ((val(listprice)-val(newprice))/val(listprice)) *100))>
@@ -69,9 +75,7 @@
 
 <cfset lastPage = (currentPage EQ NumPages) ? true : false>
 
-<cfset productstart = Ceiling((startpage*numberonpage)+1)>
 
-<cfset productend = Ceiling(productstart + (numberonpage-1))>
 
 <cfset firstPage = (startpage EQ 0) ? true : false>
 
