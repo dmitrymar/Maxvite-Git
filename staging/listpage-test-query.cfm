@@ -47,6 +47,8 @@
   <cfset eachProductStruct["product_id"] = #ProductID# />
   <cfset eachProductStruct["name"] = "#Title#" />
   <cfset eachProductStruct["form"] = "#Tablets#" />
+  <cfset eachProductStruct["strap_line"] = "#StrapLine#" />
+  <cfset eachProductStruct["serving_size"] = "#ServingSize#" />
   <cfset eachProductStruct["image_url"] = "#imageURL#" />
   <cfset eachProductStruct["product_url"] = "/#ProductID#/#ReReplace(title,"[^0-9a-zA-Z]+","-","ALL")#/product.html" />
   <cfif #ListPrice# GT #newprice# AND #newprice# GT 0>
