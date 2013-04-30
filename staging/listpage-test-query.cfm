@@ -32,8 +32,10 @@
 
 <cfloop query="GetData" startrow="#productstart#" endrow="#productend#">
   <cfinclude template="/dealquery.cfm">
+  <cfif newprice neq 0>
   <cfset youSave = val(listprice)-val(newprice)>
   <cfset youSavePcnt = round(Evaluate(    ((val(listprice)-val(newprice))/val(listprice)) *100))>
+  </cfif>
   <!---this code sets image url--->
   <cfhttp url="http://www.maxvite.com/images/#imagebig#" timeout="45" result="result" throwOnError="no">
   </cfhttp>
