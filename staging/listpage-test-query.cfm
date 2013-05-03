@@ -109,9 +109,7 @@
 "products" = 60,
 "selected" = ((numberonpage EQ 60) ? true : false)
 } />
-</cfif>
 
-<cfif NumProducts GT 60>
   <cfset perPageArray[3] = {
 "products" = 90,
 "selected" = ((numberonpage EQ 90) ? true : false)
