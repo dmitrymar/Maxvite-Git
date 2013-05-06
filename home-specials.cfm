@@ -126,7 +126,7 @@
   </cfoutput>
 </ul>
 
-<ul class="headline"><li class="icon deal"></li><li class="title">Deal of the Day</li><li class="right"><a class="decolink" href="/deal-of-the-day.html">More Info</a></li></ul>
+<!---<ul class="headline"><li class="icon deal"></li><li class="title">Deal of the Day</li><li class="right"><a class="decolink" href="/deal-of-the-day.html">More Info</a></li></ul>
 <cfoutput query="GetDealData">
   <cfif #DailyDealPrice# neq 0.0000>
     <cfset #newprice# = #DailyDealPrice#>
@@ -135,7 +135,7 @@
   </cfif>
   <cfset rowsection = "dealrow">
 #displayrow()#
-</cfoutput>
+</cfoutput>--->
 
 <ul class="headline"><li class="icon weekly"></li><li class="title">Weekly Specials</li><li class="right"><a class="decolink" href="/54/313/S/Weekly-Specials/items.html">View All</a></li></ul>
 <cfoutput query="GetDataWeekly">
