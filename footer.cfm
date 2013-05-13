@@ -21,7 +21,8 @@
     <ul>
         <li>
 <!-- (c) 2005, 2010. Authorize.Net is a registered trademark of CyberSource Corporation --> <div class="AuthorizeNetSeal"> <script type="text/javascript">var ANS_customer_id="e5b92767-0e07-4833-8c93-a6e01d14c394";</script> <script type="text/javascript" src="//verify.authorize.net/anetseal/seal.js" ></script> <a href="http://www.authorize.net/" id="AuthorizeNetText" target="_blank">Accept Credit Cards</a></li>
-        <li><br><span id="siteseal"><script type="text/javascript" src="https://seal.starfieldtech.com/getSeal?sealID=1yLZKjsn4H5zH84NSMZPYb27GhT7RRnTItc62Gnn0I7eVQsG0zd5gZcjwD9"></script></span></li>
+        <li><!-- BEGIN SiteSeal --><script language="javascript" src="https://cgnsecurity.com/ss/getCgnSS.php?d1=917024479&d2=+1279267175+" type="text/javascript"></script><!-- END SiteSeal --></li>
+        <li class="positive-ssl"><img src="http://www.positivessl.com/images-new/PossitiveSSL_tl_trans2.gif" alt="SSL Cerficate" title="SSL Certificate" border="0"></li>
         <li><a href="#" onclick="javascript:popUp('https://www.paypal.com/us/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside', 450, 450);"><img src="/img/paypal.png" alt="" width="144" height="58" /></a></li>
         <li class="trust-pricegrabber"><a href="http://www.pricegrabber.com/rating_getreview.php/retid=17744" target="_blank"><img border=0 src="https://a248.e.akamai.net/f/248/10025/1d/www.pricegrabber.com/merchant_rating_image_secure.php?retid=17744" alt="PriceGrabber User Ratings for MaxVite Discount Vitamins"></a></li>
         <li><div id="googleCheckoutLogo"></div><script src='https://checkout.google.com/buttons/logos?merchant_id=341386955161199&loc=en&f=png' ></script></li>
