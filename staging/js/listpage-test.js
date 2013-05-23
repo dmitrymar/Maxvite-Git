@@ -8,7 +8,7 @@
 //1. User lands on a search page or enters url with parameters
 //  a. Display loading data spinner.
 //  b. request url for server is set to a default.
-//  c. paremeter to request url is added for products per page(ppp) if local storage has previously set ppp.
+//  c. parameter to request url is added for products per page(ppp) if local storage has previously set ppp.
 //  d. if location.hash is not empty then: 
 //      *add hash parameters to request url
 //      *highlight brands that were specified in location hash
@@ -17,106 +17,101 @@
 var Listpage = {
     default_json: "/staging/listpage-test-query.cfm?searchkeywords=" + Searchkeywords.query,
     default_view: "grid",
-    startpage: 0,
+    startpage: "",
+    numberonpage: "",
     brand_id_list: [],
     getLocHash: function () {
         var hashSubstr = location.hash;
         hashSubstr = hashSubstr.substr(1);
         return hashSubstr;
     },
-    setLocHash: function (hashsubstring) {
-
-/*            if (this.getLocHash().indexOf("&") !== -1) {
-                //find and replace brandfilter=1,129 with brandfilter=5  
-                location.hash = this.getLocHash() + hashsubstring;
-            } else {                
-                var mystring = hashsubstring.slice(0, 5);
-                if (this.getLocHash().indexOf(mystring) === 0 || this.getLocHash() === "") {
-                location.hash = hashsubstring;
-                }
-            }*/
-    var locationhash = "startpage=" + this.startpage;
-    locationhash = this.brand_id_list.length !== -1 ? locationhash + "&brandfilter=" + this.brand_id_list.toString() : locationhash;
-    location.hash = locationhash;
-/*        if (hashparam === "startpage") {
-            if (this.getLocHash().indexOf("&") !== -1) {
-                //find and replace brandfilter=1,129 with brandfilter=5  
-                location.hash = this.getLocHash() + "startpage=" + this.startpage;
-            } else {
-                location.hash = "startpage=" + this.startpage;
-            }
-        }*/
-
+    setLocHash: function () {
+        var numberonpage = localStorage.getItem("numberonpage") !== null ? localStorage.getItem("numberonpage") : 30;
+        var locationhash = "numberonpage=" + numberonpage;
+        locationhash = this.startpage !== "" ? locationhash + "&startpage=" + this.startpage : locationhash;
+        locationhash = this.brand_id_list.length !== 0 ? locationhash + "&brandfilter=" + this.brand_id_list.toString() : locationhash;
+        location.hash = locationhash;
     },
-    checkLocHash: function (hashparam) {
+    extractLocHash: function (hashparam) {
         var hashSubstr = this.getLocHash();
-
-        if (hashparam === "brand") {
-
-            var brandfilterProperty = "brandfilter=";
-            var brandfilterFirstPosition = hashSubstr.indexOf(brandfilterProperty);
-            var stringBeforeBrand = hashSubstr.slice(0, brandfilterFirstPosition);
-            stringBeforeBrand = stringBeforeBrand === "" ? hashSubstr.length : stringBeforeBrand.length;
-            var hashSubstrBrand = hashSubstr.slice(brandfilterFirstPosition, hashSubstr.length);
-            if (hashSubstrBrand.indexOf("&") !== -1) {
-
-                var brandfilterLastPosition = hashSubstrBrand.indexOf("&");
-
-                hashSubstrBrand = hashSubstrBrand.slice(0, brandfilterLastPosition);
-
+            var filterProperty = hashparam;
+            var filterFirstPosition = hashSubstr.indexOf(filterProperty);
+            var stringBeforeFilter = hashSubstr.slice(0, filterFirstPosition);
+            stringBeforeFilter = stringBeforeFilter === "" ? hashSubstr.length : stringBeforeFilter.length;
+            var hashSubstrFilter = hashSubstr.slice(filterFirstPosition, hashSubstr.length);
+            if (hashSubstrFilter.indexOf("&") !== -1) {
+                var filterLastPosition = hashSubstrFilter.indexOf("&");
+                hashSubstrFilter = hashSubstrFilter.slice(0, filterLastPosition);
             }
-            return hashSubstrBrand;
-        }
-        if (hashparam === "startpage") {
-
-            var pageProperty = "startpage=";
-            var brandfilterFirstPosition = hashSubstr.indexOf(brandfilterProperty);
-            var stringBeforeBrand = hashSubstr.slice(0, brandfilterFirstPosition);
-            stringBeforeBrand = stringBeforeBrand === "" ? hashSubstr.length : stringBeforeBrand.length;
-            var hashSubstrBrand = hashSubstr.slice(brandfilterFirstPosition, hashSubstr.length);
-            if (hashSubstrBrand.indexOf("&") !== -1) {
-
-                var brandfilterLastPosition = hashSubstrBrand.indexOf("&");
-
-                hashSubstrBrand = hashSubstrBrand.slice(0, brandfilterLastPosition);
-
-            }
-            return hashSubstrBrand;
-        }        
+            return hashSubstrFilter;
     },
     setSidebarFilters: function () {
-        if (this.getLocHash() !== "") {
-            var hashSubstr = this.getLocHash();
-            var brandfilterProperty = "brandfilter=";
-            var brandfilterFirstPosition = hashSubstr.indexOf(brandfilterProperty) + brandfilterProperty.length;
-            var hashSubstrBrand = hashSubstr.slice(brandfilterFirstPosition, hashSubstr.length);
-            var brandfilterLastPosition = hashSubstrBrand.indexOf("&") === -1 ? hashSubstr.length : hashSubstrBrand.indexOf("&");
-            hashSubstrBrand = hashSubstrBrand.slice(0, brandfilterLastPosition);
-            this.brand_id_list = hashSubstrBrand.split(',');
-            console.log(hashSubstrBrand);
-            //Create a script that adds checkbox to all brands inside of data-module="brand" based on values taken from brand_id_list 
+        //Create a script that adds checkbox to all brands inside of data-module="brand" based on values taken from brand_id_list 
+    },
+    getData: function (jsonurl) {
+        //Block list data and show spinner
+        $('.content').block({
+            message: '<img src="/img/spinner78x78.gif">',
+            overlayCSS: {
+                backgroundColor: '#fff'
+            },
+            centerY: 0,
+            css: {
+                width: '88px',
+                border: '1px solid #ddd',
+                top: '300px'
+            }
+        });
 
+        var url = jsonurl;
 
-
+        if (localStorage.getItem("numberonpage") !== null) {
+            this.numberonpage = localStorage.getItem("numberonpage");
+            url = url + "&numberonpage=" + this.numberonpage;
         }
+
+        if (this.getLocHash().indexOf("brandfilter=") !== -1 && this.brand_id_list.length === 0) {
+            var brandhash = this.extractLocHash("brandfilter=");
+            url = url + "&" + brandhash;
+            //push into brand_id_list
+            var brandIDList = brandhash.slice(12, brandhash.length);
+            this.brand_id_list = brandIDList.split(',');
+            
+        }
+        
+        if (this.getLocHash().indexOf("startpage=") !== -1 && this.startpage === "") {
+            var startpagehash = this.extractLocHash("startpage=");
+            url = url + "&" + startpagehash;
+            //push into startpage
+            var startpagenum = startpagehash.slice(10, startpagehash.length);
+            this.startpage = startpagenum;
+        }
+        
+        
+
+        $.getJSON(url, function (response) {
+
+
+
+            if (response.status == 'success') {
+                $('.content').unblock(); //remove spinner
+                renderProductTpl(response);
+                /*renderFilterTpl(response);*/
+
+            } else {
+                $('#listProductsWrap').html('No products found');
+            }
+        });
+
+        $('body,html').scrollTop(0); // go all the way to the top. especially useful when using dashboard at the bottom of the page
+    },
+    init: function () {
+        this.getData(Listpage.default_json);
     }
 };
 
 
-function blockListData() {
-    $('.content').block({
-        message: '<img src="/img/spinner78x78.gif">',
-        overlayCSS: {
-            backgroundColor: '#fff'
-        },
-        centerY: 0,
-        css: {
-            width: '88px',
-            border: '1px solid #ddd',
-            top: '300px'
-        }
-    });
-}
+
 
 
 //Toggle module slide
@@ -145,8 +140,7 @@ $("#filterSection .filter-module-brand .checkbox-list").on("click", "li", functi
 
         if ($(this).siblings().filter(".checkbox-list-selected").length > 0) {
             brandhash = "brandfilter=" + Listpage.brand_id_list.toString();
-        jsonurl = jsonurl + "&" + brandhash;
-            Listpage.setLocHash(brandhash);
+            jsonurl = jsonurl + "&" + brandhash;
         } else {
             $clearLink.addClass("hidden");
             location.hash = "";
@@ -157,12 +151,11 @@ $("#filterSection .filter-module-brand .checkbox-list").on("click", "li", functi
         $checkbox.prop("checked", true);
         Listpage.brand_id_list.push($checkBoxVal); //add brandid to brand_id_list property
         brandhash = "brandfilter=" + Listpage.brand_id_list.toString();
-        Listpage.setLocHash(brandhash);
         jsonurl = jsonurl + "&" + brandhash;
         $clearLink.removeClass("hidden");
     }
-
-    getData(jsonurl);
+    Listpage.setLocHash();
+    Listpage.getData(jsonurl);
 
 });
 
@@ -176,7 +169,8 @@ $(".filter-module-clear").on("click", function (event) {
     $listItem.removeClass("checkbox-list-selected");
     $checkbox.prop("checked", false);
     checkedBrandsArray = []; // Clear all parameters for this filter
-    getData(Listpage.default_json);
+    Listpage.setLocHash();
+    Listpage.getData(Listpage.default_json);
 });
 
 
@@ -248,13 +242,16 @@ var renderProductTpl = function (response) {
             localStorage.setItem('numberonpage', $(this).val());
         });
 
+        Listpage.startpage = 0;
+            
         var jsonurl = Listpage.default_json;
 
         if (Listpage.brand_id_list.length > 0) {
             jsonurl = jsonurl + "&brandfilter=" + Listpage.brand_id_list.toString();
         }
 
-        getData(jsonurl);
+        Listpage.setLocHash();
+        Listpage.getData(jsonurl);
     });
 
     //Control Pagination
@@ -270,10 +267,9 @@ var renderProductTpl = function (response) {
         var jsonurl = Listpage.default_json + "&" + pagePropVal;
 
         jsonurl = Listpage.brand_id_list.length > 0 ? jsonurl + "&brandfilter=" + Listpage.brand_id_list.toString() : jsonurl;
-        
-        getData(jsonurl);
 
-        Listpage.setLocHash("startpage");
+        Listpage.setLocHash();
+        Listpage.getData(jsonurl);
 
     });
 
@@ -281,38 +277,8 @@ var renderProductTpl = function (response) {
 };
 
 
-//Populate listProductsWrap div with products 
-var getData = function (jsonurl) {
 
-    blockListData(); //show spinner
-
-    var url = jsonurl;
-
-    if (localStorage.getItem("numberonpage") !== null) {
-        var numberonpage = localStorage.getItem("numberonpage");
-        url = url + "&numberonpage=" + numberonpage;
-    }
-
-    //Check if hash value exists - add parameters to url        
-/*    url = location.hash !== "" ? url + "&" + Listpage.getLocHash() : url;*/
-
-    $.getJSON(url, function (response) {
-
-
-
-        if (response.status == 'success') {
-            $('.content').unblock(); //remove spinner
-            renderProductTpl(response);
-            /*renderFilterTpl(response);*/
-
-        } else {
-            $('#listProductsWrap').html('No products found');
-        }
-    });
-
-    $('body,html').scrollTop(0); // go all the way to the top. especially useful when using dashboard at the bottom of the page
-};
 
 //Initial product load
-getData(Listpage.default_json);
+Listpage.init();
 /*Listpage.setSidebarFilters();*/
