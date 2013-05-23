@@ -1,13 +1,10 @@
 <cfparam name="searchkeywords" default="calcium">
-<cfparam name="brandfilter" type="integer" default="0">
-<cfquery name="GetData" datasource="#Application.ds#">
-						SELECT Brands.Brand, p.Description, p.BrandID, p.ProductID, COUNT(*) as "product_count"
-						FROM Products p, Brands Brands
-                        WHERE p.BrandID = Brands.BrandID
+<cfparam name="startpage" type="numeric" default="0">
+<cfquery name="GetBrandData" datasource="#Application.ds#">
+						SELECT b.Brand, p.Description, p.BrandID, p.ProductID, COUNT(*) as "product_count"
+						FROM Products p, Brands b
+                        WHERE p.BrandID = b.BrandID
                         AND p.Display = 1                        
-						<cfif brandfilter NEQ 0>
-						AND BrandID IN (#URLDecode(brandfilter)#)
-						</cfif>
 						AND
 						(p.Description like '%#SEARCHKEYWORDS#%'
 						 OR
@@ -18,9 +15,15 @@
 						p.UPC like '%#SEARCHKEYWORDS#%'
 						 )
 						Group by p.BrandID
-                        Order by Brands.Brand ASC
+                        Order by b.Brand ASC
 </CFQUERY>
-
+<cfquery name="GetConcernsData" datasource="#Application.ds#">
+	Select f.FormulaType, f.FormulaTypeID, COUNT(m.ProductID) as "product_count"
+	from Product_Formula_Map m, FormulaTypes f
+	Where m.FormulaTypeID = f.FormulaTypeID
+	AND m.ProductID IN (SELECT ProductID from Products WHERE Description like '%laxative%' or title like '%laxative%' and Display =1)
+    Group by f.FormulaType
+</CFQUERY>
 <cfinclude template="/doctype.cfm">
 <cfinclude template="/html.cfm">
 <head>
@@ -70,7 +73,7 @@ overflow: hidden;
 padding: 0;
 }
 
-#listProductsWrap .items-grid li {
+#listProductsWrap .items-grid .items-grid-node {
 background-color: #fff;
 text-align: center;
 position: relative;
@@ -81,16 +84,21 @@ padding: 0;
 margin: 10px 0;
 list-style-type: none;
 }
+#listProductsWrap .items-grid .items-grid-separator {
+ border-bottom: 1px solid #d5d5d5;
+ height: 1px;
+ width: 100%;
+}
 
 #listProductsWrap .items-list li {
 width: 718px;
+display:block;
 border-bottom: 1px solid #d5d5d5;
 margin: 0;
 padding: 10px 0;
 background-color: #fff;
 text-align: center;
 position: relative;
-display: inline-block;
 vertical-align: top;
 list-style-type: none;
 }
@@ -119,7 +127,9 @@ text-align: left;
 font-size: 14px;
 font-weight: bold;
 }
-
+#listProductsWrap .items-list-pricing-usave {
+color: #bf000b;
+}
 #listProductsWrap .items-list-sizeform {
 width: 268px;
 overflow: hidden;
@@ -142,54 +152,60 @@ width: 178px;
 text-align: left;
 }
 
-#listProductsWrap .items-list-pricing h1 {
-	margin-top:0;
+#listProductsWrap .items-list-ourprice {
+font-size: 18px;
+line-height: 25px;
+font-weight: 700;
+color: #bf000b;
 }
 
-#listProductsWrap .items-grid li dl {
+#listProductsWrap .items-grid .items-grid-node dl {
 text-align: left;
 width: 226px;
 }
 
-#listProductsWrap .items-grid li dl .items-grid-thumb {
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-thumb {
  width: 226px;
  height: 100px;
  margin-bottom: 5px;
 }
-#listProductsWrap .items-grid li dl .items-grid-thumb a {
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-thumb a {
  display: table-cell;
  width: 224px;
  height: 100px;
  text-align: center;
  vertical-align: bottom;
 }
-#listProductsWrap .items-grid li dl .items-grid-thumb a img {
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-thumb a img {
  vertical-align: bottom;
  max-width: 100px;
  max-height: 100px;
  border: 0;
 }
-#listProductsWrap .items-grid li dl .items-grid-title {
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-title {
  font-weight: bold;
- font-size: 12px;
  color: #004922;
 }
-#listProductsWrap .items-grid li dl .items-grid-form { font-style: italic }
-#listProductsWrap .items-grid li dl dd .items-grid-price, #listProductsWrap .items-grid li dl dd .items-grid-bigprice {
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-form { font-style: italic }
+#listProductsWrap .items-grid .items-grid-node dl dd {
+	 font-size: 12px;
+}
+#listProductsWrap .items-grid .items-grid-node dl dd .items-grid-price, #listProductsWrap .items-grid .items-grid-node dl .items-grid-bigprice {
  color: #bf000b;
  font-weight: bold;
 }
-#listProductsWrap .items-grid li dl .items-grid-bigprice { font-size: 14px }
-#listProductsWrap .items-grid li dl .addToCartBox {
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-listprice,  #listProductsWrap .items-list li dl .items-list-listprice { color: #555; }
+#listProductsWrap .items-grid .items-grid-node dl .items-grid-bigprice { font-size: 14px }
+#listProductsWrap .items-grid .items-grid-node dl .addToCartBox {
  float: left;
  margin-top: 3px;
 }
-#listProductsWrap .items-grid li dl .addToCartBox p {
+#listProductsWrap .items-grid .items-grid-node dl .addToCartBox p {
  height: 22px;
  line-height: 22px;
 }
-#listProductsWrap .items-grid li dl .addToCartBox p input[type='image'] { vertical-align: middle }
-#listProductsWrap .items-grid li dl .addToCartBox p input[type='text'] { margin: 0 3px }
+#listProductsWrap .items-grid .items-grid-node dl .addToCartBox p input[type='image'] { vertical-align: middle }
+#listProductsWrap .items-grid .items-grid-node dl .addToCartBox p input[type='text'] { margin: 0 3px }
 
 
 
@@ -276,17 +292,27 @@ text-decoration: underline;
 }
 
 #filterSection .filter-module .checkbox-list li {
-	line-height: 20px;
+    line-height: 18px;
+    margin: 2px 0 3px;
+    padding: 0;
+}
+#filterSection .filter-module .checkbox-list .checkbox-list-selected label {
+	color:#BF000B;
 }
 #filterSection .filter-module .checkbox-list li:hover {
 	background: #ddd;
+	cursor:pointer;
 }
 #filterSection .filter-module .checkbox-list .filter-module-checkbox-count {
 	color:#555;
 	font-size:10px;
 }
-#filterSection .filter-module .checkbox-list input.checkbox-list-option {
-	padding-top:5px;
+#filterSection .filter-module .checkbox-list .checkbox-list-option {
+    margin-top: 3px;
+    vertical-align: top;
+}
+#filterSection .filter-module .checkbox-list label {
+    margin-left: 3px;
 }
 .paginator {
 	margin:4px 0 0 35px;
@@ -320,6 +346,7 @@ text-decoration: underline;
 }
 .paginator .begin-arrow.paginator-active a, .paginator .prev-arrow.paginator-active a{
 		background-position: 0 -11px;
+		cursor:pointer;
 }
 .paginator .last-arrow a {
 	background-position: -12px 0;
@@ -362,7 +389,7 @@ margin-left: 3px;
 	float:left;
 	margin-right:5px;
 }
-.listpage-toolbar .listpage-toolbar-view li a {
+.listpage-toolbar .listpage-toolbar-view .views {
 	text-indent:-10000px;
 	height: 11px;
 	left:0;
@@ -371,22 +398,30 @@ margin-left: 3px;
 	width:11px;
 	margin-top: 4px;
 }
-.listpage-toolbar .listpage-toolbar-view .grid-view a {
+.listpage-toolbar .listpage-toolbar-view .grid-view, .listpage-toolbar .listpage-toolbar-view .list-view {
+	cursor:pointer;
+}
+.listpage-toolbar .listpage-toolbar-view .grid-view-selected, .listpage-toolbar .listpage-toolbar-view .list-view-selected {
+	cursor:default;
+}
+.listpage-toolbar .listpage-toolbar-view .grid-view {
 	background-position: -11px -33px;
 }
-.listpage-toolbar .listpage-toolbar-view .grid-view a:hover, .listpage-toolbar .listpage-toolbar-view .grid-view.grid-view-selected a {
+.listpage-toolbar .listpage-toolbar-view .grid-view:hover, .listpage-toolbar .listpage-toolbar-view .grid-view.grid-view-selected {
 	background-position: -11px -22px;
 }
-.listpage-toolbar .listpage-toolbar-view .list-view a {
+.listpage-toolbar .listpage-toolbar-view .list-view {
 	background-position: 0 -33px;
 }
-.listpage-toolbar .listpage-toolbar-view .list-view a:hover, .listpage-toolbar .listpage-toolbar-view .list-view.list-view-selected a {
+.listpage-toolbar .listpage-toolbar-view .list-view:hover, .listpage-toolbar .listpage-toolbar-view .list-view.list-view-selected {
 	background-position: 0 -22px;
 }
 .listpage-toolbar-numberonpage .per-page-selected {
 	font-weight:bold;
 }
 </style>
+			<link rel="stylesheet" href="http://cdn.powerreviews.com/repos/14165/pr/pwr/engine/pr_styles_review.css" type="text/css" id="prBaseStylesheet">
+			<link rel="stylesheet" href="http://cdn.powerreviews.com/aux/14165/636016/css/express.css" type="text/css" id="prMerchantOverrideStylesheet">
 </head>
 
 
@@ -425,22 +460,43 @@ margin-left: 3px;
 
 <ul id="refineResults">
   <li>Refine Results</li>
-  <li class="refine-results-clearall hidden"><a href="#">Clear All</a></li>
+  <li class="refine-results-clearall hidden"><a href="clear all">Clear All</a></li>
 </ul>
 
-<div class="filter-module">
+<div class="filter-module filter-module-brand" data-module="brand">
 <ul class="filter-module-title">
   <li>Brand</li>
   <li class="filter-module-toggler">Show/Hide</li>
-  <li class="filter-module-clear hidden"><a href="#">Clear</a></li>
+  <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
 </ul>
 
 <ul class="checkbox-list">
-<cfloop query="GetData">
+<cfloop query="GetBrandData">
 <cfoutput>
-  <li styleoptionid="#BrandID#" id="facet_option_#BrandID#" class="style-option">
+  <li>
     <input type="checkbox" class="checkbox-list-option" value="#BrandID#">
-    <label alt="#Brand#" class="styleName" for="#BrandID#">#Brand# <span class="filter-module-checkbox-count">(#product_count#)</span></label>
+    <label alt="#Brand#" for="#BrandID#">#Brand# <span class="filter-module-checkbox-count">(#product_count#)</span></label>
+  </li>
+</cfoutput>
+</cfloop>
+</ul>
+
+</div>
+
+
+<div class="filter-module filter-module-concerns" data-module="concerns">
+<ul class="filter-module-title">
+  <li>Health Concerns</li>
+  <li class="filter-module-toggler">Show/Hide</li>
+  <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
+</ul>
+
+<ul class="checkbox-list">
+<cfloop query="GetConcernsData">
+<cfoutput>
+  <li>
+    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
+    <label alt="#FormulaType#" for="#FormulaTypeID#">#FormulaType# <span class="filter-module-checkbox-count">(#product_count#)</span></label>
   </li>
 </cfoutput>
 </cfloop>
@@ -464,9 +520,9 @@ margin-left: 3px;
 
 <ul class="checkbox-list">
 {{#filter_list}}
-  <li styleoptionid="{{fiter_option_id}}" id="facet_option_{{fiter_option_id}}" class="style-option">
+  <li>
     <input type="checkbox" class="filter-option" value="{{fiter_option_id}}">
-    <label alt="{{fiter_option_name}}" class="styleName" for="{{fiter_option_id}}">{{fiter_option_name}}</label>
+    <label alt="{{fiter_option_name}}" for="{{fiter_option_id}}">{{fiter_option_name}}</label>
   </li>
 {{/filter_list}}
 </ul>
@@ -475,74 +531,7 @@ margin-left: 3px;
 
 </script>
 <script id="listTpl" type="text/template">
-			
-<div class="listpage-toolbar">
-<span class="listpage-toolbar-display">Items <strong>{{product_start}}</strong>&nbsp;-&nbsp;<strong>{{product_end}}</strong> of <strong>{{total_products}}</strong></span>
-    
-    
- <ul class="paginator">
-
- <li class="begin-arrow{{^first_page}} paginator-active{{/first_page}}"><a href="0" title="First Page">First Page</a></li>
- <li class="prev-arrow{{^first_page}} paginator-active{{/first_page}}"><a href="{{prev_page}}" title="Previous Page">Previous Page</a></li>
-
- <li class="current-page">{{current_page}}</li>
-
-<li class="next-arrow{{^is_last_page}} paginator-active{{/is_last_page}}"><a href="{{next_page}}" title="Next Page">Next Page</a></li>
- <li class="last-arrow{{^is_last_page}} paginator-active{{/is_last_page}}"><a href="{{last_page_id}}" title="Last Page">Last Page</a></li>
-
-<!---{{^first_page}}<li class="prev-arrow"></li>{{/first_page}}
-{{#page_list}}
-<li><a href="{{current_page}}" {{#current_page}}class="selected"{{/current_page}}>{{current_page}}</a></li>
-{{/page_list}}
-{{^is_last_page}}<li class="next-arrow"></li>{{/is_last_page}}--->
- </ul>
-
-
-
-<!---{{#show_per_page}}
-<ul class="listpage-toolbar-numberonpage"><li>Items per page:</li>
-{{#products_per_page}}
-{{#selected}}<li class="per-page-selected">{{products}}</li>{{/selected}}
-{{^selected}}<li><a href="{{products}}">{{products}}</a></li>{{/selected}}
-{{/products_per_page}}
-</ul>
-{{/show_per_page}}
---->
-
-{{#show_per_page}}
-<ul class="listpage-toolbar-numberonpage"><li>Items per page: </li><li>
-<form>
-          <select>
-{{#products_per_page}}
-            <option value="{{products}}" {{#selected}}selected{{/selected}}>{{products}}</option>
-{{/products_per_page}}
-          </select>
-        </form>
-</li></ul>
-{{/show_per_page}}
-
-
-
- <ul class="listpage-toolbar-view">
- <li>View: </li>
- <li class="grid-view grid-view-selected"><a href="grid" title="Grid View">Grid View</a></li>
- <li class="list-view"><a href="list" title="List View">List View</a></li>
- </ul>
-
-<ul class="listpage-toolbar-sortby"><li>Sort by: </li><li>
-<form>
-          <select>
-            <option value="name-a-z">Name: A to Z</option>
-            <option value="price-low-high">Price Low-High</option>
-            <option value="price-high-low">Price High-Low</option>
-            <option value="reviews">Reviews</option>			
-          </select>
-        </form>
-</li></ul>
-
-
-  </div>
-
+<cfinclude template="listpage-toolbar.cfm">			
 
 <!---{{#products}}
 <li>{{name}}</li>
@@ -557,7 +546,7 @@ margin-left: 3px;
           <dd><a href="{{product_url}}"><span></span><img alt="{{name}}" src="{{image_url}}"></a></dd>
           <dd class="items-list-info">
             <p class="items-list-info-title"><a href="{{product_url}}">{{name}}</a></p>
-            <p><a href="{{product_url}}">{{strap_line}}</a></p>
+            <p><a href="{{product_url}}">{{{strap_line}}}</a></p>
             <dl class="items-list-sizeform">
               
                 <dt>Serving Size:</dt>
@@ -569,22 +558,38 @@ margin-left: 3px;
             </dl>
           </dd>
           <dd class="items-list-pricing">
-            
+
+
+		  {{#bogo}}
+			  <p class="items-list-ourprice">Get Two For Only {{list_price}}<br>Buy 1 Get 1 Free</p>
+			  <p>Get 1 for {{our_price}}&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: {{dollars_saved}} ({{percent_saved}})%</span></p>
+			  {{/bogo}}
+{{#list_price}}
+			  	{{^bogo}}
+				<p class="items-list-ourprice">Our Price: {{our_price}}</p>
+				<p><span class="items-list-listprice">List Price: <span class="strike">{{list_price}}</span></span>&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: {{dollars_saved}} ({{percent_saved}})%</span></p>
+				{{/bogo}}
+{{/list_price}}              
+			  {{#just_price}}<p class="items-list-ourprice">Price: {{just_price}}</p>{{/just_price}}
           
-                <h1><span class="green">Our Price:</span> {{our_price}}</h1>
-                <span class="listprice">List Price: <span class="strike">{{list_price}}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="red"><strong>You Save:&nbsp;{{dollars_saved}} ({{percent_saved}})%</strong></span>
-              
+            {{^instock}}<p><a class="btn btn-muted" href="{{product_url}}">Out of Stock</a></p>{{/instock}}
+			{{#instock}}
               <form class="additemform">
                                 <input type="hidden" value="{{product_id}}" name="ProductID">
                 <p class="listViewQtyBox"> <span class="listViewQty">Quantity</span>
                   
-                    <input name="qtytoadd" type="text" value="1" maxlength="4" class="qtyInput" size="3">
-                    
+                                        <input type="text" size="3" class="qtyInput" maxlength="4" value="{{#bogo}}2{{/bogo}}{{^bogo}}1{{/bogo}}" name="qtytoadd">
+
                   <button class="btn bigButton" name="addtocart" type="submit">Add To Cart</button>
                   <span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span> </p>
                 
               </form>
-              
+              {{/instock}}
+			
+			<div class="pr_snippet_category" id="pr_snippet_category{{product_id}}">
+              {{{rating_list}}}
+            </div>
+
           </dd>
         </dl>
         <div class="clear"></div>
@@ -597,41 +602,48 @@ margin-left: 3px;
 
 
 {{#products}}  
-      <li>
+      <li class="items-grid-node">
         <dl style="display: block;">
           <dd class="items-grid-thumb"><a href="{{product_url}}"><span></span><img alt="{{name}}" src="{{image_url}}"></a></dd>
           <dt class="items-grid-title"><a href="{{product_url}}">{{name}}</a></dt>
           <dd class="items-grid-form">{{form}}</dd>
-          
+ 			  {{#bogo}}
+			  <dd class="items-grid-bigprice">Get Two For Only {{list_price}}<br>Buy 1 Get 1 Free</dd>
+			  <dd>Get 1 for {{our_price}}</dd>
+			  {{/bogo}}
+         
               {{#list_price}}
+			  	{{^bogo}}
 			  	<dd><span class="items-grid-listprice">List Price: <span class="strike">{{list_price}}</span></span></dd>
-                <dd><span class="items-grid-bigprice"><span class="green">Our Price:</span> {{our_price}}</span></dd>
-                <dd><span class="red regular">You Save:&nbsp;{{dollars_saved}} ({{percent_saved}})%</span></dd>
+                <dd class="items-grid-bigprice"><span class="green">Our Price:</span> {{our_price}}</dd>
+				{{/bogo}}
+                <dd>You Save:&nbsp;{{dollars_saved}} ({{percent_saved}})%</dd>
 			  {{/list_price}}
               
-			  {{#just_price}}<dd><span class="items-grid-bigprice">Price: {{just_price}}</span></dd>{{/just_price}}
+			  {{#just_price}}<dd class="items-grid-bigprice">Price: {{just_price}}</dd>{{/just_price}}
 			  
 
               
           <dd class="addToCartBox">
-            
+                        {{^instock}}<a class="btn btn-muted" href="{{product_url}}">Out of Stock</a>{{/instock}}
+			{{#instock}}
               <form class="additemform">
                 <input type="hidden" value="{{product_id}}" name="ProductID">
                 <p>
                   
                     Qty.
                     
-                    <input type="text" size="3" class="qtyInput" maxlength="4" value="1" name="qtytoadd">
-                                        
-                    
+                    <input type="text" size="3" class="qtyInput" maxlength="4" value="{{#bogo}}2{{/bogo}}{{^bogo}}1{{/bogo}}" name="qtytoadd">
                     <button name="addtocart" class="btn">Add To Cart</button>
-                    <span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span>
-                  
+                    <span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span>   
                 </p>
               </form>
-            <div class="pr_snippet_category" id="pr_snippet_category_{{product_id}}">
-              {{{rating}}}
-            </div>	
+			{{/instock}}
+			
+			<div class="pr_snippet_category" id="pr_snippet_category_{{product_id}}">
+              {{{rating_grid}}}
+            </div>
+			
           </dd>
         </dl>
         
@@ -642,25 +654,18 @@ margin-left: 3px;
 </ol>
 <!---product-grid end--->
 
+<cfinclude template="listpage-toolbar.cfm">			
+
 </script>
 
-<!---            <div class="pr_snippet_category">
-                        <script type="text/javascript">
-                            POWERREVIEWS.display.snippet(document, {
-                                pr_page_id: '3833',
-                                pr_snippet_min_reviews: 1
-                            });
-                        </script>
-            </div>--->
 <script>
 <cfoutput>
-	var Listpage = {
-		default_json: "/staging/listpage-test-query.cfm?searchkeywords=#searchkeywords#"<cfif brandfilter NEQ 0> + "&brandfilter=#URLEncodedFormat(brandfilter)#"</cfif>,
-		default_view: "grid"
-	}
+var Searchkeywords = {
+	query: "#searchkeywords#"
+}
 </cfoutput>
 </script>
-<script src="js/listpage-test.js"></script>
+<script src="js/listpage-test.js?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>"></script>
 
 <cfinclude template="/footer.cfm">
  
