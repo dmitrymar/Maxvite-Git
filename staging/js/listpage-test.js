@@ -34,16 +34,16 @@ var Listpage = {
     },
     extractLocHash: function (hashparam) {
         var hashSubstr = this.getLocHash();
-            var filterProperty = hashparam;
-            var filterFirstPosition = hashSubstr.indexOf(filterProperty);
-            var stringBeforeFilter = hashSubstr.slice(0, filterFirstPosition);
-            stringBeforeFilter = stringBeforeFilter === "" ? hashSubstr.length : stringBeforeFilter.length;
-            var hashSubstrFilter = hashSubstr.slice(filterFirstPosition, hashSubstr.length);
-            if (hashSubstrFilter.indexOf("&") !== -1) {
-                var filterLastPosition = hashSubstrFilter.indexOf("&");
-                hashSubstrFilter = hashSubstrFilter.slice(0, filterLastPosition);
-            }
-            return hashSubstrFilter;
+        var filterProperty = hashparam;
+        var filterFirstPosition = hashSubstr.indexOf(filterProperty);
+        var stringBeforeFilter = hashSubstr.slice(0, filterFirstPosition);
+        stringBeforeFilter = stringBeforeFilter === "" ? hashSubstr.length : stringBeforeFilter.length;
+        var hashSubstrFilter = hashSubstr.slice(filterFirstPosition, hashSubstr.length);
+        if (hashSubstrFilter.indexOf("&") !== -1) {
+            var filterLastPosition = hashSubstrFilter.indexOf("&");
+            hashSubstrFilter = hashSubstrFilter.slice(0, filterLastPosition);
+        }
+        return hashSubstrFilter;
     },
     setSidebarFilters: function () {
         //Create a script that adds checkbox to all brands inside of data-module="brand" based on values taken from brand_id_list 
@@ -76,9 +76,16 @@ var Listpage = {
             //push into brand_id_list
             var brandIDList = brandhash.slice(12, brandhash.length);
             this.brand_id_list = brandIDList.split(',');
-            
+
+            //add class checkbox-list-selected to every li element within filter-module-brand if data-brandid matches this.brand_id_list
+            $.each(Listpage.brand_id_list, function (index, value) {
+                var $lidatael = $("#filterSection .filter-module-brand .checkbox-list li").filter('[data-brandid=' + value + ']');
+                $lidatael.addClass("checkbox-list-selected");
+                $lidatael.find(".checkbox-list-option").prop("checked", true);
+            });
+
         }
-        
+
         if (this.getLocHash().indexOf("startpage=") !== -1 && this.startpage === "") {
             var startpagehash = this.extractLocHash("startpage=");
             url = url + "&" + startpagehash;
@@ -86,12 +93,8 @@ var Listpage = {
             var startpagenum = startpagehash.slice(10, startpagehash.length);
             this.startpage = startpagenum;
         }
-        
-        
 
         $.getJSON(url, function (response) {
-
-
 
             if (response.status == 'success') {
                 $('.content').unblock(); //remove spinner
@@ -243,7 +246,7 @@ var renderProductTpl = function (response) {
         });
 
         Listpage.startpage = 0;
-            
+
         var jsonurl = Listpage.default_json;
 
         if (Listpage.brand_id_list.length > 0) {
