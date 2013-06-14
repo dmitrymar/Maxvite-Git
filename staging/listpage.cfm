@@ -16,14 +16,14 @@
 						 )
 						Group by p.BrandID
                         Order by b.Brand ASC
-</CFQUERY>
+</cfquery>
 <cfquery name="GetConcernsData" datasource="#Application.ds#">
 	Select f.FormulaType, f.FormulaTypeID, COUNT(m.ProductID) as "product_count"
 	from Product_Formula_Map m, FormulaTypes f
 	Where m.FormulaTypeID = f.FormulaTypeID
 	AND m.ProductID IN (SELECT ProductID from Products WHERE Description like '%laxative%' or title like '%laxative%' and Display =1)
     Group by f.FormulaType
-</CFQUERY>
+</cfquery>   
 <cfinclude template="/doctype.cfm">
 <cfinclude template="/html.cfm">
 <head>
@@ -37,7 +37,7 @@
 <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <script src="//use.edgefonts.net/pt-sans.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
 <script src="http://malsup.github.com/jquery.blockUI.js"></script>
@@ -47,379 +47,30 @@
 <script src="/js/jquery.watermark.min.js"></script>
 <script src="/js/common.min.js"></script>
 <script src="/js/maxvite.min.js"></script>
+    <!---
+ <script>
+//Slider code. Later integrate with listpage-test.js
+     $(function() {
+$( "#slider-range" ).slider({
+range: true,
+min: 0,
+max: 500,
+values: [ 75, 300 ],
+slide: function( event, ui ) {
+$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+}
+});
+$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+});
+</script>--->
+    
 <script type="text/javascript">
 var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css";
 </script>
 <script type="text/javascript" src="http://cdn.powerreviews.com/repos/14165/pr/pwr/engine/js/full.js"></script>
 <!------>
-<style>
-/* To Do */
-/* Add padding-top to checkboxes in .checkbox-list */
-
-#listProductsWrap .listpage-toolbar {
-border: silver solid 1px;
-background-color: #f1f1f1;
-width: 708px;
-height: 19px;
-padding: 4px;
-overflow: hidden;
-margin: 0;
-position: relative;
-}
-
-#listProductsWrap .items-grid, #listProductsWrap .items-list {
-width: 718px;
-overflow: hidden;
-padding: 0;
-}
-
-#listProductsWrap .items-grid .items-grid-node {
-background-color: #fff;
-text-align: center;
-position: relative;
-width: 236px;
-display: inline-block;
-vertical-align: top;
-padding: 0;
-margin: 10px 0;
-list-style-type: none;
-}
-#listProductsWrap .items-grid .items-grid-separator {
- border-bottom: 1px solid #d5d5d5;
- height: 1px;
- width: 100%;
-}
-
-#listProductsWrap .items-list li {
-width: 718px;
-display:block;
-border-bottom: 1px solid #d5d5d5;
-margin: 0;
-padding: 10px 0;
-background-color: #fff;
-text-align: center;
-position: relative;
-vertical-align: top;
-list-style-type: none;
-}
-
-#listProductsWrap .items-list dl, #listProductsWrap .items-list dl dd {
-float: left;
-}
-
-#listProductsWrap .items-list dl dd:first-child {
-width: 116px;
-vertical-align: top;
-}
-
-#listProductsWrap .items-list dl dd:first-child a img {
-max-width: 100px;
-max-height: 100px;
-}
-
-#listProductsWrap .items-list-info {
-width: 292px;
-padding-right: 40px;
-text-align: left;
-}
-
-#listProductsWrap .items-list-info-title {
-font-size: 14px;
-font-weight: bold;
-}
-#listProductsWrap .items-list-pricing-usave {
-color: #bf000b;
-}
-#listProductsWrap .items-list-sizeform {
-width: 268px;
-overflow: hidden;
-float: left;
-font-size: 12px;
-text-align: left;
-}
-
-#listProductsWrap .items-list-sizeform dt {
-float: left;
-width: 78px;
-}
-
-#listProductsWrap .items-list-sizeform dd {
-float: left;
-width: 178px;
-}
-
-#listProductsWrap .items-list-pricing {
-text-align: left;
-}
-
-#listProductsWrap .items-list-ourprice {
-font-size: 18px;
-line-height: 25px;
-font-weight: 700;
-color: #bf000b;
-}
-
-#listProductsWrap .items-grid .items-grid-node dl {
-text-align: left;
-width: 226px;
-}
-
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-thumb {
- width: 226px;
- height: 100px;
- margin-bottom: 5px;
-}
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-thumb a {
- display: table-cell;
- width: 224px;
- height: 100px;
- text-align: center;
- vertical-align: bottom;
-}
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-thumb a img {
- vertical-align: bottom;
- max-width: 100px;
- max-height: 100px;
- border: 0;
-}
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-title {
- font-weight: bold;
- color: #004922;
-}
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-form { font-style: italic }
-#listProductsWrap .items-grid .items-grid-node dl dd {
-	 font-size: 12px;
-}
-#listProductsWrap .items-grid .items-grid-node dl dd .items-grid-price, #listProductsWrap .items-grid .items-grid-node dl .items-grid-bigprice {
- color: #bf000b;
- font-weight: bold;
-}
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-listprice,  #listProductsWrap .items-list li dl .items-list-listprice { color: #555; }
-#listProductsWrap .items-grid .items-grid-node dl .items-grid-bigprice { font-size: 14px }
-#listProductsWrap .items-grid .items-grid-node dl .addToCartBox {
- float: left;
- margin-top: 3px;
-}
-#listProductsWrap .items-grid .items-grid-node dl .addToCartBox p {
- height: 22px;
- line-height: 22px;
-}
-#listProductsWrap .items-grid .items-grid-node dl .addToCartBox p input[type='image'] { vertical-align: middle }
-#listProductsWrap .items-grid .items-grid-node dl .addToCartBox p input[type='text'] { margin: 0 3px }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#filterSection {
-width: 226px;
-float: left;
-margin-top: 5px;	
-}
-
-#refineResults {
-	width:224px;
-	overflow:hidden;
-	display:block;
-}
-
-#refineResults li.refine-results-clearall {
-float:right;
-margin-top: 10px;
-font-size: 11px;
-text-decoration: underline;
-}
-
-#refineResults li:first-child {
-font-size: 21px;
-font-family: pt-sans,Arial,sans-serif;
-font-weight: 400;
-line-height: 33px;
-float:left;
-}
-
-#filterSection .filter-module {
-	width:224px;
-	margin-top: 5px;
-}
-#filterSection .filter-module .filter-module-title {
-	width: 216px;
-	border: 1px solid #cbcbcb;
-	background:#f1f1f1;
-	height:19px;
-	padding:4px;
-}
-#filterSection .filter-module .filter-module-title li {
-	float:right;
-}
-#filterSection .filter-module .filter-module-title li:first-child {
-		font-weight:bold;
-		float:left;
-}
-#filterSection .filter-module .filter-module-title .filter-module-toggler {
-	margin:4px 0 0 10px;
-	text-indent:-10000px;
-	height: 9px;
-	left:0;
-	display:block;
-	background: url(/img/listpage-sprite.gif) no-repeat 0 -44px;
-	width:9px;
-	cursor:pointer;
-}
-#filterSection .filter-module .filter-module-title .filter-module-toggler.filter-module-toggler-plus {
-	background: url(/img/listpage-sprite.gif) no-repeat -9px -44px;	
-}
-#filterSection .filter-module .filter-module-title .filter-module-clear {
-font-size: 11px;
-text-decoration: underline;
-}
-#filterSection .filter-module .checkbox-list {
-	border: 1px solid #cbcbcb;
-	border-top:0;
-	padding:4px;
-	max-height:180px;
-	overflow:auto;
-	width:216px;
-}
-
-#filterSection .filter-module .checkbox-list li {
-    line-height: 18px;
-    margin: 2px 0 3px;
-    padding: 0;
-}
-#filterSection .filter-module .checkbox-list .checkbox-list-selected label {
-	color:#BF000B;
-}
-#filterSection .filter-module .checkbox-list li:hover {
-	background: #ddd;
-	cursor:pointer;
-}
-#filterSection .filter-module .checkbox-list .filter-module-checkbox-count {
-	color:#555;
-	font-size:10px;
-}
-#filterSection .filter-module .checkbox-list .checkbox-list-option {
-    margin-top: 3px;
-    vertical-align: top;
-}
-#filterSection .filter-module .checkbox-list label {
-    margin-left: 3px;
-}
-.paginator {
-	margin:4px 0 0 35px;
-	padding:0;
-	list-style-type:none;
-	font-size:12px;
-	font-weight:bold;
-	line-height:11px;
-	position:relative;
-	float:left;
-}
-.paginator li {
-	float:left;
-	margin-right:15px;
-}
-.paginator li a {
-	text-indent:-10000px;
-	height: 11px;
-	left:0;
-	display:block;
-	background: transparent url(/img/listpage-sprite.gif) no-repeat 0 0;
-	cursor:default;
-}
-.paginator .begin-arrow a {
-	background-position: -12px -11px;
-	width:12px;
-}
-.paginator .prev-arrow a {
-	background-position: -12px -11px;
-	width:6px;
-}
-.paginator .begin-arrow.paginator-active a, .paginator .prev-arrow.paginator-active a{
-		background-position: 0 -11px;
-		cursor:pointer;
-}
-.paginator .last-arrow a {
-	background-position: -12px 0;
-	width:12px;
-}
-.paginator .next-arrow a {
-	background-position: -12px 0;
-	width:6px;
-}
-.paginator .last-arrow.paginator-active a, .paginator .next-arrow.paginator-active a {
-	background-position: 0 0;
-	cursor:pointer;
-}
-.listpage-toolbar select {
-	font-size:11px;
-}
-.listpage-toolbar .listpage-toolbar-display {
-float: left;
-position: relative;
-font-size: 12px;
-}
-
-.listpage-toolbar .listpage-toolbar-numberonpage {
-float: right;
-margin-left: 13px;
-}
-
-.listpage-toolbar .listpage-toolbar-numberonpage li {
-float: left;
-margin-left: 3px;
-}
-
-.listpage-toolbar .listpage-toolbar-view, .listpage-toolbar .listpage-toolbar-sortby {
-	overflow:hidden;
-	float:right;
-	font-size:12px;
-	margin-left:30px;
-}
-.listpage-toolbar .listpage-toolbar-view li, .listpage-toolbar .listpage-toolbar-sortby li {
-	float:left;
-	margin-right:5px;
-}
-.listpage-toolbar .listpage-toolbar-view .views {
-	text-indent:-10000px;
-	height: 11px;
-	left:0;
-	display:block;
-	background: url(/img/listpage-sprite.gif) no-repeat 0 -22px;
-	width:11px;
-	margin-top: 4px;
-}
-.listpage-toolbar .listpage-toolbar-view .grid-view, .listpage-toolbar .listpage-toolbar-view .list-view {
-	cursor:pointer;
-}
-.listpage-toolbar .listpage-toolbar-view .grid-view-selected, .listpage-toolbar .listpage-toolbar-view .list-view-selected {
-	cursor:default;
-}
-.listpage-toolbar .listpage-toolbar-view .grid-view {
-	background-position: -11px -33px;
-}
-.listpage-toolbar .listpage-toolbar-view .grid-view:hover, .listpage-toolbar .listpage-toolbar-view .grid-view.grid-view-selected {
-	background-position: -11px -22px;
-}
-.listpage-toolbar .listpage-toolbar-view .list-view {
-	background-position: 0 -33px;
-}
-.listpage-toolbar .listpage-toolbar-view .list-view:hover, .listpage-toolbar .listpage-toolbar-view .list-view.list-view-selected {
-	background-position: 0 -22px;
-}
-.listpage-toolbar-numberonpage .per-page-selected {
-	font-weight:bold;
-}
-</style>
+			<link rel="stylesheet" href="/staging/css/listpage-test.css" type="text/css" id="prBaseStylesheet">
 			<link rel="stylesheet" href="http://cdn.powerreviews.com/repos/14165/pr/pwr/engine/pr_styles_review.css" type="text/css" id="prBaseStylesheet">
 			<link rel="stylesheet" href="http://cdn.powerreviews.com/aux/14165/636016/css/express.css" type="text/css" id="prMerchantOverrideStylesheet">
 </head>
@@ -470,10 +121,10 @@ margin-left: 3px;
   <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
 </ul>
 
-<ul class="checkbox-list">
+<ul class="checkbox-list filter-module-main">
 <cfloop query="GetBrandData">
 <cfoutput>
-  <li>
+  <li data-brandid="#BrandID#">
     <input type="checkbox" class="checkbox-list-option" value="#BrandID#">
     <label alt="#Brand#" for="#BrandID#">#Brand# <span class="filter-module-checkbox-count">(#product_count#)</span></label>
   </li>
@@ -491,7 +142,7 @@ margin-left: 3px;
   <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
 </ul>
 
-<ul class="checkbox-list">
+<ul class="checkbox-list filter-module-main">
 <cfloop query="GetConcernsData">
 <cfoutput>
   <li>
@@ -503,7 +154,60 @@ margin-left: 3px;
 </ul>
 
 </div>
-</secondary>
+    
+<div class="filter-module filter-module-specials" data-module="specials">
+<ul class="filter-module-title">
+  <li>Specials</li>
+  <li class="filter-module-toggler">Show/Hide</li>
+  <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
+</ul>
+
+<ul class="checkbox-list filter-module-main">
+
+  <li>
+    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Brand Specials <span class="filter-module-checkbox-count">(6)</span></label>
+  </li>
+  <li>
+    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Weekly Specials <span class="filter-module-checkbox-count">(0)</span></label>
+  </li>
+  <li>
+    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Super Deals <span class="filter-module-checkbox-count">(0)</span></label>
+  </li>
+  <li>
+    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Buy 1 Get 1 Free <span class="filter-module-checkbox-count">(0)</span></label>
+  </li>      
+</ul>
+
+</div>
+
+
+<div class="filter-module filter-module-price" data-module="price">
+<ul class="filter-module-title">
+  <li>Price Range&nbsp;<img width="14" height="12" title="Enter minimum (left field) and maximum price (right field) or use slider" alt="question" class="sideNote" src="/img/question-icon.gif"></li>
+  <li class="filter-module-toggler">Show/Hide</li>
+  <li class="filter-module-clear hidden"><a href="clear">Reset</a></li>
+</ul>
+
+<div id="filterPriceBox" class="filter-module-main">
+    <ul class="filter-price-fields">
+        <li><label>$</label><input type="text" size="3" maxlength="4" value="1" name="minprice"></li>
+        <li><label>$</label><input type="text" size="3" maxlength="4" value="1" name="maxprice"></li>
+    </ul>
+    <div id="filterPriceSlider">
+        <div id="filterPriceBarBack"></div>                
+        <div id="filterPriceBarTop"></div>
+        <div id="filterPriceMinHandle" class="filter-price-handle filter-price-handle-min">Minimum Price</div>
+        <div id="filterPriceMaxHandle" class="filter-price-handle filter-price-handle-max">Maximum Price</div>
+    </div>
+</div>
+
+</div>      
+
+</section>
  
 </div> 
 <!--end content-->
@@ -538,7 +242,7 @@ margin-left: 3px;
 {{/products}}--->
 <!---product-grid start--->
 
-<ol class="items-list hidden">
+<ol class="items items-list hidden">
 {{#products}}  
       <li>
         
@@ -598,7 +302,7 @@ margin-left: 3px;
 
 </ol>
 
-<ol class="items-grid block">
+<ol class="items items-grid block">
 
 
 {{#products}}  
