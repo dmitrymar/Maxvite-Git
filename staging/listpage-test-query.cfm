@@ -5,7 +5,7 @@
 <cfparam name="productstart" type="integer" default="1">
 <cfparam name="productend" type="integer" default="30">
 <cfparam name="brandfilter" type="string" default="0">
-<cfparam name="sort" type="string" default="nameaz">    
+<cfparam name="sort" type="string" default="nameaz">
 <cfquery name="GetData" datasource="#Application.ds#">
 						SELECT ProductID, BrandID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagebig, description, Tablets
 						FROM Products
@@ -34,27 +34,29 @@
             Title ASC
         </cfif>
 </cfquery>
-
 <cfset productstart = Ceiling((startpage*numberonpage)+1)>
-
 <cfset productend = Ceiling(productstart + (numberonpage-1))>
-
 <cfloop query="GetData" startrow="#productstart#" endrow="#productend#">
-
-<!---check if product is buy 1 get 1 free--->
-<cfquery name="GetDataSubc" datasource="#Application.ds#" maxrows=1>
+  <!---check if product is buy 1 get 1 free--->
+  <cfquery name="GetDataSubc" datasource="#Application.ds#" maxrows=1>
 	Select DISTINCT Category.categoryID, Category, SubCategory.subcategoryid, subcategory
 	From Category , SubCategory, Product_SUBCategory_Map
 	Where Product_SUBCategory_Map.SubCategoryID = SubCategory.SubCategoryID
 	AND SubCategory.CategoryID = 54
 	AND Product_SUBCategory_Map.ProductID = #ProductID#
 </cfquery>
-
+<cfquery name="GetMinOrderQty" datasource="#Application.ds#">
+	SELECT b.MIN, p.BrandID, b.BrandID    
+	FROM Products p, Brands b
+	WHERE p.BrandID = b.BrandID
+	AND p.ProductID = #ProductID#
+</cfquery>
+<cfset minimum_order_qty = #GetMinOrderQty.MIN#>
 
   <cfinclude template="/dealquery.cfm">
   <cfif newprice neq 0>
-  <cfset youSave = val(listprice)-val(newprice)>
-  <cfset youSavePcnt = round(Evaluate(    ((val(listprice)-val(newprice))/val(listprice)) *100))>
+    <cfset youSave = val(listprice)-val(newprice)>
+    <cfset youSavePcnt = round(Evaluate(    ((val(listprice)-val(newprice))/val(listprice)) *100))>
   </cfif>
   <!---this code sets image url--->
   <cfhttp url="http://www.maxvite.com/images/#imagebig#" timeout="45" result="result" throwOnError="no">
@@ -74,119 +76,90 @@
   <cfset eachProductStruct["serving_size"] = "#ServingSize#" />
   <cfset eachProductStruct["image_url"] = "#imageURL#" />
   <cfset eachProductStruct["product_url"] = "/#ProductID#/#ReReplace(title,"[^0-9a-zA-Z]+","-","ALL")#/product.html" />
+  <cfif minimum_order_qty GT 2>
+    <cfset eachProductStruct["show_min_qty_list"] = true />  
+  <cfelse>
+    <cfset eachProductStruct["show_min_qty_list"] = false />      
+  </cfif> 
 
-<!---check if product is buy 1 get 1 free--->
-<cfif GetDataSubc.SubCategoryID eq 554>
-  <cfset eachProductStruct["bogo"] = 1 />
+  <!---check if product is buy 1 get 1 free--->   
+  <cfif GetDataSubc.SubCategoryID eq 554>
+    <cfset eachProductStruct["bogo"] = 1 />
     <cfset eachProductStruct["list_price"] = #Dollarformat(ListPrice)# />
-      <cfset eachProductStruct["our_price"] = #Dollarformat(ourprice)# />
-      <cfset eachProductStruct["dollars_saved"] = #Dollarformat(youSave)# />
-      <cfset eachProductStruct["percent_saved"] = #youSavePcnt# />
-
-<cfelse>
-  
-  <cfif #ListPrice# GT #newprice# AND #newprice# GT 0>
-    <cfset eachProductStruct["list_price"] = #Dollarformat(ListPrice)# />
+    <cfset eachProductStruct["our_price"] = #Dollarformat(ourprice)# />
+    <cfset eachProductStruct["dollars_saved"] = #Dollarformat(youSave)# />
+    <cfset eachProductStruct["percent_saved"] = #youSavePcnt# />
     <cfelse>
-    <cfset eachProductStruct["just_price"] = #Dollarformat(ListPrice)# />
-  </cfif>
-  <cfif newprice neq 0>
-    <cfif #youSavePcnt# GT 0>
-      <cfset eachProductStruct["our_price"] = #Dollarformat(newprice)# />
-      <cfset eachProductStruct["dollars_saved"] = #Dollarformat(youSave)# />
-      <cfset eachProductStruct["percent_saved"] = #youSavePcnt# />
+    <cfif #ListPrice# GT #newprice# AND #newprice# GT 0>
+      <cfset eachProductStruct["list_price"] = #Dollarformat(ListPrice)# />
+      <cfelse>
+      <cfset eachProductStruct["just_price"] = #Dollarformat(ListPrice)# />
+    </cfif>
+    <cfif newprice neq 0>
+      <cfif #youSavePcnt# GT 0>
+        <cfset eachProductStruct["our_price"] = #Dollarformat(newprice)# />
+        <cfset eachProductStruct["dollars_saved"] = #Dollarformat(youSave)# />
+        <cfset eachProductStruct["percent_saved"] = #youSavePcnt# />
+      </cfif>
     </cfif>
   </cfif>
-    
-</cfif>
-
-
-
-<!---  <cfset eachProductStruct["rating"] = "<script>POWERREVIEWS.display.snippet({write : function(content){$('##pr_snippet_category_#ProductID#').append(content);}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />
---->  
-<cfset eachProductStruct["rating_grid"] = "<script>var rating#ProductID# = document.getElementById('pr_snippet_category_#ProductID#');POWERREVIEWS.display.snippet({write : function(content){rating#ProductID#.innerHTML = rating#ProductID#.innerHTML + content;}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />
-<cfset eachProductStruct["rating_list"] = "<script>var rating#ProductID# = document.getElementById('pr_snippet_category#ProductID#');POWERREVIEWS.display.snippet({write : function(content){rating#ProductID#.innerHTML = rating#ProductID#.innerHTML + content;}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />  
-
+  <!---  <cfset eachProductStruct["rating"] = "<script>POWERREVIEWS.display.snippet({write : function(content){$('##pr_snippet_category_#ProductID#').append(content);}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />
+--->
+  <cfset eachProductStruct["rating_grid"] = "<script>var rating#ProductID# = document.getElementById('pr_snippet_category_#ProductID#');POWERREVIEWS.display.snippet({write : function(content){rating#ProductID#.innerHTML = rating#ProductID#.innerHTML + content;}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />
+  <cfset eachProductStruct["rating_list"] = "<script>var rating#ProductID# = document.getElementById('pr_snippet_category#ProductID#');POWERREVIEWS.display.snippet({write : function(content){rating#ProductID#.innerHTML = rating#ProductID#.innerHTML + content;}},{pr_page_id: '#ProductID#', pr_snippet_min_reviews : '1'})</script>" />
   <cfset ArrayAppend(eachProductArray,eachProductStruct) />
 </cfloop>
-
 <cfset NumProducts = Ceiling(GetData.Recordcount)>
-
 <cfset NumPages = Ceiling(GetData.Recordcount/numberonpage)>
-
 <cfset currentPage = (startpage+1)>
-
 <cfset lastPageID = (NumPages-1)>
-
 <cfset lastPage = (currentPage EQ NumPages) ? true : false>
-
-
-
 <cfset firstPage = (startpage EQ 0) ? true : false>
-
 <cfset prevPage = (startpage EQ 0) ? 0 : (startpage-1)>
-
-
 <cfif productend GT NumProducts>
   <cfset productend = Ceiling(NumProducts)>
 </cfif>
-
 <cfif NumProducts GT 30>
   <cfset productsperpage = true>
   <cfelse>
   <cfset productsperpage = false>
 </cfif>
-
 <cfset perPageArray = [] />
-
 <cfif NumProducts GT 30>
-
   <cfset perPageArray[1] = {
 "products" = 30,
 "selected" = ((numberonpage EQ 30) ? true : false)
 } />
-
   <cfset perPageArray[2] = {
 "products" = 60,
 "selected" = ((numberonpage EQ 60) ? true : false)
 } />
-
   <cfset perPageArray[3] = {
 "products" = 90,
 "selected" = ((numberonpage EQ 90) ? true : false)
 } />
 </cfif>
-
-
-
-
 <cfset sortArray = [] />
-
-
-  <cfset sortArray[1] = {
+<cfset sortArray[1] = {
 "sort_value" = "nameaz",
 "sort_title" = "Name: A to Z",
 "selected" = ((sort EQ "nameaz") ? true : false)
 } />
-
-  <cfset sortArray[2] = {
+<cfset sortArray[2] = {
 "sort_value" = "nameza",
 "sort_title" = "Name: Z to A",
 "selected" = ((sort EQ "nameza") ? true : false)
 } />
-
-  <cfset sortArray[3] = {
+<cfset sortArray[3] = {
 "sort_value" = "pricelowhigh",
 "sort_title" = "Price Low-High",
 "selected" = ((sort EQ "pricelowhigh") ? true : false)
 } />
-
-  <cfset sortArray[4] = {
+<cfset sortArray[4] = {
 "sort_value" = "pricehighlow",
 "sort_title" = "Price High-Low",
 "selected" = ((sort EQ "pricehighlow") ? true : false)
 } />
-
 <!---Output json--->
 
 <cfif GetData.Recordcount EQ 0>

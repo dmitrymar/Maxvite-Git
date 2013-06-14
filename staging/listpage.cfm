@@ -214,7 +214,6 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 <script src="/js/mustache.js"></script>  
 
-<script src="/js/libs/jquery.mockjax.js"></script>
 <script id="filterTpl" type="text/template">
 {{#filters}}
 <ul class="filter-title">
@@ -280,15 +279,15 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 			{{#instock}}
               <form class="additemform">
                                 <input type="hidden" value="{{product_id}}" name="ProductID">
-                <p class="listViewQtyBox"> <span class="listViewQty">Quantity</span>
-                  
-                                        <input type="text" size="3" class="qtyInput" maxlength="4" value="{{#bogo}}2{{/bogo}}{{^bogo}}1{{/bogo}}" name="qtytoadd">
-
-                  <button class="btn bigButton" name="addtocart" type="submit">Add To Cart</button>
-                  <span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span> </p>
-                
+								<ul class="items-list-qty-box">
+								<li>Quantity</li>
+								<li><cfinclude template="product-qty.cfm"></li>
+								<li><button class="btn bigButton" name="addtocart" type="submit">Add To Cart</button><span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span></li>
+								</ul>                
               </form>
               {{/instock}}
+			  
+			  {{#show_min_qty_list}}<p class="small">Minimum Order Qty: 3</p>{{/show_min_qty_list}}
 			
 			<div class="pr_snippet_category" id="pr_snippet_category{{product_id}}">
               {{{rating_list}}}
@@ -312,13 +311,15 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
           <dt class="items-grid-title"><a href="{{product_url}}">{{name}}</a></dt>
           <dd class="items-grid-form">{{form}}</dd>
  			  {{#bogo}}
-			  <dd class="items-grid-bigprice">Get Two For Only {{list_price}}<br>Buy 1 Get 1 Free</dd>
+			  <dd class="items-grid-bogo">Get Two For Only {{list_price}}<br>Buy 1 Get 1 Free</dd>
 			  <dd>Get 1 for {{our_price}}</dd>
 			  {{/bogo}}
          
               {{#list_price}}
 			  	{{^bogo}}
-			  	<dd><span class="items-grid-listprice">List Price: <span class="strike">{{list_price}}</span></span></dd>
+			  	<dd class="items-grid-listprice">
+				<ul><li>List Price:&nbsp;</li><li class="strike">{{list_price}}</li></ul>				
+				</dd>
                 <dd class="items-grid-bigprice"><span class="green">Our Price:</span> {{our_price}}</dd>
 				{{/bogo}}
                 <dd>You Save:&nbsp;{{dollars_saved}} ({{percent_saved}})%</dd>
@@ -332,17 +333,15 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
                         {{^instock}}<a class="btn btn-muted" href="{{product_url}}">Out of Stock</a>{{/instock}}
 			{{#instock}}
               <form class="additemform">
-                <input type="hidden" value="{{product_id}}" name="ProductID">
-                <p>
-                  
-                    Qty.
-                    
-                    <input type="text" size="3" class="qtyInput" maxlength="4" value="{{#bogo}}2{{/bogo}}{{^bogo}}1{{/bogo}}" name="qtytoadd">
-                    <button name="addtocart" class="btn">Add To Cart</button>
-                    <span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span>   
-                </p>
+                                <input type="hidden" value="{{product_id}}" name="ProductID">
+								<ul class="items-list-qty-box">
+								<li>Qty.</li>
+								<li><cfinclude template="product-qty.cfm"></li>
+								<li><button name="addtocart" class="btn">Add To Cart</button><span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span></li>
+								</ul>                
               </form>
 			{{/instock}}
+			  {{#show_min_qty_list}}<p class="small">Minimum Order Qty: 3</p>{{/show_min_qty_list}}
 			
 			<div class="pr_snippet_category" id="pr_snippet_category_{{product_id}}">
               {{{rating_grid}}}
