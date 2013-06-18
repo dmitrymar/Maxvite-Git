@@ -264,16 +264,16 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 
 		  {{#bogo}}
-			  <p class="items-list-ourprice">Get Two For Only {{list_price}}<br>Buy 1 Get 1 Free</p>
-			  <p>Get 1 for {{our_price}}&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: {{dollars_saved}} ({{percent_saved}})%</span></p>
+			  <p class="items-list-ourprice">Get Two For Only ${{list_price}}<br>Buy 1 Get 1 Free</p>
+			  <p>Get 1 for ${{final_price}}&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: ${{dollars_saved}} ({{percent_saved}})%</span></p>
 			  {{/bogo}}
 {{#list_price}}
 			  	{{^bogo}}
-				<p class="items-list-ourprice">Our Price: {{our_price}}</p>
-				<p><span class="items-list-listprice">List Price: <span class="strike">{{list_price}}</span></span>&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: {{dollars_saved}} ({{percent_saved}})%</span></p>
+				<p class="items-list-ourprice">Our Price: ${{final_price}}</p>
+				<p><span class="items-list-listprice">List Price: <span class="strike">${{list_price}}</span></span>&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: ${{dollars_saved}} ({{percent_saved}})%</span></p>
 				{{/bogo}}
 {{/list_price}}              
-			  {{#just_price}}<p class="items-list-ourprice">Price: {{just_price}}</p>{{/just_price}}
+			  {{#just_price}}<p class="items-list-ourprice">Price: ${{final_price}}</p>{{/just_price}}
           
             {{^instock}}<p><a class="btn btn-muted" href="{{product_url}}">Out of Stock</a></p>{{/instock}}
 			{{#instock}}
@@ -311,21 +311,21 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
           <dt class="items-grid-title"><a href="{{product_url}}">{{name}}</a></dt>
           <dd class="items-grid-form">{{form}}</dd>
  			  {{#bogo}}
-			  <dd class="items-grid-bogo">Get Two For Only {{list_price}}<br>Buy 1 Get 1 Free</dd>
-			  <dd>Get 1 for {{our_price}}</dd>
+			  <dd class="items-grid-bogo">Get Two For Only ${{list_price}}<br>Buy 1 Get 1 Free</dd>
+			  <dd>Get 1 for ${{final_price}}</dd>
 			  {{/bogo}}
          
               {{#list_price}}
 			  	{{^bogo}}
 			  	<dd class="items-grid-listprice">
-				<ul><li>List Price:&nbsp;</li><li class="strike">{{list_price}}</li></ul>				
+				<ul><li>List Price:&nbsp;</li><li class="strike">${{list_price}}</li></ul>				
 				</dd>
-                <dd class="items-grid-bigprice"><span class="green">Our Price:</span> {{our_price}}</dd>
+                <dd class="items-grid-bigprice"><span class="green">Our Price:</span> ${{final_price}}</dd>
 				{{/bogo}}
-                <dd>You Save:&nbsp;{{dollars_saved}} ({{percent_saved}})%</dd>
+                <dd>You Save:&nbsp;${{dollars_saved}} ({{percent_saved}})%</dd>
 			  {{/list_price}}
               
-			  {{#just_price}}<dd class="items-grid-bigprice">Price: {{just_price}}</dd>{{/just_price}}
+			  {{#just_price}}<dd class="items-grid-bigprice">Price: ${{final_price}}</dd>{{/just_price}}
 			  
 
               
