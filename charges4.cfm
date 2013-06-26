@@ -3,7 +3,12 @@
 <cfelse>
 	<cfset storedisc = #Session.Storediscount#>
 </cfif>
+<cfquery name="GetFS" datasource="#Application.ds#">
+	SELECT FreeShipping
+	FROM SystemOptions
+</CFQUERY>
 
+<cfset v_fs_threshold = GetFS.FreeShipping>
 
 
 	<cfset v_taxamount = 0>
@@ -184,7 +189,7 @@ UPS REturned 0
 		<cfset v_ship = v_ship + v_ups>
 	<!--- Not Food --->
 	<cfelseif v_amount_food EQ 0 AND v_amount_viatmin GT 0>
-		<cfif v_amount_viatmin-val(Session.Storediscount) GT 75 or Session.StoreTotalAmount GT 75>
+		<cfif v_amount_viatmin-val(Session.Storediscount) GT v_fs_threshold or Session.StoreTotalAmount GT v_fs_threshold>
 			<cfset v_ship = 0>
 		<cfelse>
 			<cfset v_tttt2 = #evaluate(v_weight_viatmin)# * .0625> <!--- 32 ounces was 2 --->
@@ -196,7 +201,7 @@ UPS REturned 0
 		</cfif>
 	<!--- Mixture of Food & Not Food --->
 	<cfelseif v_amount_food GT 0 AND v_amount_viatmin GT 0>
-		<cfif v_amount_viatmin-val(Session.Storediscount) GT 75>
+		<cfif v_amount_viatmin-val(Session.Storediscount) GT v_fs_threshold>
 			<cfif val(v_weight_food) LTE 33>
 				<cfset v_ship = 0>
 			<cfelse>
@@ -264,15 +269,7 @@ UPS REturned 0
 	</cfif>
 	</cfoutput>
 
-<!--- <cfquery name="GetFS" datasource="#Application.ds#">
-	SELECT FreeShipping
-	FROM SystemOptions
-</CFQUERY>
-<cfif GetFS.Recordcount GT 0>
-		<cfset v_fs_threshold = GetFS.FreeShipping>
-<cfelse>
-		<cfset v_fs_threshold = 0>
-</cfif>
+<!--- 
 
 
 <cfquery name="GetData" datasource="#Application.ds#">
