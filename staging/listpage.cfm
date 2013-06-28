@@ -17,6 +17,86 @@
 						Group by p.BrandID
                         Order by b.Brand ASC
 </cfquery>
+<cfquery name="GetWeeklySpecials" datasource="#Application.ds#">
+  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
+  FROM Products p, Product_SUBCategory_Map ps
+  WHERE p.ProductID = ps.ProductID
+  AND ps.SUBCATEGORYID = 313
+  AND p.Display = 1
+  AND
+  (p.Description LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.Title LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.ProductID = #val(searchkeywords)#
+   OR
+  p.UPC LIKE '%#SEARCHKEYWORDS#%'
+   )
+</cfquery>
+<cfquery name="GetBrandSpecials" datasource="#Application.ds#">
+  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
+  FROM Products p, Product_SUBCategory_Map ps
+  WHERE p.ProductID = ps.ProductID
+  AND ps.SUBCATEGORYID = 555
+  AND p.Display = 1
+  AND
+  (p.Description LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.Title LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.ProductID = #val(searchkeywords)#
+   OR
+  p.UPC LIKE '%#SEARCHKEYWORDS#%'
+   )
+</cfquery>
+<cfquery name="GetSuperDeals" datasource="#Application.ds#">
+  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
+  FROM Products p, Product_SUBCategory_Map ps
+  WHERE p.ProductID = ps.ProductID
+  AND ps.SUBCATEGORYID = 865
+  AND p.Display = 1
+  AND
+  (p.Description LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.Title LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.ProductID = #val(searchkeywords)#
+   OR
+  p.UPC LIKE '%#SEARCHKEYWORDS#%'
+   )
+</cfquery>
+<cfquery name="GetSuperDeals" datasource="#Application.ds#">
+  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
+  FROM Products p, Product_SUBCategory_Map ps
+  WHERE p.ProductID = ps.ProductID
+  AND ps.SUBCATEGORYID = 865
+  AND p.Display = 1
+  AND
+  (p.Description LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.Title LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.ProductID = #val(searchkeywords)#
+   OR
+  p.UPC LIKE '%#SEARCHKEYWORDS#%'
+   )
+</cfquery>
+<cfquery name="GetBOGO" datasource="#Application.ds#">
+  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
+  FROM Products p, Product_SUBCategory_Map ps
+  WHERE p.ProductID = ps.ProductID
+  AND ps.SUBCATEGORYID = 554
+  AND p.Display = 1
+  AND
+  (p.Description LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.Title LIKE '%#SEARCHKEYWORDS#%'
+   OR
+   p.ProductID = #val(searchkeywords)#
+   OR
+  p.UPC LIKE '%#SEARCHKEYWORDS#%'
+   )
+</cfquery>
 <cfquery name="GetConcernsData" datasource="#Application.ds#">
 	Select f.FormulaType, f.FormulaTypeID, COUNT(m.ProductID) as "product_count"
 	from Product_Formula_Map m, FormulaTypes f
@@ -166,19 +246,19 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
   <li>
     <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Brand Specials <span class="filter-module-checkbox-count">(6)</span></label>
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Brand Specials <span class="filter-module-checkbox-count">(<cfoutput query="GetBrandSpecials">#product_count#</cfoutput>)</span></label>
   </li>
   <li>
     <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Weekly Specials <span class="filter-module-checkbox-count">(0)</span></label>
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Weekly Specials <span class="filter-module-checkbox-count">(<cfoutput query="GetWeeklySpecials">#product_count#</cfoutput>)</span></label>
   </li>
   <li>
     <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Super Deals <span class="filter-module-checkbox-count">(0)</span></label>
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Super Deals <span class="filter-module-checkbox-count">(<cfoutput query="GetSuperDeals">#product_count#</cfoutput>)</span></label>
   </li>
   <li>
     <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Buy 1 Get 1 Free <span class="filter-module-checkbox-count">(0)</span></label>
+    <label alt="#FormulaType#" for="#FormulaTypeID#">Buy 1 Get 1 Free <span class="filter-module-checkbox-count">(<cfoutput query="GetBOGO">#product_count#</cfoutput>)</span></label>
   </li>      
 </ul>
 
@@ -212,9 +292,8 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 </div> 
 <!--end content-->
 
-<script src="/js/mustache.js"></script>  
 
-<script id="filterTpl" type="text/template">
+<script id="filterTpl" type="text/x-handlebars-template">
 {{#filters}}
 <ul class="filter-title">
   <li>{{filter_name}}</li>
@@ -233,7 +312,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 {{/filters}}
 
 </script>
-<script id="listTpl" type="text/template">
+<script id="listTpl" type="text/x-handlebars-template">
 <cfinclude template="listpage-toolbar.cfm">			
 
 <!---{{#products}}
@@ -242,7 +321,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <!---product-grid start--->
 
 <ol class="items items-list hidden">
-{{#products}}  
+{{#each products}}  
       <li>
         
         <dl>
@@ -261,22 +340,22 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
             </dl>
           </dd>
           <dd class="items-list-pricing">
-
-
-		  {{#bogo}}
+              
+{{#if bogo}}
 			  <p class="items-list-ourprice">Get Two For Only ${{list_price}}<br>Buy 1 Get 1 Free</p>
 			  <p>Get 1 for ${{final_price}}&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: ${{dollars_saved}} ({{percent_saved}})%</span></p>
-			  {{/bogo}}
-{{#list_price}}
-			  	{{^bogo}}
+{{/if}}
+              
+{{#if list_price}}
+			  	{{#unless bogo}}
 				<p class="items-list-ourprice">Our Price: ${{final_price}}</p>
 				<p><span class="items-list-listprice">List Price: <span class="strike">${{list_price}}</span></span>&nbsp;&nbsp;&nbsp;<span class="items-list-pricing-usave">You Save: ${{dollars_saved}} ({{percent_saved}})%</span></p>
-				{{/bogo}}
-{{/list_price}}              
-			  {{#just_price}}<p class="items-list-ourprice">Price: ${{final_price}}</p>{{/just_price}}
+				{{/unless}}
+{{/if}}              
+			  {{#if just_price}}<p class="items-list-ourprice">Price: ${{final_price}}</p>{{/if}}
           
-            {{^instock}}<p><a class="btn btn-muted" href="{{product_url}}">Out of Stock</a></p>{{/instock}}
-			{{#instock}}
+            {{#unless instock}}<p><a class="btn btn-muted" href="{{product_url}}">Out of Stock</a></p>{{/unless}}
+			{{#if instock}}
               <form class="additemform">
                                 <input type="hidden" value="{{product_id}}" name="ProductID">
 								<ul class="items-list-qty-box">
@@ -285,9 +364,9 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 								<li><button class="btn bigButton" name="addtocart" type="submit">Add To Cart</button><span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span></li>
 								</ul>                
               </form>
-              {{/instock}}
+              {{/if}}
 			  
-			  {{#show_min_qty_list}}<p class="small">Minimum Order Qty: 3</p>{{/show_min_qty_list}}
+			  {{#if show_min_qty_list}}<p class="small">Minimum Order Qty: 3</p>{{/if}}
 			
 			<div class="pr_snippet_category" id="pr_snippet_category{{product_id}}">
               {{{rating_list}}}
@@ -297,41 +376,41 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
         </dl>
         <div class="clear"></div>
       </li>
-{{/products}}
+{{/each}}
 
 </ol>
 
 <ol class="items items-grid block">
 
 
-{{#products}}  
+{{#each products}}  
       <li class="items-grid-node">
         <dl style="display: block;">
           <dd class="items-grid-thumb"><a href="{{product_url}}"><span></span><img alt="{{name}}" src="{{image_url}}"></a></dd>
           <dt class="items-grid-title"><a href="{{product_url}}">{{name}}</a></dt>
           <dd class="items-grid-form">{{form}}</dd>
- 			  {{#bogo}}
+ 			  {{#if bogo}}
 			  <dd class="items-grid-bogo">Get Two For Only ${{list_price}}<br>Buy 1 Get 1 Free</dd>
 			  <dd>Get 1 for ${{final_price}}</dd>
-			  {{/bogo}}
+			  {{/if}}
          
-              {{#list_price}}
-			  	{{^bogo}}
+              {{#if list_price}}
+			  	{{#unless bogo}}
 			  	<dd class="items-grid-listprice">
 				<ul><li>List Price:&nbsp;</li><li class="strike">${{list_price}}</li></ul>				
 				</dd>
                 <dd class="items-grid-bigprice"><span class="green">Our Price:</span> ${{final_price}}</dd>
-				{{/bogo}}
+				{{/unless}}
                 <dd>You Save:&nbsp;${{dollars_saved}} ({{percent_saved}})%</dd>
-			  {{/list_price}}
+			  {{/if}}
               
 			  {{#just_price}}<dd class="items-grid-bigprice">Price: ${{final_price}}</dd>{{/just_price}}
 			  
 
               
           <dd class="addToCartBox">
-                        {{^instock}}<a class="btn btn-muted" href="{{product_url}}">Out of Stock</a>{{/instock}}
-			{{#instock}}
+                        {{#unless instock}}<a class="btn btn-muted" href="{{product_url}}">Out of Stock</a>{{/unless}}
+			{{#if instock}}
               <form class="additemform">
                                 <input type="hidden" value="{{product_id}}" name="ProductID">
 								<ul class="items-list-qty-box">
@@ -340,8 +419,8 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 								<li><button name="addtocart" class="btn">Add To Cart</button><span class="addingItemMsg"><img src="/img/spinner.gif"> Adding To Cart</span></li>
 								</ul>                
               </form>
-			{{/instock}}
-			  {{#show_min_qty_list}}<p class="small">Minimum Order Qty: 3</p>{{/show_min_qty_list}}
+			{{/if}}
+			  {{#if show_min_qty_list}}<p class="small">Minimum Order Qty: 3</p>{{/if}}
 			
 			<div class="pr_snippet_category" id="pr_snippet_category_{{product_id}}">
               {{{rating_grid}}}
@@ -352,7 +431,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
         
         <div class="clear"></div>
       </li>
-{{/products}}
+{{/each}}
 
 </ol>
 <!---product-grid end--->
@@ -368,6 +447,7 @@ var Searchkeywords = {
 }
 </cfoutput>
 </script>
+<script src="js/handlebars.js"></script>      
 <script src="js/listpage-test.js?v=<cfoutput>#Rand('SHA1PRNG')#</cfoutput>"></script>
 
 <cfinclude template="/footer.cfm">
