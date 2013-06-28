@@ -22,7 +22,7 @@
 
   <cfreturn returnVal>
 </cffunction>
-
+<!------>
 
 <cfset eachProductArray = ArrayNew(1) />
 <cfparam name="searchkeywords" default="">
@@ -31,39 +31,38 @@
 <cfparam name="productstart" type="integer" default="1">
 <cfparam name="productend" type="integer" default="30">
 <cfparam name="brandfilter" type="string" default="0">
+<cfparam name="specialsfilter" type="string" default="0">
 <cfparam name="sort" type="string" default="nameaz">
+
 <cfquery name="GetData" datasource="#Application.ds#">
-						SELECT ProductID, BrandID, Title, instockflag, strapline, ServingSize, listprice, ourprice, featuredproductflag, featuredproductflag2, imagebig, description, Tablets
-						FROM Products
-						Where Display = 1
-						<cfif brandfilter NEQ 0>
-						AND BrandID IN (#URLDecode(brandfilter)#)
-                        <!---AND BrandID IN (1,6)--->
-						</cfif>
-						AND
-						(Description like '%#SEARCHKEYWORDS#%'
-						 OR
-						 Title like '%#SEARCHKEYWORDS#%'
-						 OR
-						 ProductID = #val(searchkeywords)#
-						 OR
-						UPC like '%#SEARCHKEYWORDS#%'
-						 )
-<!---						ORDER BY
-    <cfif sort EQ "nameza">
-    Title DESC
-    <cfelseif sort EQ "pricelowhigh">
-  listprice ASC
-    <cfelseif sort EQ "pricehighlow">
-  listprice DESC  
+  SELECT p.ProductID, p.BrandID, p.Title, p.instockflag, p.strapline, p.ServingSize, p.listprice, p.ourprice, p.featuredproductflag, p.featuredproductflag2, p.imagebig, p.description, p.Tablets
+  FROM Products p
+  Where p.Display = 1                      
+  <cfif brandfilter NEQ 0>
+    AND p.BrandID IN (#URLDecode(brandfilter)#)
+    <!---AND BrandID IN (1,6)--->
+  </cfif>
+  AND
+  (p.Description like '%#SEARCHKEYWORDS#%'
+   OR
+   p.Title like '%#SEARCHKEYWORDS#%'
+   OR
+   p.ProductID = #val(searchkeywords)#
+   OR
+  p.UPC like '%#SEARCHKEYWORDS#%'
+   )
+  <cfif sort EQ "nameza">
+    ORDER BY p.Title DESC
     <cfelse>
-            Title ASC
-        </cfif>--->
+    ORDER BY p.Title ASC
+  </cfif>
 </cfquery>
+
 <cfset productstart = Ceiling((startpage*numberonpage)+1)>
 <cfset productend = Ceiling(productstart + (numberonpage-1))>
 
 <cfloop query="GetData" startrow="#productstart#" endrow="#productend#">
+
   <!---check if product is buy 1 get 1 free--->
   <cfquery name="GetDataSubc" datasource="#Application.ds#" maxrows=1>
 	Select DISTINCT Category.categoryID, Category, SubCategory.subcategoryid, subcategory
@@ -95,6 +94,7 @@
   </cfif>
   <!------>
   <cfset eachProductStruct = StructNew() />
+  
   <cfset eachProductStruct["product_id"] = #ProductID# />
   <cfset eachProductStruct["name"] = "#Title#" />
   <cfset eachProductStruct["instock"] = #instockflag# />
@@ -112,22 +112,22 @@
   <!---check if product is buy 1 get 1 free--->   
   <cfif GetDataSubc.SubCategoryID eq 554>
     <cfset eachProductStruct["bogo"] = 1 />
-    <cfset eachProductStruct["list_price"] = #DecimalFormat(ListPrice)# />
-    <cfset eachProductStruct["final_price"] = #DecimalFormat(ourprice)# />    
-    <cfset eachProductStruct["dollars_saved"] = #DecimalFormat(youSave)# />
-    <cfset eachProductStruct["percent_saved"] = #youSavePcnt# />
+    <cfset eachProductStruct["list_price"] = "#DecimalFormat(ListPrice)#" />
+    <cfset eachProductStruct["final_price"] = "#DecimalFormat(ourprice)#" />    
+    <cfset eachProductStruct["dollars_saved"] = "#DecimalFormat(youSave)#" />
+    <cfset eachProductStruct["percent_saved"] = "#youSavePcnt#" />
     <cfelse>
     <cfif #ListPrice# GT #newprice# AND #newprice# GT 0>
-      <cfset eachProductStruct["list_price"] = #DecimalFormat(ListPrice)# />
+      <cfset eachProductStruct["list_price"] = "#DecimalFormat(ListPrice)#" />
       <cfelse>
       <cfset eachProductStruct["just_price"] = true />
-     <cfset eachProductStruct["final_price"] = #DecimalFormat(ListPrice)# />         
+     <cfset eachProductStruct["final_price"] = "#DecimalFormat(ListPrice)#" />         
     </cfif>
     <cfif newprice neq 0>
       <cfif #youSavePcnt# GT 0>
-     <cfset eachProductStruct["final_price"] = #DecimalFormat(newprice)# />                 
-        <cfset eachProductStruct["dollars_saved"] = #DecimalFormat(youSave)# />
-        <cfset eachProductStruct["percent_saved"] = #youSavePcnt# />
+     <cfset eachProductStruct["final_price"] = "#DecimalFormat(newprice)#" />                 
+        <cfset eachProductStruct["dollars_saved"] = "#DecimalFormat(youSave)#" />
+        <cfset eachProductStruct["percent_saved"] = "#youSavePcnt#" />
       </cfif>
     </cfif>
   </cfif>
@@ -137,17 +137,17 @@
   <cfset ArrayAppend(eachProductArray,eachProductStruct) />
 
 
-    <cfif sort EQ "nameza">
-<cfset eachProductArray = ArrayOfStructSort(eachProductArray, "text", "desc", "name")>
-    <cfelseif sort EQ "pricelowhigh">
+<cfif sort EQ "pricelowhigh">
 <cfset eachProductArray = ArrayOfStructSort(eachProductArray, "Numeric", "asc", "final_price")>
-    <cfelseif sort EQ "pricehighlow">
-<cfset eachProductArray = ArrayOfStructSort(eachProductArray, "Numeric", "desc", "final_price")>
-    <cfelse>
-<cfset eachProductArray = ArrayOfStructSort(eachProductArray, "text", "asc", "name")>
-        </cfif>
-  
+</cfif>
+      
 </cfloop>
+
+
+
+
+
+
 <cfset NumProducts = Ceiling(GetData.Recordcount)>
 <cfset NumPages = Ceiling(GetData.Recordcount/numberonpage)>
 <cfset currentPage = (startpage+1)>
@@ -199,6 +199,8 @@
 "sort_title" = "Price High-Low",
 "selected" = ((sort EQ "pricehighlow") ? true : false)
 } />
+
+
 <!---Output json--->
 
 <cfif GetData.Recordcount EQ 0>
