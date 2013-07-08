@@ -1,109 +1,5 @@
-<cfparam name="searchkeywords" default="calcium">
+<cfparam name="searchkeywords" default="diet">
 <cfparam name="startpage" type="numeric" default="0">
-<cfquery name="GetBrandData" datasource="#Application.ds#">
-						SELECT b.Brand, p.Description, p.BrandID, p.ProductID, COUNT(*) as "product_count"
-						FROM Products p, Brands b
-                        WHERE p.BrandID = b.BrandID
-                        AND p.Display = 1                        
-						AND
-						(p.Description like '%#SEARCHKEYWORDS#%'
-						 OR
-						 p.Title like '%#SEARCHKEYWORDS#%'
-						 OR
-						 p.ProductID = #val(searchkeywords)#
-						 OR
-						p.UPC like '%#SEARCHKEYWORDS#%'
-						 )
-						Group by p.BrandID
-                        Order by b.Brand ASC
-</cfquery>
-<cfquery name="GetWeeklySpecials" datasource="#Application.ds#">
-  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
-  FROM Products p, Product_SUBCategory_Map ps
-  WHERE p.ProductID = ps.ProductID
-  AND ps.SUBCATEGORYID = 313
-  AND p.Display = 1
-  AND
-  (p.Description LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.Title LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.ProductID = #val(searchkeywords)#
-   OR
-  p.UPC LIKE '%#SEARCHKEYWORDS#%'
-   )
-</cfquery>
-<cfquery name="GetBrandSpecials" datasource="#Application.ds#">
-  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
-  FROM Products p, Product_SUBCategory_Map ps
-  WHERE p.ProductID = ps.ProductID
-  AND ps.SUBCATEGORYID = 555
-  AND p.Display = 1
-  AND
-  (p.Description LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.Title LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.ProductID = #val(searchkeywords)#
-   OR
-  p.UPC LIKE '%#SEARCHKEYWORDS#%'
-   )
-</cfquery>
-<cfquery name="GetSuperDeals" datasource="#Application.ds#">
-  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
-  FROM Products p, Product_SUBCategory_Map ps
-  WHERE p.ProductID = ps.ProductID
-  AND ps.SUBCATEGORYID = 865
-  AND p.Display = 1
-  AND
-  (p.Description LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.Title LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.ProductID = #val(searchkeywords)#
-   OR
-  p.UPC LIKE '%#SEARCHKEYWORDS#%'
-   )
-</cfquery>
-<cfquery name="GetSuperDeals" datasource="#Application.ds#">
-  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
-  FROM Products p, Product_SUBCategory_Map ps
-  WHERE p.ProductID = ps.ProductID
-  AND ps.SUBCATEGORYID = 865
-  AND p.Display = 1
-  AND
-  (p.Description LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.Title LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.ProductID = #val(searchkeywords)#
-   OR
-  p.UPC LIKE '%#SEARCHKEYWORDS#%'
-   )
-</cfquery>
-<cfquery name="GetBOGO" datasource="#Application.ds#">
-  SELECT p.ProductID, ps.SUBCATEGORYID, COUNT(*) as "product_count" 
-  FROM Products p, Product_SUBCategory_Map ps
-  WHERE p.ProductID = ps.ProductID
-  AND ps.SUBCATEGORYID = 554
-  AND p.Display = 1
-  AND
-  (p.Description LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.Title LIKE '%#SEARCHKEYWORDS#%'
-   OR
-   p.ProductID = #val(searchkeywords)#
-   OR
-  p.UPC LIKE '%#SEARCHKEYWORDS#%'
-   )
-</cfquery>
-<cfquery name="GetConcernsData" datasource="#Application.ds#">
-	Select f.FormulaType, f.FormulaTypeID, COUNT(m.ProductID) as "product_count"
-	from Product_Formula_Map m, FormulaTypes f
-	Where m.FormulaTypeID = f.FormulaTypeID
-	AND m.ProductID IN (SELECT ProductID from Products WHERE Description like '%laxative%' or title like '%laxative%' and Display =1)
-    Group by f.FormulaType
-</cfquery>   
 <cfinclude template="/doctype.cfm">
 <cfinclude template="/html.cfm">
 <head>
@@ -187,8 +83,14 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 
 
 </div> <!--end primary-->
-<section id="filterSection">
+<section id="filterSection"></section>
+ 
+</div> 
+<!--end content-->
 
+
+<script id="filterTpl" type="text/x-handlebars-template">
+{{#if found_products}}
 <ul id="refineResults">
   <li>Refine Results</li>
   <li class="refine-results-clearall hidden"><a href="clear all">Clear All</a></li>
@@ -198,127 +100,44 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <ul class="filter-module-title">
   <li>Brand</li>
   <li class="filter-module-toggler">Show/Hide</li>
-  <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
+  <li class="filter-module-clear {{#unless brands_selected}}hidden{{/unless}}"><a href="clear">Clear</a></li>
 </ul>
 
 <ul class="checkbox-list filter-module-main">
-<cfloop query="GetBrandData">
-<cfoutput>
-  <li data-brandid="#BrandID#">
-    <input type="checkbox" class="checkbox-list-option" value="#BrandID#">
-    <label alt="#Brand#" for="#BrandID#">#Brand# <span class="filter-module-checkbox-count">(#product_count#)</span></label>
-  </li>
-</cfoutput>
-</cfloop>
+{{#each brands}}
+<li data-brandid="{{brand_id}}" {{#if selected}}class="checkbox-list-selected"{{/if}}>
+<input type="checkbox" class="checkbox-list-option" value="{{brand_id}}" {{#if selected}}checked="true"{{/if}}>
+<label alt="{{brand_name}}" for="{{brand_id}}">{{brand_name}} <span class="filter-module-checkbox-count">({{count}})</span></label>
+</li>
+{{/each}}
 </ul>
 
 </div>
 
-
-<div class="filter-module filter-module-concerns" data-module="concerns">
-<ul class="filter-module-title">
-  <li>Health Concerns</li>
-  <li class="filter-module-toggler">Show/Hide</li>
-  <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
-</ul>
-
-<ul class="checkbox-list filter-module-main">
-<cfloop query="GetConcernsData">
-<cfoutput>
-  <li>
-    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">#FormulaType# <span class="filter-module-checkbox-count">(#product_count#)</span></label>
-  </li>
-</cfoutput>
-</cfloop>
-</ul>
-
-</div>
-    
+{{#if show_specials}}
 <div class="filter-module filter-module-specials" data-module="specials">
 <ul class="filter-module-title">
   <li>Specials</li>
   <li class="filter-module-toggler">Show/Hide</li>
-  <li class="filter-module-clear hidden"><a href="clear">Clear</a></li>
+  <li class="filter-module-clear {{#unless specials_selected}}hidden{{/unless}}"><a href="clear">Clear</a></li>
 </ul>
 
 <ul class="checkbox-list filter-module-main">
-
-  <li>
-    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Brand Specials <span class="filter-module-checkbox-count">(<cfoutput query="GetBrandSpecials">#product_count#</cfoutput>)</span></label>
-  </li>
-  <li>
-    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Weekly Specials <span class="filter-module-checkbox-count">(<cfoutput query="GetWeeklySpecials">#product_count#</cfoutput>)</span></label>
-  </li>
-  <li>
-    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Super Deals <span class="filter-module-checkbox-count">(<cfoutput query="GetSuperDeals">#product_count#</cfoutput>)</span></label>
-  </li>
-  <li>
-    <input type="checkbox" class="checkbox-list-option" value="#FormulaTypeID#">
-    <label alt="#FormulaType#" for="#FormulaTypeID#">Buy 1 Get 1 Free <span class="filter-module-checkbox-count">(<cfoutput query="GetBOGO">#product_count#</cfoutput>)</span></label>
-  </li>      
+{{#each specials}}
+<li data-specialid="{{special_id}}" data-productids="{{product_id_list}}" {{#if selected}}class="checkbox-list-selected"{{/if}}>
+<input type="checkbox" class="checkbox-list-option" value="{{special_id}}" {{#if selected}}checked="true"{{/if}}>
+<label alt="{{special_name}}" for="{{special_id}}">{{special_name}} <span class="filter-module-checkbox-count">({{count}})</span></label></li>
+{{/each}}     
 </ul>
 
 </div>
+{{/if}}
 
-
-<div class="filter-module filter-module-price" data-module="price">
-<ul class="filter-module-title">
-  <li>Price Range&nbsp;<img width="14" height="12" title="Enter minimum (left field) and maximum price (right field) or use slider" alt="question" class="sideNote" src="/img/question-icon.gif"></li>
-  <li class="filter-module-toggler">Show/Hide</li>
-  <li class="filter-module-clear hidden"><a href="clear">Reset</a></li>
-</ul>
-
-<div id="filterPriceBox" class="filter-module-main">
-    <ul class="filter-price-fields">
-        <li><label>$</label><input type="text" size="3" maxlength="4" value="1" name="minprice"></li>
-        <li><label>$</label><input type="text" size="3" maxlength="4" value="1" name="maxprice"></li>
-    </ul>
-    <div id="filterPriceSlider">
-        <div id="filterPriceBarBack"></div>                
-        <div id="filterPriceBarTop"></div>
-        <div id="filterPriceMinHandle" class="filter-price-handle filter-price-handle-min">Minimum Price</div>
-        <div id="filterPriceMaxHandle" class="filter-price-handle filter-price-handle-max">Maximum Price</div>
-    </div>
-</div>
-
-</div>      
-
-</section>
- 
-</div> 
-<!--end content-->
-
-
-<script id="filterTpl" type="text/x-handlebars-template">
-{{#filters}}
-<ul class="filter-title">
-  <li>{{filter_name}}</li>
-  <li class="clear"></li>
-</ul>
-
-<ul class="checkbox-list">
-{{#filter_list}}
-  <li>
-    <input type="checkbox" class="filter-option" value="{{fiter_option_id}}">
-    <label alt="{{fiter_option_name}}" for="{{fiter_option_id}}">{{fiter_option_name}}</label>
-  </li>
-{{/filter_list}}
-</ul>
-
-{{/filters}}
-
+{{/if}}
 </script>
 <script id="listTpl" type="text/x-handlebars-template">
+{{#if found_products}}
 <cfinclude template="listpage-toolbar.cfm">			
-
-<!---{{#products}}
-<li>{{name}}</li>
-{{/products}}--->
-<!---product-grid start--->
 
 <ol class="items items-list hidden">
 {{#each products}}  
@@ -437,7 +256,7 @@ var pr_style_sheet="http://cdn.powerreviews.com/aux/14165/636016/css/express.css
 <!---product-grid end--->
 
 <cfinclude template="listpage-toolbar.cfm">			
-
+{{/if}}
 </script>
 
 <script>
