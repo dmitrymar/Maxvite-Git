@@ -1,4 +1,4 @@
-/*global jQuery, Mustache */
+/*global jQuery, Handlebars */
 
 //To Do
 //$input.prop doesn't work in IE8. Troubleshoot with checkbox.cfm in tests folder
@@ -113,6 +113,7 @@ jQuery(function ($) {
         numberonpage: 30,
         brand_id_list: [],
         specials_id_list: [],
+        product_id_filter_list: [],
         sort: "nameaz",
         init: function () {
             this.cacheElements();
@@ -122,6 +123,7 @@ jQuery(function ($) {
         },
         cacheElements: function () {
             this.listTpl = Handlebars.compile($('#listTpl').html());
+            this.filterTpl = Handlebars.compile($('#filterTpl').html());
             this.$filterSection = $("#filterSection");
             this.$filterModule = this.$filterSection.find(".filter-module");
             this.$listProductsWrap = $('#listProductsWrap');
@@ -129,9 +131,9 @@ jQuery(function ($) {
             this.$filterSlider = $("#filterPriceSlider");
         },
         bindEvents: function () {
-            this.$filterModule.on("click", ".filter-module-toggler", this.filterboxSlideToggle);
-            this.$filterSection.find(".filter-module-clear").on("click", this.resetClear); //Reset Clear for any filter module
-            this.$filterModule.find(".checkbox-list").on("click", "li", this.toggleFilters);
+            this.$filterSection.on("click", ".filter-module-toggler", this.moduleSlideToggle);
+            this.$filterSection.on("click", ".filter-module-clear", this.resetClear); //Reset Clear for any filter module
+            this.$filterSection.on("click", ".filter-module .checkbox-list li", this.toggleFilters);
             this.$filterSlider.on("mousedown", ".filter-price-handle-min", this.slide)
                 .on("mouseUp", ".filter-price-handle-max", this.slide)
             this.$listProductsWrap.on("click", ".paginator li a", this.paginate);
@@ -193,32 +195,34 @@ jQuery(function ($) {
             Listpage.startpage = $(e.target).attr('href');
             Listpage.getData();
         },
-        filterboxSlideToggle: function (e) {
+        moduleSlideToggle: function (e) {
             $(e.target).toggleClass("filter-module-toggler-plus")
-                .closest(Listpage.$filterModule).find(".filter-module-main").slideToggle();
+                .closest(".filter-module").find(".filter-module-main").slideToggle();
         },
         toggleFilters: function () {
             var $checkbox = $(this).find(".checkbox-list-option");
             var $module = $checkbox.closest(".filter-module").data("module");
             var $checkBoxVal = $checkbox.attr("value");
+            var $productIDs = $(this).data("productids");
 
             if ($(this).hasClass("checkbox-list-selected")) {
-                $checkbox.prop("checked", false);
-                $(this).removeClass("checkbox-list-selected");
                 if ($module === "brand") {
                     Listpage.brand_id_list.splice(Listpage.brand_id_list.indexOf($checkBoxVal), 1); //remove brandid from brand_id_list property
                 }
                 if ($module === "specials") {
                     Listpage.specials_id_list.splice(Listpage.specials_id_list.indexOf($checkBoxVal), 1); //remove specials from specials_id_list property
+                    Listpage.product_id_filter_list.splice(Listpage.product_id_filter_list.indexOf($productIDs), 1); //remove product id from product_id_filter_list property
                 }
+
             } else {
-                $(this).addClass("checkbox-list-selected");
-                $checkbox.prop("checked", true);
+
                 if ($module === "brand") {
                     Listpage.brand_id_list.push($checkBoxVal); //add brandid to brand_id_list property
                 }
                 if ($module === "specials") {
                     Listpage.specials_id_list.push($checkBoxVal); //add specials id to specials_id_list property
+                    Listpage.product_id_filter_list.push($productIDs); //add product id to product_id_filter_list property
+
                 }
             }
             Listpage.startpage = 0;
@@ -227,27 +231,23 @@ jQuery(function ($) {
         },
         resetClear: function (e) {
             e.preventDefault();
-            var $listItem = $(this).parent().next().find("li");
-            var $checkbox = $listItem.find(".checkbox-list-option");
             var $module = $(this).closest(".filter-module").data("module");
-            $listItem.removeClass("checkbox-list-selected");
-            $checkbox.prop("checked", false);
             if ($module === "brand") {
                 Listpage.brand_id_list.length = 0;
-                Listpage.startpage = 0;
             }
+            if ($module === "specials") {
+                Listpage.specials_id_list.length = 0;
+                Listpage.product_id_filter_list.length = 0;
+            }
+            Listpage.startpage = 0;
             Listpage.getData();
         },
-        renderSidebar: function () {
-            if (Listpage.brand_id_list.length < 1) {
-                $(".filter-module-brand .filter-module-clear").addClass("hidden");
-            } else {
-                $(".filter-module-brand .filter-module-clear").removeClass("hidden");
-            }
-        },
         render: function (response) {
-            var html = Listpage.listTpl(response);
-            Listpage.$listProductsWrap.html(html);
+            var listHTML = Listpage.listTpl(response);
+            var filterHTML = Listpage.filterTpl(response);
+
+            Listpage.$listProductsWrap.html(listHTML);
+            Listpage.$filterSection.html(filterHTML);
             Listpage.insertSeparator();
             Listpage.checkView();
         },
@@ -307,26 +307,48 @@ jQuery(function ($) {
             if (Listpage.specials_id_list.length > 0) {
                 url += "&specialsfilter=" + Listpage.specials_id_list.toString();
             }
+            if (Listpage.product_id_filter_list.length > 0) {
+                url += "&productidfilter=" + Listpage.product_id_filter_list.toString();
+            }
             url = url + "&sort=" + Listpage.sort;
 
             return url;
         },
         ajaxSuccess: function (response) {
-            $('.content').unblock(); //remove spinner
-            Listpage.render(response);
-            this.renderSidebar();
-            $('body,html').scrollTop(0); // go all the way to the top. especially useful when using dashboard at the bottom of the page    
+            //remove spinner
+            if (response.found_products === true) {
+                Listpage.render(response);
+                $('body,html').scrollTop(0); // go all the way to the top. especially useful when using dashboard at the bottom of the page   
+            } else {
+                $('#listProductsWrap').html('No products found');
+            }
         },
-        getData: function () {
-            this.blockContent();
+        getData: function () {            
             var requestURL = Listpage.buildUrl();
-            $.getJSON(requestURL, function (response) {
-                if (response.status == 'success') {
-                    Listpage.ajaxSuccess(response);
-                } else {
-                    $('#listProductsWrap').html('No products found');
+
+            var jqxhr = $.ajax({
+                dataType: "json",
+                url: requestURL,
+                cache: false,
+                timeout: 10000,
+                beforeSend: function () {
+                    Listpage.blockContent();
                 }
+            })
+                .done(function (response) {
+                Listpage.ajaxSuccess(response);
+            })
+                .fail(function (jqxhr, textStatus, error) {
+                var err = textStatus + ', ' + error;
+                ajaxFail(err);
+            })
+                .always(function () {
+                $('.content').unblock();
             });
+
+            function ajaxFail(err) {
+                $('#listProductsWrap').html("Request Failed: " + err);
+            }
 
         }
 
