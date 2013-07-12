@@ -118,7 +118,6 @@
       <li class="specials"><a href="/54/Specials/subcategory.html">Specials</a>
         <div class="mega-menu">
           <ul class="sdbrBulletList">
-            <li><a href="/deal-of-the-day.html">Deal Of The Day</a></li>
             <li><a href="/brandspecials.html">Brand Specials</a></li>
             <li><a href="/54/313/S/Weekly-Specials/items.html">Weekly Specials</a></li>
             <li><a href="/54/865/S/Super-Deals/items.html">Super Deals</a></li>
