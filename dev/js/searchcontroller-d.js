@@ -108,7 +108,7 @@ jQuery(function ($) {
 
     var filters = (function () {
 
-        var request_url = "/dev/search-query-d.cfm?q=" + Searchkeywords.query,
+        var request_url = Searchkeywords.query,
             view = "grid",
             startpage = 0,
             numberonpage = 30,
@@ -241,6 +241,7 @@ jQuery(function ($) {
             if ($li.hasClass("checkbox-list-selected")) {
                 if ($module === "brand") {
                     brand_id_list.splice(brand_id_list.indexOf($brandID), 1); //remove brandid from brand_id_list property
+                    console.log(brand_id_list);
                 }
                 if ($module === "specials") {
                     specials_id_list.splice(specials_id_list.indexOf($specialID), 1); //remove specials from specials_id_list property
@@ -255,7 +256,6 @@ jQuery(function ($) {
                 if ($module === "specials") {
                     specials_id_list.push($specialID); //add specials id to specials_id_list property
                     product_id_filter_list.push($productIDs); //add product id to product_id_filter_list property
-
                 }
             }
             startpage = 0;
@@ -332,7 +332,7 @@ jQuery(function ($) {
                 dataType: "json",
                 url: requestURL,
                 cache: false,
-                timeout: 10000,
+                timeout: 30000,
                 beforeSend: function () {
                     blockContent();
                 }
