@@ -333,6 +333,7 @@ jQuery(function ($) {
                 url: requestURL,
                 cache: false,
                 timeout: 30000,
+                contentType: 'application/json',
                 beforeSend: function () {
                     blockContent();
                 }
