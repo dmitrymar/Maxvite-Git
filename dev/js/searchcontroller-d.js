@@ -1,4 +1,5 @@
 /*global jQuery, Handlebars */
+//IDEA2
 
 //To Do
 //$input.prop doesn't work in IE8. Troubleshoot with checkbox.cfm in tests folder
